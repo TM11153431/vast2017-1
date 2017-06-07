@@ -15,7 +15,6 @@ var color = d3.scaleLinear()
                 .domain([5, 250]) // MUST BE RELATIVE TO MIN AND MAX
                 .range(["#fee0d2", "#de2d26"]);
 
-
 var svg = d3.select("body")
   .selectAll("svg")
   .data(d3.range(2015, 2017))
@@ -31,6 +30,15 @@ svg.append("text")
     .attr("font-size", 10)
     .attr("text-anchor", "middle")
     .text(function(d) { return d; });
+
+  svg.append("text")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 15)
+    .attr('x', 10)
+    .attr('y', -5)
+    .attr("text-anchor", "under")
+    .text("Number of unique vehicles MOVING in the park");
+
 
 var rect = svg.append("g")
     .attr("fill", "none")
