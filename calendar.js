@@ -917,7 +917,7 @@ function drawAllCamps() {
         .attr("d", pathMonth);
 
 
-    d3.csv("all_camps.csv", function(error, csv) {
+    d3.csv("data/all_camps.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
