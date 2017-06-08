@@ -80,7 +80,7 @@ function drawPark() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
