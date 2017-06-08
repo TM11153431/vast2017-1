@@ -1,18 +1,30 @@
-Technisch design:
+# Design File
+This project will have a drill-down story. It will attempt to guide the user through the traffic data of the nature preserve to let the user find answers on why the Rose-crested Pipit is breeding less. At this stage of the project it is not clear what kind of visualizations will be used to this end, but for now this document will describe the design and user interface of some proposed visualizations.
 
-De calendarview visualisaties krijgen de data van specifiek gemaakte csv files. 
-De individuele CSV files bestaan uit de kalenderdagen met de bijbehorende values.
-Het is de bedoeling dat bij het aanklikken van de specifieke dag in de calendar er een gelinkte barchart ge-update wordt. 
-De data voor de barchart komt in principe uit dezelfde CSV file. De chart laat dan de aantallen specifieke types auto's op dat punt op die specifieke dag.
-Bij selectie moeten de 'oude'svg's worden verwijderd en nieuwe worden aangemaakt. Er wordt dus liever niet tussen HTML pages gewisseld maar de SVG's worden aangepast.
+## Summary of product design
+When the user first opens the website, he will see a map of the nature preserve, with all the gates and roads between the gates. The user has the option to start an animation that shows either a heatmap of sound or of speeding cars over time (this depends on further data analysis). The user will also have the option to see a graph of the preserve. This graph will try show the average busyness of the entire park at a glance. The user then gets the option to click on nodes (gates) or edges (roadways). Depending on the type of gate, a barchart or a calender view will show up. These will show the busyness over time. Further drill-down options will be decided upon after further data analysis.
 
-UI design:
+## Sketches of visualizations
+- map
+![Map](https://github.com/SvenvDam/programmeerproject/blob/master/doc/map.JPG)
+- heatmap
+![Heatmap](https://github.com/SvenvDam/programmeerproject/blob/master/doc/heatmap.JPG)
+- calender view
+See website for beta version of visualization: https://pvtwuyver.github.io/vast2017/calendar.html
+- graph
+![Graph](https://github.com/LauraRuis/VAST2017/blob/master/Doc/Graph.jpeg)
+- barchart
+![Stacked Bar Chart](https://github.com/LauraRuis/VAST2017/blob/master/Doc/Stacked%20Bar%20Chart.jpeg)
 
-Basis is een overzicht met heatmap-calendar view.
-Bij doorklikken ziet de gebruiker een gelinkte barchart. Deze barchart heeft een vaste locatie op de HTML page. 
-Heatmaps en barchart moeten een dashboard gaan vormen.
-Er kan worden gekozen tussen verschillende calendar views: Overal Parc, Campsites en Entrances.
-Afhankelijk van de keuze ziet de user dus locatie afhankelijk de drukte en de car-types.
+## List of data sources
+- Lekagul Sensor Data (.csv file)
+- Lekagul Roadways (BMP File)
+- Lekagul Preserve Description (word file)
+- Lekagul Roadways labeled (JPG File)
+- Data Descriptions for MC1 (word file)
+All data available at http://vacommunity.org/VAST+Challenge+2017+MC1.
 
-Er moet nog een 3e visualisatie techniek bedacht worden om aditionele info te tonen van de cars/locatie. 
-
+## List of frameworks that provide functionality
+- D3
+- Bootstrap
+- ...
