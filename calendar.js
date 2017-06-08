@@ -184,7 +184,7 @@ function drawType1() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
@@ -288,7 +288,7 @@ function drawType2() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
@@ -392,7 +392,7 @@ function drawType3() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
@@ -496,7 +496,7 @@ function drawType4() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
@@ -600,7 +600,7 @@ function drawType5() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
@@ -704,7 +704,7 @@ function drawType6() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
@@ -808,7 +808,7 @@ function drawTypeP() {
         .attr("d", pathMonth);
 
 
-    d3.csv("/data/busyness_by_type.csv", function(error, csv) {
+    d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
