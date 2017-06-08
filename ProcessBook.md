@@ -21,3 +21,9 @@ Vervolgstappen:
 - calendar mooi maken met maanden en weekdagen erin.
 - calendars maken voor type’s en voor campings.
 - selectie button maken om te switchen tussen calendars
+
+8 juni:
+Calendar view voor gehele park aangevuld met calendars per car-type.
+Nu selectie button creeren om campings en entrances te specificeren.
+Vervolgstappen: 
+- tooltip linken aan barchart met info per dag.
