@@ -4,7 +4,30 @@
 // PETER VAN TWUYVER, 10872809
 // MINOR PROGRAMMEREN UVA 2017
 // +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+  
+
+// start with overview traffic on window load
 window.onload = function() {
+ showTotal();
+};
+// get User selection and select appropriate function to draw svg's
+function getOption() {
+    var obj = document.getElementById("mySelect");
+    if (obj.value == "Campsites") {
+      console.log("drawCampsites")
+      // var svg = d3.select("#calendar");
+      //   if (svg !== undefined)
+      //       svg.remove();
+      showCampings();
+    }
+    if (obj.value == "Entrances") {
+      console.log("drawEntrances")
+    }
+    if (obj.value == "Total") {
+      console.log("drawTotals")
+    }
+}
+// show all traffic in te parc, type specific details
+function showTotal(){
     drawPark();
     drawType1();
     drawType2();
@@ -13,8 +36,21 @@ window.onload = function() {
     drawType5();
     drawType6();
     drawTypeP();
-};
+}
 
+// show all traffic in the campings
+function showCampings(){
+    drawAllCamps();
+    // add Camping 1, 2 etc
+}
+
+// show all traffic at the Entrances
+function showEntrances(){
+    
+    // add Entrance 1, 2 etc
+}
+
+// all svg drawing functions:
 function drawPark() {
     var width = 960,
         height = 136,
@@ -847,7 +883,6 @@ function drawTypeP() {
             "H" + (w0 + 1) * cellSize + "Z";
     }
 };
-
 function drawAllCamps() {
     var width = 960,
         height = 136,
@@ -856,10 +891,6 @@ function drawAllCamps() {
     var color = d3.scaleLinear()
         .domain([1, 181]) // MUST BE RELATIVE TO MIN AND MAX
         .range(["#fee0d2", "#de2d26"]);
-
-      // var svg = d3.select("#calendar");
-      //   if (svg !== undefined)
-      //       svg.remove();
 
     var svg = d3.select("#allCamps")
         .selectAll("svg")
@@ -957,16 +988,3 @@ function drawAllCamps() {
     }
 };
 
-function getOption() {
-    var obj = document.getElementById("mySelect");
-    if (obj.value == "Campsites") {
-      console.log("drawCampsites")
-      drawAllCamps();
-    }
-    if (obj.value == "Entrances") {
-      console.log("drawEntrances")
-    }
-    if (obj.value == "Total") {
-      console.log("drawTotals")
-    }
-}
