@@ -8,50 +8,35 @@ function onRectClicked(item) {
     console.log(item);
 }
 window.onload = function() {
- getOption();
+    getOption();
 };
 // get User selection and select appropriate function to draw svg's
 function getOption() {
     var obj = document.getElementById("mySelect");
     if (obj.value == "Campsites") {
-      showCampings();
+        //showData("data/fake_all_camps.csv");
+        showData("data/all_camps.csv");
+        // type-calendars
+        //var all_types = ['CampsiteOne','CampsiteTwo','CampsiteThree','CampsiteFour','CampsiteFive','CampsiteSix','CampsiteSeven'];
+        var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
+        // send data from each row to Draw function
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
     }
     if (obj.value == "Entrances") {
-      console.log("drawEntrances")
+        console.log("drawEntrances")
     }
     if (obj.value == "Total") {
-      showTotal();
+        // main calendar
+        showData("data/busyness_by_type.csv");
+        // type-calendars
+        var all_types = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Ranger'];
+        // send data from each row to Draw function
+        all_types.forEach(function(item) {
+            drawType(item);
+        });
     }
-}
-
-// show all traffic in te parc, type specific details
-function showTotal(){
-    // main calendar
-    showData("data/busyness_by_type.csv");
-    // type-calendars
-    var all_types = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Ranger'];
-    // send data from each row to Draw function
-    all_types.forEach(function(item) {
-     drawType(item);   
-    });
-}
-
-// show all traffic in the campings
-function showCampings(){
-    //showData("data/fake_all_camps.csv");
-    showData("data/all_camps.csv");
-    // type-calendars
-    //var all_types = ['CampsiteOne','CampsiteTwo','CampsiteThree','CampsiteFour','CampsiteFive','CampsiteSix','CampsiteSeven'];
-    var all_types = ['camping0','camping1','camping2','camping3','camping4','camping5','camping6', 'camping7','camping8'];
-    // send data from each row to Draw function
-    all_types.forEach(function(item) {
-     drawLocations(item);  
-    });
-}
-
-// show all traffic at the Entrances
-function showEntrances(){
-    // add Entrance 1, 2 etc
 }
 
 // bind data based on csv file chosen
@@ -67,17 +52,17 @@ function showData(csv_file_name) {
             })
             .rollup(function(v) {
                 // console.log(d3.sum(v, function(d) { return d.Total; }))
-                return d3.sum(v, function(d) { return d.Total; });
+                return d3.sum(v, function(d) {
+                    return d.Total;
+                });
                 //return (d[0].Total)
-               
-            }) 
+
+            })
             .object(csv);
         drawTotalCalendar(data);
 
-        });
+    });
 }
-
-
 
 // draw the main calendar
 function drawTotalCalendar(my_data) {
@@ -88,7 +73,7 @@ function drawTotalCalendar(my_data) {
     // set colorgradient for min/max values
     var max = d3.max(d3.values(my_data));
     var min = d3.min(d3.values(my_data));
-    console.log("min/max in Total: ",min,max)
+    console.log("min/max in Total: ", min, max)
     var color = d3.scaleLinear()
         .domain([min, max])
         .range(["#fee0d2", "#de2d26"]);
@@ -156,29 +141,27 @@ function drawTotalCalendar(my_data) {
         .enter().append("path")
         .attr("d", pathMonth);
 
-   d3.select("#calendar").selectAll("rect")
-   .attr("fill", function(d) {
-    
-                if(d in my_data) {
-                      return color(my_data[d]);
-                }
-                else {
-                    return "blue";
-                }
-              
-            })
-    .select("title")
-            .text(function(d) {
-                if(d in my_data) {
-                    return d + ": " + my_data[d];
-                }
-                else {
-                    return "No data";
-                }
+    d3.select("#calendar").selectAll("rect")
+        .attr("fill", function(d) {
 
-               
-             });
-    
+            if (d in my_data) {
+                return color(my_data[d]);
+            } else {
+                return "blue";
+            }
+
+        })
+        .select("title")
+        .text(function(d) {
+            if (d in my_data) {
+                return d + ": " + my_data[d];
+            } else {
+                return "No data";
+            }
+
+
+        });
+
     // create visual line separating months
     function pathMonth(t0) {
         var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
@@ -199,8 +182,6 @@ function drawType(which_type) {
     var width = 560,
         height = 136,
         cellSize = 10;
-
-
 
     // append sub-calendars under the main calendar
     var root = d3.select('#subcalendar').append('div');
@@ -229,7 +210,7 @@ function drawType(which_type) {
         .attr('x', 10)
         .attr('y', -5)
         .attr("text-anchor", "under")
-        .text("Total moving vehicles of Type "+ which_type);
+        .text("Total moving vehicles of Type " + which_type);
 
 
     var rect = svg.append("g")
@@ -267,24 +248,23 @@ function drawType(which_type) {
 
         var data = d3.nest()
             .key(function(d) {
-                console.log(d.Day)
+
                 return d.Day;
             })
             .rollup(function(d) {
                 return parseInt(d[0][which_type])
-            }) 
+            })
             .object(csv);
-     console.log("data in Types: ", data)   
-       
-        
-// set colorgradient for min/max values
-    var max = d3.max(d3.values(data));
-    var min = d3.min(d3.values(data));
-console.log("min/max for type "+which_type,min,max)
+        console.log("data in Types: ", data)
 
-    var color = d3.scaleLinear()
-        .domain([min, max]) 
-        .range(["#fee0d2", "#de2d26"]);
+        // set colorgradient for min/max values
+        var max = d3.max(d3.values(data));
+        var min = d3.min(d3.values(data));
+        console.log("min/max for type " + which_type, min, max)
+
+        var color = d3.scaleLinear()
+            .domain([min, max])
+            .range(["#fee0d2", "#de2d26"]);
 
         rect.filter(function(d) {
                 return d in data;
@@ -314,7 +294,7 @@ console.log("min/max for type "+which_type,min,max)
 
 // draws the sub-calendars
 function drawLocations(which_location) {
-    
+
     var width = 560,
         height = 136,
         cellSize = 10;
@@ -350,7 +330,7 @@ function drawLocations(which_location) {
         .attr('x', 10)
         .attr('y', -5)
         .attr("text-anchor", "under")
-        .text("Moving vehicles in "+ which_location);
+        .text("Moving vehicles in " + which_location);
 
 
     var rect = svg.append("g")
@@ -388,9 +368,9 @@ function drawLocations(which_location) {
 
         var data = d3.nest()
             .key(function(d) {
-                console.log(d.Day.length)
-                if(d.Day.length == 8) {
-                    return d.Day.substring(0,6) + "20" + d.Day.substring(6,8);
+
+                if (d.Day.length == 8) {
+                    return d.Day.substring(0, 6) + "20" + d.Day.substring(6, 8);
                 }
 
 
@@ -400,17 +380,17 @@ function drawLocations(which_location) {
             .rollup(function(d) {
 
                 return parseInt(d[0][which_location])
-            }) 
+            })
             .object(csv);
-     console.log("data in Locations: ", data)   
-// set colorgradient for min/max values
-    var max = d3.max(d3.values(data));
-    var min = d3.min(d3.values(data));
-console.log("min/max for type "+which_location,min,max)
+        console.log("data in Locations: ", data)
+        // set colorgradient for min/max values
+        var max = d3.max(d3.values(data));
+        var min = d3.min(d3.values(data));
+        console.log("min/max for type " + which_location, min, max)
 
-    var color = d3.scaleLinear()
-        .domain([min, max]) 
-        .range(["#fee0d2", "#de2d26"]);
+        var color = d3.scaleLinear()
+            .domain([min, max])
+            .range(["#fee0d2", "#de2d26"]);
 
         rect.filter(function(d) {
                 return d in data;
