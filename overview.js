@@ -38,13 +38,14 @@ function showTotal(){
 
 // show all traffic in the campings
 function showCampings(){
-    showData("data/fake_all_camps.csv");
+    //showData("data/fake_all_camps.csv");
+    showData("data/all_camps.csv");
     // type-calendars
-    var all_types = ['CampsiteOne','CampsiteTwo','CampsiteThree','CampsiteFour','CampsiteFive','CampsiteSix','CampsiteSeven'];
+    //var all_types = ['CampsiteOne','CampsiteTwo','CampsiteThree','CampsiteFour','CampsiteFive','CampsiteSix','CampsiteSeven'];
+    var all_types = ['camping0','camping1','camping2','camping3','camping4','camping5','camping6', 'camping7','camping8'];
     // send data from each row to Draw function
     all_types.forEach(function(item) {
      drawLocations(item);  
-     console.log("items :", item) 
     });
 }
 
@@ -71,7 +72,6 @@ function showData(csv_file_name) {
                
             }) 
             .object(csv);
-        console.log("data to DrawTotalCalendar:", data)
         drawTotalCalendar(data);
 
         });
@@ -85,9 +85,12 @@ function drawTotalCalendar(my_data) {
     var width = 960,
         height = 136,
         cellSize = 17;
-
+    // set colorgradient for min/max values
+    var max = d3.max(d3.values(my_data));
+    var min = d3.min(d3.values(my_data));
+    console.log("min/max in Total: ",min,max)
     var color = d3.scaleLinear()
-        .domain([5, 250]) // MUST BE RELATIVE TO MIN AND MAX!
+        .domain([min, max])
         .range(["#fee0d2", "#de2d26"]);
 
     // Root SVG objects within #calendar div
@@ -197,9 +200,7 @@ function drawType(which_type) {
         height = 136,
         cellSize = 10;
 
-    var color = d3.scaleLinear()
-        .domain([0, 122]) // MUST BE RELATIVE TO MIN AND MAX
-        .range(["#fee0d2", "#de2d26"]);
+
 
     // append sub-calendars under the main calendar
     var root = d3.select('#subcalendar').append('div');
@@ -266,14 +267,25 @@ function drawType(which_type) {
 
         var data = d3.nest()
             .key(function(d) {
+                console.log(d.Day)
                 return d.Day;
             })
             .rollup(function(d) {
-                return (d[0][which_type])
+                return parseInt(d[0][which_type])
             }) 
             .object(csv);
-            console.log("data in DrawTypes: ", data)
+     console.log("data in Types: ", data)   
+       
         
+// set colorgradient for min/max values
+    var max = d3.max(d3.values(data));
+    var min = d3.min(d3.values(data));
+console.log("min/max for type "+which_type,min,max)
+
+    var color = d3.scaleLinear()
+        .domain([min, max]) 
+        .range(["#fee0d2", "#de2d26"]);
+
         rect.filter(function(d) {
                 return d in data;
             })
@@ -302,7 +314,7 @@ function drawType(which_type) {
 
 // draws the sub-calendars
 function drawLocations(which_location) {
-    console.log(which_location);
+    
     var width = 960,
         height = 136,
         cellSize = 10;
@@ -371,21 +383,35 @@ function drawLocations(which_location) {
         .attr("d", pathMonth);
 
 
-    d3.csv("data/fake_all_camps.csv", function(error, csv) {
+    d3.csv("data/busylocations.csv", function(error, csv) {
         if (error) throw error;
 
         var data = d3.nest()
             .key(function(d) {
+                console.log(d.Day.length)
+                if(d.Day.length == 8) {
+                    return d.Day.substring(0,6) + "20" + d.Day.substring(6,8);
+                }
+
+
+
                 return d.Day;
             })
             .rollup(function(d) {
-                console.log(which_location);
-                console.log(d[0][which_location])
-                return (d[0][which_location])
+
+                return parseInt(d[0][which_location])
             }) 
             .object(csv);
-            console.log("data in DrawLocations: ", data)
-        
+     console.log("data in Locations: ", data)   
+// set colorgradient for min/max values
+    var max = d3.max(d3.values(data));
+    var min = d3.min(d3.values(data));
+console.log("min/max for type "+which_location,min,max)
+
+    var color = d3.scaleLinear()
+        .domain([min, max]) 
+        .range(["#fee0d2", "#de2d26"]);
+
         rect.filter(function(d) {
                 return d in data;
             })
