@@ -36,3 +36,4 @@ Ook het inlezen van de csv verbetert: éénmaal inlezen ipv meerdere keren voor 
 Doel: Dagen in calendar view 'clickable'maken. Mooie overzichtsvisuals maken van Parc, Entrance en Campings. Begin maken met Barchart/Linechart.
 Daarvoor nieuwe datastructuur nodig voor csv files, maar nog onduidelijk wat de beste manier daarvoor is.
 Uiteindelijk gelukt om calendardagen aanklikbaar te maken. Alle campings zijn in beeld, min/max kleuren ook automatisch aangepast.Nu nog wel de oude visuals van Types en Campings te laten verdwijnen /verschijnen zoals nu de Hoofdcalendars ook doen.
+Entrances toegevoegd. Alleen lijken de csv files met de Totalen niet correct; er ontbreken dagen. 
