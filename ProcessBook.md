@@ -27,3 +27,11 @@ Calendar view voor gehele park aangevuld met calendars per car-type.
 Nu selectie button creeren om campings en entrances te specificeren.
 Vervolgstappen: 
 - tooltip linken aan barchart met info per dag.
+
+10/11 juni (weekend):
+nieuwe manier bedacht om data uit csv te gebruiken. De Calendar view heeft ingebouwde functionaliteit om values per tijdseenheid op te tellen. Het is daarom beter om csv file te gaan gebruiken met de gedetailleerde time-points om straks beter een 24 uurs overzicht te kunnen maken.
+Ook het inlezen van de csv verbetert: éénmaal inlezen ipv meerdere keren voor iedere visual. De bedoelinh=g is nu ook om een mooie transition te kunnen maken van de kleurverschillen in de calendar. Daarvoor wel nodig om de min/max values automatisch in te lezen ipv hardcodes zoals nu.
+
+12 juni:
+Doel: Dagen in calendar view 'clickable'maken. Mooie overzichtsvisuals maken van Parc, Entrance en Campings. Begin maken met Barchart/Linechart.
+Daarvoor nieuwe datastructuur nodig voor csv files, maar nog onduidelijk wat de beste manier daarvoor is.
