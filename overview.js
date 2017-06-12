@@ -122,7 +122,7 @@ function drawTotalCalendar(my_data) {
         .attr('x', 10)
         .attr('y', -5)
         .attr("text-anchor", "under")
-        .text("Number of unique vehicles MOVING in the park");
+        .text("Number of unique vehicles ");
 
     var rectSelect = svg.append("g")
         .attr("fill", "none")
@@ -196,7 +196,7 @@ function drawTotalCalendar(my_data) {
 
 // draws the sub-calendars
 function drawType(which_type) {
-    var width = 960,
+    var width = 560,
         height = 136,
         cellSize = 10;
 
@@ -229,7 +229,7 @@ function drawType(which_type) {
         .attr('x', 10)
         .attr('y', -5)
         .attr("text-anchor", "under")
-        .text("Moving vehicles "+ which_type);
+        .text("Total moving vehicles of Type "+ which_type);
 
 
     var rect = svg.append("g")
@@ -315,7 +315,7 @@ console.log("min/max for type "+which_type,min,max)
 // draws the sub-calendars
 function drawLocations(which_location) {
     
-    var width = 960,
+    var width = 560,
         height = 136,
         cellSize = 10;
 
