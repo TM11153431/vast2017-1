@@ -22,7 +22,7 @@ window.onload = function() {
 //         })
 //         .await(ready);
 
- showTotal();
+ getOption();
 };
 // get User selection and select appropriate function to draw svg's
 function getOption() {
@@ -39,25 +39,32 @@ function getOption() {
     }
     if (obj.value == "Total") {
       console.log("drawTotals")
+      showTotal();
     }
 }
+
+
 // show all traffic in te parc, type specific details
 function showTotal(){
-    drawPark();
-    drawType1();
-    drawType2();
-    drawType3();
-    drawType4();
-    drawType5();
-    drawType6();
-    drawTypeP();
+    showData("data/busyness_by_type.csv");
+    var all_types = ['One', 'Two', 'Three', 'Four', 'Five', 'Ranger'];
+    all_types.forEach(function(item) {
+     drawType(item);   
+    });
+
+    // drawType2();
+    // drawType3();
+    // drawType4();
+    // drawType5();
+    // drawType6();
+    // drawTypeP();
 }
 
 // show all traffic in the campings
 function showCampings(){
-    drawAllCamps();
-    drawCamp0();
-    drawCamp1();
+    showData("data/all_camps.csv", 2019);
+   // drawCamp0();
+   // drawCamp1();
     // add Camping 1, 2 etc
 }
 
@@ -67,25 +74,71 @@ function showEntrances(){
     // add Entrance 1, 2 etc
 }
 
+function onNumYearsChanged() {
+    console.log("YEar changed");
+    var obj = document.getElementById("num_years");
+    var end_year = 2015 + parseInt(obj.value);
+    console.log(end_year);
+    drawPark(end_year);
+}
+
+function showData(csv_file_name) {
+    d3.csv(csv_file_name, function(error, csv) {
+        if (error) throw error;
+
+        console.log("Read: " + csv_file_name);
+
+        var data = d3.nest()
+            .key(function(d) {
+                return d.Day;
+            })
+            .rollup(function(v) {
+                return d3.sum(v, function(d) { return d.Total; });
+                //return (d[0].Total)
+            }) // Total busyness in park
+            .object(csv);
+        
+        drawTotalCalendar(data);
+
+        });
+}
+
+function onRectClicked(item) {
+    console.log(item);
+}
+
+
 // all svg drawing functions:
-function drawPark() {
+function drawTotalCalendar(my_data, end_year) {
+
+    if(end_year == undefined) {
+        end_year = 2017;
+    }
+    console.log("End year is: " + end_year);
+
     var width = 960,
         height = 136,
         cellSize = 17;
+
 
     var color = d3.scaleLinear()
         .domain([5, 250]) // MUST BE RELATIVE TO MIN AND MAX
         .range(["#fee0d2", "#de2d26"]);
 
-    var svg = d3.select("#calendar")
+    // Root SVG objects within #calendar div
+    var cal = d3.select("#calendar")
         .selectAll("svg")
-        .data(d3.range(2015, 2017))
-        .enter().append("svg")
+        .data(d3.range(2015, end_year)); // range of years
+
+    cal.exit().remove();
+
+    var svg = cal.enter().append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
 
+    // Defines test for year in calendar
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
@@ -104,13 +157,18 @@ function drawPark() {
         .text("Number of unique vehicles MOVING in the park");
 
 
-    var rect = svg.append("g")
+    var rectSelect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
         .selectAll("rect")
-        .data(function(d) {
-            return d3.timeDays(new Date(d, 0, 1), new Date(d + 1, 0, 1));
-        })
+        .data(function(year) {
+            return d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
+        });
+
+
+ 
+
+    var rect = rectSelect
         .enter().append("rect")
         .attr("width", cellSize)
         .attr("height", cellSize)
@@ -120,7 +178,9 @@ function drawPark() {
         .attr("y", function(d) {
             return d.getDay() * cellSize;
         })
-        .datum(d3.timeFormat("%d/%m/%Y"));
+        .datum(d3.timeFormat("%d/%m/%Y"))
+        .on('click', onRectClicked)
+        .append('title');
 
     svg.append("g")
         .attr("fill", "none")
@@ -132,30 +192,28 @@ function drawPark() {
         .enter().append("path")
         .attr("d", pathMonth);
 
-
-    d3.csv("data/busyness_by_type.csv", function(error, csv) {
-        if (error) throw error;
-
-        var data = d3.nest()
-            .key(function(d) {
-                return d.Day;
+   d3.select("#calendar").selectAll("rect")
+   .attr("fill", function(d) {
+                if(d in my_data) {
+                      return color(my_data[d]);
+                }
+                else {
+                    return "blue";
+                }
+              
             })
-            .rollup(function(d) {
-                return (d[0].Total)
-            }) // Total busyness in park
-            .object(csv);
-        
-        rect.filter(function(d) {
-                return d in data;
-            })
-            .attr("fill", function(d) {
-                return color(data[d]);
-            })
-            .append("title")
+    .select("title")
             .text(function(d) {
-                return d + ": " + data[d];
-            });
-    });
+                if(d in my_data) {
+                    return d + ": " + my_data[d];
+                }
+                else {
+                    return "No data";
+                }
+
+               
+             });
+    
 
 
 
@@ -172,7 +230,8 @@ function drawPark() {
             "H" + (w0 + 1) * cellSize + "Z";
     }
 };
-function drawType1() {
+
+function drawType(which_type) {
     var width = 960,
         height = 136,
         cellSize = 10;
@@ -181,7 +240,10 @@ function drawType1() {
         .domain([0, 122]) // MUST BE RELATIVE TO MIN AND MAX
         .range(["#fee0d2", "#de2d26"]);
 
-    var svg = d3.select("#type1")
+    var root = d3.select('#subcalendar').append('div');
+
+
+    var svg = root
         .selectAll("svg")
         .data(d3.range(2015, 2017))
         .enter().append("svg")
@@ -205,7 +267,7 @@ function drawType1() {
         .attr('x', 10)
         .attr('y', -5)
         .attr("text-anchor", "under")
-        .text("TYPE 1 vehicles MOVING in the park");
+        .text("TYPE "+ which_type + " vehicles MOVING in the park");
 
 
     var rect = svg.append("g")
@@ -245,7 +307,7 @@ function drawType1() {
                 return d.Day;
             })
             .rollup(function(d) {
-                return (d[0].One)
+                return (d[0][which_type])
             }) // type 1 busyness in park
             .object(csv);
         
@@ -276,6 +338,7 @@ function drawType1() {
             "H" + (w0 + 1) * cellSize + "Z";
     }
 };
+
 function drawType2() {
     var width = 960,
         height = 136,
