@@ -17,7 +17,7 @@ function getOption() {
         //showData("data/fake_all_camps.csv");
         showData("data/all_camps.csv");
         // type-calendars
-        //var all_types = ['CampsiteOne','CampsiteTwo','CampsiteThree','CampsiteFour','CampsiteFive','CampsiteSix','CampsiteSeven'];
+        
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
         // send data from each row to Draw function
         all_types.forEach(function(item) {
@@ -25,7 +25,15 @@ function getOption() {
         });
     }
     if (obj.value == "Entrances") {
-        console.log("drawEntrances")
+        //showData("data/fake_all_camps.csv");
+        showData("data/all_entrances.csv"); //CHANGE TO ALL ENTRANCES
+        // type-calendars
+        
+        var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
+        // send data from each row to Draw function
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
     }
     if (obj.value == "Total") {
         // main calendar
