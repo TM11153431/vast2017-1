@@ -37,3 +37,6 @@ Doel: Dagen in calendar view 'clickable'maken. Mooie overzichtsvisuals maken van
 Daarvoor nieuwe datastructuur nodig voor csv files, maar nog onduidelijk wat de beste manier daarvoor is.
 Uiteindelijk gelukt om calendardagen aanklikbaar te maken. Alle campings zijn in beeld, min/max kleuren ook automatisch aangepast.Nu nog wel de oude visuals van Types en Campings te laten verdwijnen /verschijnen zoals nu de Hoofdcalendars ook doen.
 Entrances toegevoegd. Alleen lijken de csv files met de Totalen niet correct; er ontbreken dagen. 
+
+13 juni:
+CSV files nog niet correct. Clickable calendar geeft alleen nog maar de datum mee aan de funtie. Veel tijd aan exit().remove probleem besteedt en nog steeds niet opgelost. Begin met Linechart gemaakt; Parkoverzicht werkt bij opstarten, nog niet dynamisch. 24 uurs Dagoverzicht van de Locaties moet in barcharts waarschijnlijk, linechart geeft vreemde visuals. Voor iedere locatie is hiervoor een TSV file gemaakt met tijdsindicaties per minuut. 
