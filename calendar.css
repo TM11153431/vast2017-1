@@ -4,3 +4,32 @@
   PETER VAN TWUYVER, 10872809
   MINOR PROGRAMMEREN UVA 2017
   +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+  */
+body {
+	background-color: whitesmoke
+}
+/*div placeholders inline */
+#holder {
+    border: 0px solid blue;
+}
+#calendar {
+    display: inline-block;
+        border: 1px solid green;
+;
+}
+#linechart {
+    display: inline-block;
+
+}
+
+
+/* Linechart*/
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+

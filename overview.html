@@ -11,7 +11,7 @@
 </head>
 <body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-
+<link rel="stylesheet" type="text/css" href="calendar.css">
 
 
 Select Location:
@@ -21,10 +21,12 @@ Select Location:
   <option value="Campsites">Parc Campsites</option>
 </select>
 
-<div id="calendar" class="graph"></div>
-<div id="subcalendar"></div>
-
-
+<div id="holder">
+	
+	<div id="linechart"><svg width="960" height="500"></svg></div>
+	<div id="calendar" width="750" height="270"></div>
+</div>
+<div id="subcalendar" class="graph"></div>
 <script src="overview.js"></script>
 </body>
 </html>
