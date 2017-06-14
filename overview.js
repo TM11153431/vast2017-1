@@ -15,12 +15,11 @@ window.onload = function() {
 function getOption() {
     var obj = document.getElementById("mySelect");
     if (obj.value == "Campsites") {
-        //drawLinechart("data/sensor_data__per_minute_camping0.tsv");
-
+        drawLinechart("data/yeartraffic_camps.tsv");
         //showData("data/fake_all_camps.csv");
-        showData("data/all_camps.csv"); //INCORRECT FILE! MIST DAGEN BIJ TOTAL
+        showData("data/all_camps.csv", "Campsites"); //INCORRECT FILE! MIST DAGEN BIJ TOTAL
         // type-calendars
-        
+
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
         // send data from each row to Draw function
         all_types.forEach(function(item) {
@@ -28,10 +27,11 @@ function getOption() {
         });
     }
     if (obj.value == "Entrances") {
-     
-        showData("data/all_entrances.csv"); //INCORRECT FILE! MIST DAGEN BIJ TOTAL
+
+        drawLinechart("data/yeartraffic_entrances.tsv");
+        showData("data/all_entrances.csv", "Entrances"); //INCORRECT FILE! MIST DAGEN BIJ TOTAL
         // type-calendars
-        
+
         var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
         // send data from each row to Draw function
         all_types.forEach(function(item) {
@@ -41,7 +41,7 @@ function getOption() {
     if (obj.value == "Total") {
         drawLinechart("data/yeartraffic_park.tsv");
         // main calendar
-        showData("data/busyness_by_type.csv");
+        showData("data/busyness_by_type.csv","Total Park");
         // type-calendars
         var all_types = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Ranger'];
         // send data from each row to Draw function
@@ -52,7 +52,7 @@ function getOption() {
 }
 
 // bind data based on csv file chosen
-function showData(csv_file_name) {
+function showData(csv_file_name, location) {
     d3.csv(csv_file_name, function(error, csv) {
         if (error) throw error;
 
@@ -71,13 +71,13 @@ function showData(csv_file_name) {
 
             })
             .object(csv);
-        drawTotalCalendar(data);
+        drawTotalCalendar(data, location);
 
     });
 }
 
 // draw the main calendar
-function drawTotalCalendar(my_data) {
+function drawTotalCalendar(my_data, location) {
 
     var width = 650,
         height = 100,
@@ -119,7 +119,7 @@ function drawTotalCalendar(my_data) {
         .attr('x', 10)
         .attr('y', -5)
         .attr("text-anchor", "under")
-        .text("Number of unique vehicles");
+        .text("Number of unique vehicles at "+location);
 
     var rectSelect = svg.append("g")
         .attr("fill", "none")
@@ -141,10 +141,6 @@ function drawTotalCalendar(my_data) {
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
         .on('click', onRectClicked)
-        // .on('click', function(){
-        //     var coords = d3.mouse(this);
-        //     console.log(coords)
-        // })
         .append('title');
 
     svg.append("g")
@@ -211,7 +207,7 @@ function drawType(which_type) {
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-d3.select("root").exit().remove();
+    d3.select("root").exit().remove();
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
@@ -312,13 +308,13 @@ d3.select("root").exit().remove();
 // draws the sub-calendars for locations
 function drawLocations(which_location) {
 
-    var width = 560,
+    var width = 460,
         height = 100,
-        cellSize = 10;
+        cellSize = 8;
 
-    var color = d3.scaleLinear()
-        .domain([0, 122]) // MUST BE RELATIVE TO MIN AND MAX
-        .range(["#fee0d2", "#de2d26"]);
+    // var color = d3.scaleLinear()
+    //     .domain([min, max]) // MUST BE RELATIVE TO MIN AND MAX
+    //     .range(["#fee0d2", "#de2d26"]);
 
     // append sub-calendars under the main calendar
     var root = d3.select('#subcalendar').append('div');
@@ -331,7 +327,7 @@ function drawLocations(which_location) {
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-d3.select("root").exit().remove();
+    d3.select("root").exit().remove();
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
@@ -435,85 +431,134 @@ d3.select("root").exit().remove();
     }
 };
 
-function drawLinechart(linechart_file){
-var svg = d3.select("#linechart").select("svg"),
+// set up linechart svg and clean
+    var setupGraph = function() {
+        var svg = d3.select("svg");
+        svg.selectAll("*").remove();
+        return svg;
+    }
 
-    margin = {top: 20, right: 80, bottom: 30, left: 50},
-    width = svg.attr("width") - margin.left - margin.right,
-    height = svg.attr("height") - margin.top - margin.bottom,
-    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+function drawLinechart(linechart_file) {
+
+    var svg = setupGraph();
+    svg = d3.select("#linechart").select("svg"),
+
+        margin = {
+            top: 20,
+            right: 80,
+            bottom: 30,
+            left: 50
+        },
+        width = svg.attr("width") - margin.left - margin.right,
+        height = svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.select("#linechart").select("svg").exit().remove();
+
+    var parseTime = d3.timeParse("%d-%m-%Y");
+
+    var x = d3.scaleTime().range([0, width]),
+        y = d3.scaleLinear().range([height, 0]),
+        z = d3.scaleOrdinal(d3.schemeCategory10);
+
+    var line = d3.line()
+        .curve(d3.curveBasis)
+        .x(function(d) {
+            return x(d.Day);
+        })
+        .y(function(d) {
+            return y(d.vehicles);
+        });
+    // read the data from file
+    d3.tsv(linechart_file, type, function(error, data) {
+        if (error) throw error;
+
+        var types = data.columns.slice(1).map(function(id) {
+            return {
+                id: id,
+                values: data.map(function(d) {
+                    return {
+                        Day: d.Day,
+                        vehicles: d[id]
+                    };
+                })
+            };
+        });
+
+        x.domain(d3.extent(data, function(d) {
+            return d.Day;
+        }));
+
+        y.domain([
+            d3.min(types, function(c) {
+                return d3.min(c.values, function(d) {
+                    return d.vehicles;
+                });
+            }),
+            d3.max(types, function(c) {
+                return d3.max(c.values, function(d) {
+                    return d.vehicles;
+                });
+            })
+        ]);
+
+        z.domain(types.map(function(c) {
+            return c.id;
+        }));
+
+        g.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        g.append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.axisLeft(y))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "0.71em")
+            .attr("fill", "#000")
+            .text("Unique vehicles");
+
+        var type = g.selectAll(".type")
+            .data(types)
+            .enter().append("g")
+            .attr("class", "type");
+
+        type.append("path")
+            .attr("class", "line")
+            .attr("d", function(d) {
+                return line(d.values);
+            })
+            .style("stroke", function(d) {
+                return z(d.id);
+            });
+
+        type.append("text")
+            .datum(function(d) {
+                return {
+                    id: d.id,
+                    value: d.values[d.values.length - 1]
+                };
+            })
+            .attr("transform", function(d) {
+                return "translate(" + x(d.value.Day) + "," + y(d.value.vehicles) + ")";
+            })
+            .attr("x", 3)
+            .attr("dy", "0.35em")
+            .style("font", "10px sans-serif")
+            .text(function(d) {
+                return d.id;
+            });
+    });
+
+    function type(d, _, columns) {
+        d.Day = parseTime(d.Day);
+        for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+        return d;
+    }
 
 
 
-var parseTime = d3.timeParse("%d-%m-%Y");
-
-var x = d3.scaleTime().range([0, width]),
-    y = d3.scaleLinear().range([height, 0]),
-    z = d3.scaleOrdinal(d3.schemeCategory10);
-
-var line = d3.line()
-    .curve(d3.curveBasis)
-    .x(function(d) { return x(d.Day); })
-    .y(function(d) { return y(d.vehicles); });
-
-d3.tsv(linechart_file, type, function(error, data) {
-  if (error) throw error;
-
-  var types = data.columns.slice(1).map(function(id) {
-    return {
-      id: id,
-      values: data.map(function(d) {
-        return {Day: d.Day, vehicles: d[id]};
-      })
-    };
-  });
-
-  x.domain(d3.extent(data, function(d) { return d.Day; }));
-
-  y.domain([
-    d3.min(types, function(c) { return d3.min(c.values, function(d) { return d.vehicles; }); }),
-    d3.max(types, function(c) { return d3.max(c.values, function(d) { return d.vehicles; }); })
-  ]);
-
-  z.domain(types.map(function(c) { return c.id; }));
-
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("fill", "#000")
-      .text("Unique vehicles");
-
-  var type = g.selectAll(".type")
-    .data(types)
-    .enter().append("g")
-      .attr("class", "type");
-
-  type.append("path")
-      .attr("class", "line")
-      .attr("d", function(d) { return line(d.values); })
-      .style("stroke", function(d) { return z(d.id); });
-
-  type.append("text")
-      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-      .attr("transform", function(d) { return "translate(" + x(d.value.Day) + "," + y(d.value.vehicles) + ")"; })
-      .attr("x", 3)
-      .attr("dy", "0.35em")
-      .style("font", "10px sans-serif")
-      .text(function(d) { return d.id; });
-});
-
-function type(d, _, columns) {
-  d.Day = parseTime(d.Day);
-  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-  return d;
-}
 };
