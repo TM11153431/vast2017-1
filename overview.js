@@ -14,6 +14,8 @@ window.onload = function() {
 // get User selection and select appropriate function to draw svg's
 function getOption() {
     var obj = document.getElementById("mySelect");
+    var sub = d3.select('#subcalendar')
+    sub.selectAll("div").remove();
     if (obj.value == "Campsites") {
         drawLinechart("data/yeartraffic_camps.tsv");
         //showData("data/fake_all_camps.csv");
@@ -44,6 +46,8 @@ function getOption() {
         showData("data/busyness_by_type.csv","Total Park");
         // type-calendars
         var all_types = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Ranger'];
+
+        
         // send data from each row to Draw function
         all_types.forEach(function(item) {
             drawType(item);
@@ -222,19 +226,20 @@ function drawType(which_type) {
         height = 100,
         cellSize = 8;
 
+    // .exit().remove();
     // append sub-calendars under the main calendar
     var root = d3.select('#subcalendar').append('div');
-    root.exit().remove();
 
     var svg = root
         .selectAll("svg")
         .data(d3.range(2015, 2017))
         .enter().append("svg")
+        .attr("class", which_type)
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-    d3.select("root").exit().remove();
+    
     // svg.append("text")
     //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
     //     .attr("font-family", "sans-serif")
@@ -367,11 +372,12 @@ function drawLocations(which_location) {
         .selectAll("svg")
         .data(d3.range(2015, 2017))
         .enter().append("svg")
+        .attr("class", which_location)
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-    d3.select("root").exit().remove();
+    
     // svg.append("text")
     //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
     //     .attr("font-family", "sans-serif")
