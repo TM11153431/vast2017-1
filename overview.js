@@ -103,24 +103,29 @@ function drawTotalCalendar(my_data, location) {
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
 
-    // Defines test for year in calendar
-    svg.append("text")
+    // // Defines test for year in calendar
+    // svg.append("text")
+    //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+    //     .attr("font-family", "sans-serif")
+    //     .attr("font-size", 10)
+    //     .attr("text-anchor", "middle")
+    //     .text(function(d) {
+    //         return d;
+    //     });
+
+    // svg.append("text")
+    //     .attr("font-family", "sans-serif")
+    //     .attr("font-size", 6)
+    //     .attr('x', 10)
+    //     .attr('y', -5)
+    //     .attr("text-anchor", "under")
+    //     .text("Number of unique vehicles at "+location);
+svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
         .attr("font-size", 10)
         .attr("text-anchor", "middle")
-        .text(function(d) {
-            return d;
-        });
-
-    svg.append("text")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 15)
-        .attr('x', 10)
-        .attr('y', -5)
-        .attr("text-anchor", "under")
-        .text("Number of unique vehicles at "+location);
-
+        .text(location);
     var rectSelect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
@@ -152,6 +157,28 @@ function drawTotalCalendar(my_data, location) {
         })
         .enter().append("path")
         .attr("d", pathMonth);
+
+var month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+var legend = svg.selectAll(".legend")
+      .data(month)
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(" + (((i+1) * 42)+8) + ",0)"; });
+
+legend.append("text")
+   .attr("class", function(d,i){ return month[i] })
+   .style("text-anchor", "end")
+   .attr("dy", "-.25em")
+   .text(function(d,i){ return month[i] });
+
+// var week_days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+
+// svg.append("text")
+//     .attr("transform", "translate(-5," + cellSize*(i+1) + ")")
+//     .style("text-anchor", "end")
+//     .attr("dy", "-.25em")
+//     .text(function(d) { return week_days[i]; });
+
 
     d3.select("#calendar").selectAll("rect")
         .attr("fill", function(d) {
@@ -208,23 +235,28 @@ function drawType(which_type) {
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
     d3.select("root").exit().remove();
-    svg.append("text")
+    // svg.append("text")
+    //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+    //     .attr("font-family", "sans-serif")
+    //     .attr("font-size", 10)
+    //     .attr("text-anchor", "middle")
+    //     .text(function(d) {
+    //         return d;
+    //     });
+
+    // svg.append("text")
+    //     .attr("font-family", "sans-serif")
+    //     .attr("font-size", 15)
+    //     .attr('x', 10)
+    //     .attr('y', -5)
+    //     .attr("text-anchor", "under")
+    //     .text("Total moving vehicles of Type " + which_type);
+        svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
         .attr("font-size", 10)
         .attr("text-anchor", "middle")
-        .text(function(d) {
-            return d;
-        });
-
-    svg.append("text")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 15)
-        .attr('x', 10)
-        .attr('y', -5)
-        .attr("text-anchor", "under")
-        .text("Total moving vehicles of Type " + which_type);
-
+        .text(which_type);
 
     var rect = svg.append("g")
         .attr("fill", "none")
@@ -255,6 +287,18 @@ function drawType(which_type) {
         .enter().append("path")
         .attr("d", pathMonth);
 
+var month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+var legend = svg.selectAll(".legend")
+      .data(month)
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(" + (((i+1) * 34)+8) + ",0)"; });
+
+legend.append("text")
+   .attr("class", function(d,i){ return month[i] })
+   .style("text-anchor", "end")
+   .attr("dy", "-.25em")
+   .text(function(d,i){ return month[i] });
 
     d3.csv("data/busyness_by_type.csv", function(error, csv) {
         if (error) throw error;
@@ -328,22 +372,27 @@ function drawLocations(which_location) {
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
     d3.select("root").exit().remove();
-    svg.append("text")
+    // svg.append("text")
+    //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+    //     .attr("font-family", "sans-serif")
+    //     .attr("font-size", 10)
+    //     .attr("text-anchor", "middle")
+    //     .text(function(d) {
+    //         return d;
+    //     });
+        svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
         .attr("font-size", 10)
         .attr("text-anchor", "middle")
-        .text(function(d) {
-            return d;
-        });
-
-    svg.append("text")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 15)
-        .attr('x', 10)
-        .attr('y', -5)
-        .attr("text-anchor", "under")
-        .text("Moving vehicles at " + which_location);
+        .text(which_location);
+    // svg.append("text")
+    //     .attr("font-family", "sans-serif")
+    //     .attr("font-size", 15)
+    //     .attr('x', 10)
+    //     .attr('y', -5)
+    //     .attr("text-anchor", "under")
+    //     .text("Moving vehicles at " + which_location);
 
 
     var rect = svg.append("g")
@@ -363,7 +412,12 @@ function drawLocations(which_location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        .on('click', onRectClicked);
+        .on('click', onRectClicked)
+    //     .on('click', function() {
+    //         var clicked = item;
+    //         console.log(clicked);
+    //         onRectClicked(clicked);
+    // })
 
     svg.append("g")
         .attr("fill", "none")
@@ -374,7 +428,18 @@ function drawLocations(which_location) {
         })
         .enter().append("path")
         .attr("d", pathMonth);
+var month = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+var legend = svg.selectAll(".legend")
+      .data(month)
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(" + (((i+1) * 34)+8) + ",0)"; });
 
+legend.append("text")
+   .attr("class", function(d,i){ return month[i] })
+   .style("text-anchor", "end")
+   .attr("dy", "-.25em")
+   .text(function(d,i){ return month[i] });
 
     d3.csv("data/busylocations.csv", function(error, csv) {
         if (error) throw error;
