@@ -40,3 +40,10 @@ Entrances toegevoegd. Alleen lijken de csv files met de Totalen niet correct; er
 
 13 juni:
 CSV files nog niet correct. Clickable calendar geeft alleen nog maar de datum mee aan de funtie. Veel tijd aan exit().remove probleem besteedt en nog steeds niet opgelost. Begin met Linechart gemaakt; Parkoverzicht werkt bij opstarten, nog niet dynamisch. 24 uurs Dagoverzicht van de Locaties moet in barcharts waarschijnlijk, linechart geeft vreemde visuals. Voor iedere locatie is hiervoor een TSV file gemaakt met tijdsindicaties per minuut. 
+
+14 juni:
+Bij selectie verschijnt nu de bijbehordende total-linechart (per car-type) van het gehele jaar voor de geselecteerde locatie. 
+De Calendar en bijbehorende subcalendars verversen nu correct en verschijnen correct bij de selectie.
+Alle sub-calendars krijgen een eigen class-ID toegewezen om bij de onClick funtie een lin te kunnen leggen met de datum en de locatie (De locatie wordt dus straks bepaald door de class te lezen).
+Nu een barchart maken die een 24 uurs overzicht maakt van de gekozen datum/locatie.
+
