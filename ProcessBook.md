@@ -47,3 +47,5 @@ De Calendar en bijbehorende subcalendars verversen nu correct en verschijnen cor
 Alle sub-calendars krijgen een eigen class-ID toegewezen om bij de onClick funtie een lin te kunnen leggen met de datum en de locatie (De locatie wordt dus straks bepaald door de class te lezen).
 Nu een barchart maken die een 24 uurs overzicht maakt van de gekozen datum/locatie.
 
+15 juni:
+Het doorgeven van een datum + Locatie blijkt een probleem bij de calendarview. Datum is geen probleem, maar verder kan er niks worden meegegeven aan de onClick functie. Dit betekent dat de 24-uursbarcharts waarschijnlijk niet gemaakt kunnen worden via de onclick uit de calendar. De locatie wordt wel meegegeven bij het selecteren van de calendars, maar dit is de 'overal locatie'(Camps, Entrances of Park). De individuele locaties zijn dus niet(?) mee te geven. Nadenken dus nu over een andere mogelijkheid om de 24 uurs weergaves per locatie te laten zien.
