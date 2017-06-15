@@ -114,6 +114,12 @@ function drawTotalCalendar(my_data, location) {
         .attr("font-size", 10)
         .attr("text-anchor", "middle")
         .text(location);
+    svg.append("text") // MUST BE CORRECTED! DOES NOT REFRESH
+        .style("text-anchor", "end")
+        .attr("font-size", 10)
+        .attr("dy", " -.25em")
+        .attr("dx", " 1em")
+        .text("Range: "+min+"-"+max);
     var rectSelect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
@@ -160,6 +166,7 @@ function drawTotalCalendar(my_data, location) {
         .text(function(d, i) {
             return month[i]
         });
+    
     // var week_days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
 
     // svg.append("text")
@@ -305,7 +312,12 @@ function drawType(which_type) {
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
         console.log("min/max for type " + which_type, min, max)
-
+        svg.append("text")
+                .style("text-anchor", "middle")
+                .attr("font-size", 8)
+                .attr("dy", " 0em")// PLACE MUST BE CORRECTED!
+                .attr("dx", " 0em")
+                .text("Range: "+min+"-"+max);
         var color = d3.scaleLinear()
             .domain([min, max])
             .range(["#fee0d2", "#de2d26"]);
@@ -453,7 +465,12 @@ function drawLocations(which_location) {
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
         console.log("min/max for type " + which_location, min, max)
-
+        svg.append("text")
+                .style("text-anchor", "middle")
+                .attr("font-size", 8)
+                .attr("dy", " 0em") // PLACE MUST BE CORRECTED!
+                .attr("dx", " 0em")
+                .text("Range: "+min+"-"+max);
         var color = d3.scaleLinear()
             .domain([min, max])
             .range(["#fee0d2", "#de2d26"]);
