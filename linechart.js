@@ -4,7 +4,7 @@ var svg = d3.select("svg"),
     height = svg.attr("height") - margin.top - margin.bottom,
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var parseTime = d3.timeParse("%d-%m-%Y");
+var parseTime = d3.timeParse("%H:%M");
 
 var x = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
@@ -15,7 +15,7 @@ var line = d3.line()
     .x(function(d) { return x(d.Day); })
     .y(function(d) { return y(d.vehicles); });
 
-d3.tsv("data/test.tsv", type, function(error, data) {
+d3.tsv("data/camp0minutes.tsv", type, function(error, data) {
   if (error) throw error;
 
   var types = data.columns.slice(1).map(function(id) {
