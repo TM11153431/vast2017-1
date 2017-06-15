@@ -9,6 +9,7 @@ function onRectClicked(item, svg, plop, wat) {
     console.log(item);
     console.log(plop);
     console.log();
+
 }
 window.onload = function() {
     getOption();

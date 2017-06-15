@@ -28,11 +28,23 @@ d3.tsv("data/camp0minutes.tsv", type, function(error, data) {
   });
 
   x.domain(d3.extent(data, function(d) { return d.Day; }));
-
   y.domain([
-    d3.min(types, function(c) { return d3.min(c.values, function(d) { return d.vehicles; }); }),
-    d3.max(types, function(c) { return d3.max(c.values, function(d) { return d.vehicles; }); })
-  ]);
+            d3.min(types, function(c) {
+                return d3.min(c.values, function(d) {
+                    return d.vehicles;
+                });
+            }),
+            d3.max(types, function(c) {
+                return d3.max(c.values, function(d) {
+                    return d.vehicles;
+                });
+            })
+        ]);
+  
+  // y.domain([
+  //   d3.min(types, function(c) { return d3.min(c.values, function(d) { return d.vehicles; }); }),
+  //   d3.max(types, function(c) { return d3.max(c.values, function(d) { return d.vehicles; }); })
+  // ]);
 
   z.domain(types.map(function(c) { return c.id; }));
 
