@@ -264,7 +264,9 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        .on('click', onRectClicked);
+        .on('click', function() {
+            console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
+        });
 
     svg.append("g")
         .attr("fill", "none")
