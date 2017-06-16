@@ -14,4 +14,4 @@ De tweede visualisaties die hierbij gemaakt kunnen gaan worden is een overzicht 
 Visualisatie 3:
 Totaal overzicht van een jaar in het park. Piechart met sliderfunctie op timeline. Geeft zowel bezoekersaantal en autotype verdeling weer. Dit zou met een mooie transition weergave kunnen visualiseren hoe de verschillende vehicle-types veranderen over tijd.
 
-![Graph](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpeg)
+![Graph](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
