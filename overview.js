@@ -4,11 +4,11 @@
 // PETER VAN TWUYVER, 10872809
 // MINOR PROGRAMMEREN UVA 2017
 // +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+  
-function onRectClicked(item, svg, plop, wat) {
-    console.log(svg);
-    console.log(item);
-    console.log(plop);
-    console.log();
+function onRectClicked(location, date) {
+  
+    console.log(location, date);
+  
+
 
 }
 window.onload = function() {
@@ -265,7 +265,9 @@ function drawType(which_type) {
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
         .on('click', function() {
-            console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
+            //console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
+            onRectClicked(d3.select(this.parentNode.parentNode.parentNode).attr("class"))
+            console.log("clicked: ", d3.select(this).data)
         });
 
     svg.append("g")
