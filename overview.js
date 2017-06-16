@@ -591,6 +591,8 @@ function drawLinechart(linechart_file) {
             .attr("fill", "#000")
             .text("Unique vehicles");
 
+
+
         var type = g.selectAll(".type")
             .data(types)
             .enter().append("g")
@@ -621,6 +623,91 @@ function drawLinechart(linechart_file) {
             .text(function(d) {
                 return d.id;
             });
+// Mouseover function
+var mouseG = svg.append("g")
+                .attr("class", "mouse-over-effects")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            // black vertical line to follow mouse
+            mouseG.append("path")
+                .attr("class", "mouse-line")
+                .style("stroke", "black")
+                .style("stroke-width", "1px")
+                .style("opatemp", "0");
+            var lines = document.getElementsByClassName('line');
+            var mousePerLine = mouseG.selectAll('.mouse-per-line')
+                .data(types)
+                .enter()
+                .append("g")
+                .attr("class", "mouse-per-line");
+            mousePerLine.append("circle")
+                .attr("r", 3)
+                .style("stroke", "black")
+                .style("fill", "none")
+                .style("stroke-width", "1px")
+                .style("opatemp", "0");
+            mousePerLine.append("text")
+                .attr("transform", "translate(10,3)");
+            // append a rect to catch mouse movements on canvas    
+            mouseG.append('svg:rect')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('fill', 'none')
+                .attr('pointer-events', 'all')
+                // on mouse-out hide line, circles and text
+                .on('mouseout', function() {
+                    d3.select(".mouse-line")
+                        .style("opatemp", "0");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opatemp", "0");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opatemp", "0");
+                })
+                // on mouse-in show line, circles and text
+                .on('mouseover', function() {
+                    d3.select(".mouse-line")
+                        .style("opatemp", "1");
+                    d3.selectAll(".mouse-per-line circle")
+                        .style("opatemp", "1");
+                    d3.selectAll(".mouse-per-line text")
+                        .style("opatemp", "1");
+                })
+                // mouse moving over canvas
+                .on('mousemove', function() {
+                    var mouse = d3.mouse(this);
+                    d3.select(".mouse-line")
+                        .attr("d", function() {
+                            var d = "M" + mouse[0] + "," + height;
+                            d += " " + mouse[0] + "," + 0;
+                            return d;
+                        });
+                    d3.selectAll(".mouse-per-line")
+                        .attr("transform", function(d, i) {
+                            var xDate = x.invert(mouse[0]),
+                                bisect = d3.bisector(function(d) {
+                                    return d.date;
+                                }).right;
+                            idx = bisect(d.values, xDate);
+                            var beginning = 0,
+                                end = lines[i].getTotalLength(),
+                                target = null;
+                            while (true) {
+                                target = Math.floor((beginning + end) / 2);
+                                pos = lines[i].getPointAtLength(target);
+                                if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+                                    break;
+                                }
+                                if (pos.x > mouse[0]) end = target;
+                                else if (pos.x < mouse[0]) beginning = target;
+                                else break;
+                            }
+                            d3.select(this).select('text')
+                                .text(y.invert(pos.y).toFixed(2));
+                            return "translate(" + mouse[0] + "," + pos.y + ")";
+                        });
+                });
+ 
+
+
     });
 
     function type(d, _, columns) {
