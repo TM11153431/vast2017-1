@@ -52,3 +52,7 @@ Nu een barchart maken die een 24 uurs overzicht maakt van de gekozen datum/locat
 
 15 juni:
 Het doorgeven van een datum + Locatie blijkt een probleem bij de calendarview. Datum is geen probleem, maar verder kan er niks worden meegegeven aan de onClick functie. Dit betekent dat de 24-uursbarcharts waarschijnlijk niet gemaakt kunnen worden via de onclick uit de calendar. De locatie wordt wel meegegeven bij het selecteren van de calendars, maar dit is de 'overal locatie'(Camps, Entrances of Park). De individuele locaties zijn dus niet(?) mee te geven. Nadenken dus nu over een andere mogelijkheid om de 24 uurs weergaves per locatie te laten zien.
+
+16 juni:
+Na de standup toch eindelijk gelukt om de locatie in de onclick functie te krijgen. De class van iedere svg heeft een unieke naam gebasseerd op de locatie en die wordt nu dus meegegeven.Het is nu helaas weer niet mogelijk om de datum EN de locatie mee te sturen... Begin gemaakt om een stacked barchart te maken voor de 24 uurs weergaves. De JSON indeling die we nu hebben is niet erg geschikt; het mist key en value labels. Daardoor veranderen de timepoints in een list met objecten ipv values.Dit weekend proberen om clickfunctie goed te krijgen en barchart met JSON files te maken.
+
