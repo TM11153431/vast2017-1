@@ -4,13 +4,14 @@
 // PETER VAN TWUYVER, 10872809
 // MINOR PROGRAMMEREN UVA 2017
 // +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+  
+// CalendarView based on code from M. Bostock: https://bl.ocks.org/mbostock/4063318
+// Linechart based on code from M. Bostock: https://bl.ocks.org/mbostock/3884955
+// Barchart based on code from https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
+
+
 function onRectClicked(location, date) {
-  
-    console.log(location, date);
+    // provide barchart with correct datafile and date
     drawBarchart("data/sensor_data_"+location+".json", date);
-  
-
-
 }
 window.onload = function() {
     getOption();
@@ -26,7 +27,6 @@ function getOption() {
         showData("data/all_campings.csv", "Campsites"); 
         // type-calendars info:
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
-        // send data from each row to Draw function
         all_types.forEach(function(item) {
             drawLocations(item);
         });
@@ -34,9 +34,8 @@ function getOption() {
     if (obj.value == "Entrances") {
         drawLinechart("data/yeartraffic_entrances.tsv");
         showData("data/all_entrances.csv", "Entrances"); 
-        // type-calendars
+        // data for location-calendars
         var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
-        // send data from each row to Draw function
         all_types.forEach(function(item) {
             drawLocations(item);
         });
@@ -44,15 +43,14 @@ function getOption() {
     if (obj.value == "Total") {
         drawLinechart("data/yeartraffic_park.tsv");
         showData("data/busyness_by_type.csv", "Total Park");
-        // type-calendars
+        // data for type-calendars
         var all_types = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Ranger'];
-        // send data from each row to Draw function
         all_types.forEach(function(item) {
             drawType(item);
         });
     }
 }
-// bind data based on csv file chosen
+// bind data based on selected csv file 
 function showData(csv_file_name, location) {
     d3.csv(csv_file_name, function(error, csv) {
         if (error) throw error;
@@ -78,7 +76,7 @@ function drawTotalCalendar(my_data, location) {
     // set colorgradient for min/max values
     var max = d3.max(d3.values(my_data));
     var min = d3.min(d3.values(my_data));
-    console.log("min/max in Total: ", min, max)
+    
     var color = d3.scaleLinear()
         .domain([min, max])
         .range(["#fee0d2", "#de2d26"]);
@@ -86,30 +84,16 @@ function drawTotalCalendar(my_data, location) {
     var cal = d3.select("#calendar")
         .selectAll("svg")
         .data(d3.range(2015, 2017)); // range of years
+
     // remove old data in calendar
     cal.exit().remove();
+
     var svg = cal.enter().append("svg")
         .attr("width", width)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-    // // Defines test for year in calendar
-    // svg.append("text")
-    //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 10)
-    //     .attr("text-anchor", "middle")
-    //     .text(function(d) {
-    //         return d;
-    //     });
 
-    // svg.append("text")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 6)
-    //     .attr('x', 10)
-    //     .attr('y', -5)
-    //     .attr("text-anchor", "under")
-    //     .text("Number of unique vehicles at "+location);
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
@@ -265,12 +249,9 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
+        // get type and date when clicked
         .on('click', function(rect_date) {
             onRectClicked(which_type, rect_date);
-            //console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
-            //console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
-            //onRectClicked(d3.select()
-            //console.log("clicked: ", d3.select(this).data)
         });
 
     svg.append("g")
@@ -363,10 +344,6 @@ function drawLocations(which_location) {
         height = 100,
         cellSize = 8;
 
-    // var color = d3.scaleLinear()
-    //     .domain([min, max]) // MUST BE RELATIVE TO MIN AND MAX
-    //     .range(["#fee0d2", "#de2d26"]);
-
     // append sub-calendars under the main calendar
     var root = d3.select('#subcalendar').append('div');
 
@@ -419,6 +396,7 @@ function drawLocations(which_location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
+        // get location and date when clicked
         .on('click', function(rect_date) {
             onRectClicked(which_location, rect_date);
 });
@@ -459,9 +437,6 @@ function drawLocations(which_location) {
                 if (d.Day.length == 8) {
                     return d.Day.substring(0, 6) + "20" + d.Day.substring(6, 8);
                 }
-
-
-
                 return d.Day;
             })
             .rollup(function(d) {
@@ -728,11 +703,8 @@ var mouseG = svg.append("g")
 
 function plotBarChart(data, types) {
     var margin = {top: 20, right: 160, bottom: 35, left: 30};
-    // 
-    // data = [
-    // {time: '16:00',  "2": 5, "1": 8},
-    // ]
-
+    
+// create stack of car-types based on the keys
 var series = d3.stack()
     .keys(types)
     .offset(d3.stackOffsetDiverging)
@@ -743,6 +715,7 @@ var svg = d3.select("#barchart").select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
+// var x = d3.scaleTime().range([0, 24]);
 var x = d3.scaleBand()
     .domain(data.map(function(d) { return d.time; }))
     .rangeRound([margin.left, width - margin.right])
@@ -752,10 +725,11 @@ var y = d3.scaleLinear()
     .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
     .rangeRound([height - margin.bottom, margin.top]);
 
-var z = d3.scaleOrdinal(d3.schemeCategory20);
+var z = d3.scaleOrdinal(d3.schemeCategory10);
 
 svg.selectAll("g").remove();
 
+// no update when no data in rect
 if(data.length < 1) {
     return;
 }
@@ -781,6 +755,27 @@ svg.append("g")
     .attr("transform", "translate(" + margin.left + ",0)")
     .call(d3.axisLeft(y));
 
+var legend = svg.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 10)
+      .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(types)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 19)
+      .attr("width", 19)
+      .attr("height", 19)
+      .attr("fill", z);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9.5)
+      .attr("dy", "0.32em")
+      .text(function(d) { return d; });
+
 function stackMin(serie) {
   return d3.min(serie, function(d) { return d[0]; });
 }
@@ -793,21 +788,21 @@ function stackMax(serie) {
 
 function drawBarchart(filename, date){
     d3.json(filename, function(error, data) {
-           // Only look at entries on date
+           // Only look at entries on selected date
            var day_data = data[date];
 
            // New list of entries for this data summed per type
            var new_data = [];
-           var types_Dict = {}; // keep track of all types found 
-
+           // keep track of all types found 
+           var types_Dict = {}; 
            for (var time in day_data) {
             var hour_data = day_data[time];
             var new_hour_data = {"time" : time};
             for(var entry_id in hour_data) {
                 var entry = hour_data[entry_id]; 
                 var entry_type = entry["car-type"];
-
-                // check if car type alread found for this time
+                // count cartypes in types Dict:
+                // check if car type alread found for this timeslot
                 if (!(entry_type in new_hour_data)) {
                     // not found so set to 1
                     new_hour_data[entry_type] = 1;
@@ -816,7 +811,7 @@ function drawBarchart(filename, date){
                     }
                 }
                 else {
-                    // already found so increment the value
+                    // already found so increase the value
                     new_hour_data[entry_type] += 1;
                 }
             };
@@ -825,7 +820,6 @@ function drawBarchart(filename, date){
 
            var all_types = Object.keys(types_Dict);
 
-           
             // Set all known car-types to zero
             // if no entry found to prevent warnings
             // later in plot function
