@@ -7,6 +7,7 @@
 function onRectClicked(location, date) {
   
     console.log(location, date);
+    drawBarchart("data/sensor_data_"+location+".json", date);
   
 
 
@@ -218,7 +219,7 @@ function drawType(which_type) {
         .data(d3.range(2015, 2017))
         .enter().append("svg")
         // add class to svg based on type
-        .attr("class", which_type)
+        //.attr("class", which_type)
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -264,10 +265,12 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        .on('click', function() {
+        .on('click', function(rect_date) {
+            onRectClicked(which_type, rect_date);
             //console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
-            onRectClicked(d3.select(this.parentNode.parentNode.parentNode).attr("class"))
-            console.log("clicked: ", d3.select(this).data)
+            //console.log(d3.select(this.parentNode.parentNode.parentNode).attr("class"));
+            //onRectClicked(d3.select()
+            //console.log("clicked: ", d3.select(this).data)
         });
 
     svg.append("g")
@@ -416,8 +419,9 @@ function drawLocations(which_location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        .on('click', onRectClicked)
-
+        .on('click', function(rect_date) {
+            onRectClicked(which_location, rect_date);
+});
     svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#000")
@@ -536,7 +540,7 @@ function drawLinechart(linechart_file) {
         z = d3.scaleOrdinal(d3.schemeCategory10);
 
     var line = d3.line()
-        .curve(d3.curveBasis)
+        .curve(d3.curveStepBefore)
         .x(function(d) {
             return x(d.Day);
         })
@@ -721,3 +725,119 @@ var mouseG = svg.append("g")
     }
 
 };
+
+function plotBarChart(data, types) {
+    var margin = {top: 20, right: 160, bottom: 35, left: 30};
+    // 
+    // data = [
+    // {time: '16:00',  "2": 5, "1": 8},
+    // ]
+
+var series = d3.stack()
+    .keys(types)
+    .offset(d3.stackOffsetDiverging)
+    (data);
+
+var svg = d3.select("#barchart").select("svg"),
+    margin = {top: 20, right: 30, bottom: 30, left: 60},
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var x = d3.scaleBand()
+    .domain(data.map(function(d) { return d.time; }))
+    .rangeRound([margin.left, width - margin.right])
+    .padding(0.1);
+
+var y = d3.scaleLinear()
+    .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
+    .rangeRound([height - margin.bottom, margin.top]);
+
+var z = d3.scaleOrdinal(d3.schemeCategory20);
+
+svg.selectAll("g").remove();
+
+if(data.length < 1) {
+    return;
+}
+
+svg.append("g")
+  .selectAll("g")
+  .data(series)
+  .enter().append("g")
+    .attr("fill", function(d) { return z(d.key); })
+  .selectAll("rect")
+  .data(function(d) { return d; })
+  .enter().append("rect")
+    .attr("width", x.bandwidth)
+    .attr("x", function(d) { return x(d.data.time); })
+    .attr("y", function(d) { return y(d[1]); })
+    .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+
+svg.append("g")
+    .attr("transform", "translate(0," + y(0) + ")")
+    .call(d3.axisBottom(x));
+
+svg.append("g")
+    .attr("transform", "translate(" + margin.left + ",0)")
+    .call(d3.axisLeft(y));
+
+function stackMin(serie) {
+  return d3.min(serie, function(d) { return d[0]; });
+}
+
+function stackMax(serie) {
+  return d3.max(serie, function(d) { return d[1]; });
+}
+
+}
+
+function drawBarchart(filename, date){
+    d3.json(filename, function(error, data) {
+           // Only look at entries on date
+           var day_data = data[date];
+
+           // New list of entries for this data summed per type
+           var new_data = [];
+           var types_Dict = {}; // keep track of all types found 
+
+           for (var time in day_data) {
+            var hour_data = day_data[time];
+            var new_hour_data = {"time" : time};
+            for(var entry_id in hour_data) {
+                var entry = hour_data[entry_id]; 
+                var entry_type = entry["car-type"];
+
+                // check if car type alread found for this time
+                if (!(entry_type in new_hour_data)) {
+                    // not found so set to 1
+                    new_hour_data[entry_type] = 1;
+                    if (!(entry_type in types_Dict)) {
+                        types_Dict[entry_type] = 1;
+                    }
+                }
+                else {
+                    // already found so increment the value
+                    new_hour_data[entry_type] += 1;
+                }
+            };
+            new_data.push(new_hour_data);
+           };
+
+           var all_types = Object.keys(types_Dict);
+
+           
+            // Set all known car-types to zero
+            // if no entry found to prevent warnings
+            // later in plot function
+           all_types.forEach(function(type) {
+                new_data.forEach(function(time_data) {
+                    if (!(type in time_data)) {
+                        time_data[type] = 0;
+                    }
+                })
+            });
+
+           plotBarChart(new_data, all_types);
+
+})
+}

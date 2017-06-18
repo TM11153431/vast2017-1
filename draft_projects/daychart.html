@@ -43,9 +43,15 @@ var svg = d3.select("body")
   .append("g")
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var originalData =d3.json("data/test_camping0.json", function(error, originalData) {
-            var data = d3.entries(originalData)
-            console.log("data: ", data[0],"key: ",data[0].key,"Value: ", data[0].value); // this is your data
+var originalData =d3.json("test_camping0.json", function(error, originalData) {
+           var data = d3.entries(originalData);
+           console.log(data)
+           var newdata = d3.entries(data).forEach(function(d) {
+d3.entries(d)
+console.log(newdata)
+// console.log("data: ", data,"key: ",data.key,"Value: ", data.value); // this is your data
+})
+            
 
 /* Data in strings like it would be if imported from a csv */
 
