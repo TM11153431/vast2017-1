@@ -10,14 +10,6 @@
 function onRectClicked(location, date) {
     // provide barchart with correct datafile and date
     drawBarchart("data/sensor_data_" + location + ".json", date);
-// var line = d3.select("#linechart").svg   
-//     .append("line")          // attach a line
-//     .style("stroke", "black")  // colour the line
-//     .attr("x1", 0)     // x position of the first end of the line
-//     .attr("y1", 0)      // y position of the first end of the line
-//     .attr("x2", 300)     // x position of the second end of the line
-//     .attr("y2", 150);    // y position of the second end of the line
-
 }
 window.onload = function() {
     getOption();
@@ -161,11 +153,12 @@ function drawTotalCalendar(my_data, location) {
 
     // var week_days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
 
-    // svg.append("text")
-    //     .attr("transform", "translate(-5," + cellSize*(i+1) + ")")
+    // legend.append("text")
     //     .style("text-anchor", "end")
     //     .attr("dy", "-.25em")
-    //     .text(function(d) { return week_days[i]; });
+    //     .text(function(d) { return week_days[i]; })
+    //     .attr("transform", "translate(-5," + cellSize*(i+1) + ")")
+
     d3.select("#calendar").selectAll("rect")
         .attr("fill", function(d) {
 
@@ -310,8 +303,8 @@ function drawType(which_type) {
         svg.append("text")
             .style("text-anchor", "middle")
             .attr("font-size", 8)
-            .attr("dy", " 0em") // PLACE MUST BE CORRECTED!
-            .attr("dx", " 0em")
+            .attr("dy", " -.25em") // PLACE MUST BE CORRECTED!
+            .attr("dx", " -.25em")
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
             .domain([min, max])
@@ -596,6 +589,15 @@ function drawLinechart(linechart_file) {
                 return z(d.id);
             });
 
+var date_line = d3.select("#linechart").svg 
+    .append("line")          // attach a line
+    .style("stroke", "red")  // colour the line
+    .attr("x1", 0)     // x position of the first end of the line
+    .attr("y1", 0)      // y position of the first end of the line
+    .attr("x2", 300)     // x position of the second end of the line
+    .attr("y2", 150);    // y position of the second end of the line
+
+
         type.append("text")
             .datum(function(d) {
                 return {
@@ -746,7 +748,7 @@ function plotBarChart(data, types, date) {
     var z = z = d3.scaleOrdinal()
     .range(["#1a4d40", "#b26559",  "#403032", "#e2e6ac", "#00aaff", "#8100f2"]);
 
-    svg.selectAll("g").remove();
+    svg.selectAll("*").remove();
 
     // no update when no data in rect
     if (data.length < 1) {
@@ -766,7 +768,7 @@ function plotBarChart(data, types, date) {
         })
         .enter().append("rect")
         .attr("width", x.bandwidth)
-        .attr("x", function(d) {
+        .attr("x", function(d) { console.log(d.data.time);
             return x(d.data.time);
         })
         .attr("y", function(d) {
@@ -777,17 +779,18 @@ function plotBarChart(data, types, date) {
         })
 
     svg.append("g")
+        .attr("class", "axis")
         .attr("transform", "translate(0," + y(0) + ")")
         .call(d3.axisBottom(x));
 
     svg.append("g")
         .attr("transform", "translate(" + margin.left + ",0)")
         .call(d3.axisLeft(y));
-    // svg.append("text")
-    //     .attr("x", width - 400)
-    //     .attr("y", 9.5)
-    //     .attr("dy", "0.32em")
-    //     .text(date);
+    svg.append("text")
+        .attr("x", width - 400)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text(date);
 
     var legend = svg.append("g")
         .attr("font-family", "sans-serif")
@@ -837,25 +840,19 @@ function plotBarChart(data, types, date) {
 function drawBarchart(filename, date) {
     d3.json(filename, function(error, data) {
 
-
+        // create  dict with all empty timeslots
         var fullday = {"01:00": 0,"02:00": 0,"03:00": 0,"04:00": 0,"05:00": 0,"06:00": 0,"07:00": 0,
         "08:00": 0,"09:00": 0,"10:00": 0,"11:00": 0,"12:00": 0,"13:00": 0,"14:00": 0,"15:00": 0,"16:00": 0,
         "17:00": 0,"18:00": 0,"19:00": 0,"20:00": 0,"21:00": 0,"22:00": 0,"23:00": 0,"00:00": 0}
 
         // Only look at entries on selected date
         var day_data = data[date];
-
+        // fill the timeslots with data if present
         Object.keys(day_data).forEach(function(d) {
             fullday[d] = Object.values(day_data[d])
         });
-     
-        
-
-
-console.log("day_data: ",day_data)
-console.log("fullday: ",fullday)
-
-        // New list of entries for this data summed per type
+    
+        // create new list of entries for this data summed per type
         var new_data = [];
 
         // keep track of all types found 

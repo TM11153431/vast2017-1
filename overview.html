@@ -8,15 +8,18 @@
  	PETER VAN TWUYVER, 10872809
  	MINOR PROGRAMMEREN UVA 2017
  	+-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+   -->
-</head>
-<body>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+ 	<script src="https://d3js.org/d3.v4.min.js"></script>
 <link rel="stylesheet" type="text/css" href="calendar.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
 
-Select Location:
+
+
+
+<p>Select Location:</p>
 <select class="selectpicker" id="mySelect" onchange="getOption()"><br>
   <option value="Total">Total Parc</option>
   <option value="Entrances">Parc Entrances</option>
@@ -26,7 +29,7 @@ Select Location:
 
 <div id="holder">	
 	<div id="linechart"><svg width="960" height="500"></svg></div>
-	<div id="barchart"style="float:right;" ><svg width="520" height="250"></svg></div>
+	<div id="barchart"><svg width="520" height="250"></svg></div>
 	<div id="calendar" width="750" height="270"></div>
 </div>
 <div id="subcalendar" class="graph"></div>

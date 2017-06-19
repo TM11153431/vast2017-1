@@ -20,9 +20,12 @@ body {
     display: inline-block;
 
 }
-/*#barchart {
-  position: absolute;
-}*/
+#barchart {
+
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
 
 /* Linechart*/
 .axis--x path {
