@@ -61,4 +61,6 @@ Linegraph lijnen aangepast zodat het nu rechte stapjes zijn tussen de data ipv l
 Barchart x-as moet nog worden aangepast na 24H timescale. Barchart is u rechtsboven geplaatst maar verdwijnt uit beeld wanneer user naar beneden scrolt. Oplossing zou zijn om hem op vaste locatie in HTML vast te zetten.
 
 19 juni:
-Plan is om 24H scale te maken voor barchart, een datum line in de linegraph die gelinkt is met de calendar, en indien mogelijk selectie mogelijkheden in de linechart en barchart.
+Plan voor vandaag was om 24H scale te maken voor barchart, een datum line in de linegraph die gelinkt is met de calendar, en indien mogelijk selectie mogelijkheden in de linechart en barchart.
+Uiteindelijk duurde het 24-uurs omzetten vd barchart veel langer dan gedacht. Nog geen gelinkte line kunnen maken op de linegraph. Barchart is nu wel 'fixed'zoad bij scrollen de chart zichtbaar blijft.
+
