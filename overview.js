@@ -7,11 +7,17 @@
 // CalendarView based on code from M. Bostock: https://bl.ocks.org/mbostock/4063318
 // Linechart based on code from M. Bostock: https://bl.ocks.org/mbostock/3884955
 // Barchart based on code from https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
-
-
 function onRectClicked(location, date) {
     // provide barchart with correct datafile and date
-    drawBarchart("data/sensor_data_"+location+".json", date);
+    drawBarchart("data/sensor_data_" + location + ".json", date);
+// var line = d3.select("#linechart").svg   
+//     .append("line")          // attach a line
+//     .style("stroke", "black")  // colour the line
+//     .attr("x1", 0)     // x position of the first end of the line
+//     .attr("y1", 0)      // y position of the first end of the line
+//     .attr("x2", 300)     // x position of the second end of the line
+//     .attr("y2", 150);    // y position of the second end of the line
+
 }
 window.onload = function() {
     getOption();
@@ -24,7 +30,7 @@ function getOption() {
     sub.selectAll("div").remove();
     if (obj.value == "Campsites") {
         drawLinechart("data/yeartraffic_camps.tsv");
-        showData("data/all_campings.csv", "Campsites"); 
+        showData("data/all_campings.csv", "Campsites");
         // type-calendars info:
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
         all_types.forEach(function(item) {
@@ -33,7 +39,7 @@ function getOption() {
     }
     if (obj.value == "Entrances") {
         drawLinechart("data/yeartraffic_entrances.tsv");
-        showData("data/all_entrances.csv", "Entrances"); 
+        showData("data/all_entrances.csv", "Entrances");
         // data for location-calendars
         var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
         all_types.forEach(function(item) {
@@ -76,7 +82,7 @@ function drawTotalCalendar(my_data, location) {
     // set colorgradient for min/max values
     var max = d3.max(d3.values(my_data));
     var min = d3.min(d3.values(my_data));
-    
+
     var color = d3.scaleLinear()
         .domain([min, max])
         .range(["#fee0d2", "#de2d26"]);
@@ -105,7 +111,7 @@ function drawTotalCalendar(my_data, location) {
         .attr("font-size", 10)
         .attr("dy", " -.25em")
         .attr("dx", " 1em")
-        .text("Range: "+min+"-"+max);
+        .text("Range: " + min + "-" + max);
     var rectSelect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
@@ -152,7 +158,7 @@ function drawTotalCalendar(my_data, location) {
         .text(function(d, i) {
             return month[i]
         });
-    
+
     // var week_days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
 
     // svg.append("text")
@@ -245,7 +251,7 @@ function drawType(which_type) {
             return d3.timeWeek.count(d3.timeYear(d), d) * cellSize;
         })
         .attr("y", function(d) {
-            
+
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
@@ -302,11 +308,11 @@ function drawType(which_type) {
         var min = d3.min(d3.values(data));
         console.log("min/max for type " + which_type, min, max)
         svg.append("text")
-                .style("text-anchor", "middle")
-                .attr("font-size", 8)
-                .attr("dy", " 0em")// PLACE MUST BE CORRECTED!
-                .attr("dx", " 0em")
-                .text("Range: "+min+"-"+max);
+            .style("text-anchor", "middle")
+            .attr("font-size", 8)
+            .attr("dy", " 0em") // PLACE MUST BE CORRECTED!
+            .attr("dx", " 0em")
+            .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
             .domain([min, max])
             .range(["#fee0d2", "#de2d26"]);
@@ -399,7 +405,7 @@ function drawLocations(which_location) {
         // get location and date when clicked
         .on('click', function(rect_date) {
             onRectClicked(which_location, rect_date);
-});
+        });
     svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#000")
@@ -450,11 +456,11 @@ function drawLocations(which_location) {
         var min = d3.min(d3.values(data));
         console.log("min/max for type " + which_location, min, max)
         svg.append("text")
-                .style("text-anchor", "middle")
-                .attr("font-size", 8)
-                .attr("dy", " 0em") // PLACE MUST BE CORRECTED!
-                .attr("dx", " 0em")
-                .text("Range: "+min+"-"+max);
+            .style("text-anchor", "middle")
+            .attr("font-size", 8)
+            .attr("dy", " 0em") // PLACE MUST BE CORRECTED!
+            .attr("dx", " 0em")
+            .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
             .domain([min, max])
             .range(["#fee0d2", "#de2d26"]);
@@ -491,6 +497,7 @@ var setupGraph = function() {
     svg.selectAll("*").remove();
     return svg;
 }
+
 function drawLinechart(linechart_file) {
 
     var svg = setupGraph();
@@ -512,7 +519,8 @@ function drawLinechart(linechart_file) {
 
     var x = d3.scaleTime().range([0, width]),
         y = d3.scaleLinear().range([height, 0]),
-        z = d3.scaleOrdinal(d3.schemeCategory10);
+        z = d3.scaleOrdinal()
+          .range(["#739926", "#1a4d66", "#b26559",  "#403032", "#e2e6ac", "#00aaff", "#8100f2"]);
 
     var line = d3.line()
         .curve(d3.curveStepBefore)
@@ -574,8 +582,6 @@ function drawLinechart(linechart_file) {
             .attr("fill", "#000")
             .text("Unique vehicles");
 
-
-
         var type = g.selectAll(".type")
             .data(types)
             .enter().append("g")
@@ -606,89 +612,89 @@ function drawLinechart(linechart_file) {
             .text(function(d) {
                 return d.id;
             });
-// Mouseover function
-var mouseG = svg.append("g")
-                .attr("class", "mouse-over-effects")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-            // black vertical line to follow mouse
-            mouseG.append("path")
-                .attr("class", "mouse-line")
-                .style("stroke", "black")
-                .style("stroke-width", "1px")
-                .style("opatemp", "0");
-            var lines = document.getElementsByClassName('line');
-            var mousePerLine = mouseG.selectAll('.mouse-per-line')
-                .data(types)
-                .enter()
-                .append("g")
-                .attr("class", "mouse-per-line");
-            mousePerLine.append("circle")
-                .attr("r", 3)
-                .style("stroke", "black")
-                .style("fill", "none")
-                .style("stroke-width", "1px")
-                .style("opatemp", "0");
-            mousePerLine.append("text")
-                .attr("transform", "translate(10,3)");
-            // append a rect to catch mouse movements on canvas    
-            mouseG.append('svg:rect')
-                .attr('width', width)
-                .attr('height', height)
-                .attr('fill', 'none')
-                .attr('pointer-events', 'all')
-                // on mouse-out hide line, circles and text
-                .on('mouseout', function() {
-                    d3.select(".mouse-line")
-                        .style("opatemp", "0");
-                    d3.selectAll(".mouse-per-line circle")
-                        .style("opatemp", "0");
-                    d3.selectAll(".mouse-per-line text")
-                        .style("opatemp", "0");
-                })
-                // on mouse-in show line, circles and text
-                .on('mouseover', function() {
-                    d3.select(".mouse-line")
-                        .style("opatemp", "1");
-                    d3.selectAll(".mouse-per-line circle")
-                        .style("opatemp", "1");
-                    d3.selectAll(".mouse-per-line text")
-                        .style("opatemp", "1");
-                })
-                // mouse moving over canvas
-                .on('mousemove', function() {
-                    var mouse = d3.mouse(this);
-                    d3.select(".mouse-line")
-                        .attr("d", function() {
-                            var d = "M" + mouse[0] + "," + height;
-                            d += " " + mouse[0] + "," + 0;
-                            return d;
-                        });
-                    d3.selectAll(".mouse-per-line")
-                        .attr("transform", function(d, i) {
-                            var xDate = x.invert(mouse[0]),
-                                bisect = d3.bisector(function(d) {
-                                    return d.date;
-                                }).right;
-                            idx = bisect(d.values, xDate);
-                            var beginning = 0,
-                                end = lines[i].getTotalLength(),
-                                target = null;
-                            while (true) {
-                                target = Math.floor((beginning + end) / 2);
-                                pos = lines[i].getPointAtLength(target);
-                                if ((target === end || target === beginning) && pos.x !== mouse[0]) {
-                                    break;
-                                }
-                                if (pos.x > mouse[0]) end = target;
-                                else if (pos.x < mouse[0]) beginning = target;
-                                else break;
+        // Mouseover function
+        var mouseG = svg.append("g")
+            .attr("class", "mouse-over-effects")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        // black vertical line to follow mouse
+        mouseG.append("path")
+            .attr("class", "mouse-line")
+            .style("stroke", "black")
+            .style("stroke-width", "1px")
+            .style("opatemp", "0");
+        var lines = document.getElementsByClassName('line');
+        var mousePerLine = mouseG.selectAll('.mouse-per-line')
+            .data(types)
+            .enter()
+            .append("g")
+            .attr("class", "mouse-per-line");
+        mousePerLine.append("circle")
+            .attr("r", 3)
+            .style("stroke", "black")
+            .style("fill", "none")
+            .style("stroke-width", "1px")
+            .style("opatemp", "0");
+        mousePerLine.append("text")
+            .attr("transform", "translate(10,3)");
+        // append a rect to catch mouse movements on canvas    
+        mouseG.append('svg:rect')
+            .attr('width', width)
+            .attr('height', height)
+            .attr('fill', 'none')
+            .attr('pointer-events', 'all')
+            // on mouse-out hide line, circles and text
+            .on('mouseout', function() {
+                d3.select(".mouse-line")
+                    .style("opatemp", "0");
+                d3.selectAll(".mouse-per-line circle")
+                    .style("opatemp", "0");
+                d3.selectAll(".mouse-per-line text")
+                    .style("opatemp", "0");
+            })
+            // on mouse-in show line, circles and text
+            .on('mouseover', function() {
+                d3.select(".mouse-line")
+                    .style("opatemp", "1");
+                d3.selectAll(".mouse-per-line circle")
+                    .style("opatemp", "1");
+                d3.selectAll(".mouse-per-line text")
+                    .style("opatemp", "1");
+            })
+            // mouse moving over canvas
+            .on('mousemove', function() {
+                var mouse = d3.mouse(this);
+                d3.select(".mouse-line")
+                    .attr("d", function() {
+                        var d = "M" + mouse[0] + "," + height;
+                        d += " " + mouse[0] + "," + 0;
+                        return d;
+                    });
+                d3.selectAll(".mouse-per-line")
+                    .attr("transform", function(d, i) {
+                        var xDate = x.invert(mouse[0]),
+                            bisect = d3.bisector(function(d) {
+                                return d.date;
+                            }).right;
+                        idx = bisect(d.values, xDate);
+                        var beginning = 0,
+                            end = lines[i].getTotalLength(),
+                            target = null;
+                        while (true) {
+                            target = Math.floor((beginning + end) / 2);
+                            pos = lines[i].getPointAtLength(target);
+                            if ((target === end || target === beginning) && pos.x !== mouse[0]) {
+                                break;
                             }
-                            d3.select(this).select('text')
-                                .text(y.invert(pos.y).toFixed(2));
-                            return "translate(" + mouse[0] + "," + pos.y + ")";
-                        });
-                });
- 
+                            if (pos.x > mouse[0]) end = target;
+                            else if (pos.x < mouse[0]) beginning = target;
+                            else break;
+                        }
+                        d3.select(this).select('text')
+                            .text(y.invert(pos.y).toFixed(2));
+                        return "translate(" + mouse[0] + "," + pos.y + ")";
+                    });
+            });
+
 
 
     });
@@ -701,105 +707,167 @@ var mouseG = svg.append("g")
 
 };
 
-function plotBarChart(data, types) {
-    var margin = {top: 20, right: 160, bottom: 35, left: 30};
-    
-// create stack of car-types based on the keys
-var series = d3.stack()
-    .keys(types)
-    .offset(d3.stackOffsetDiverging)
-    (data);
+function plotBarChart(data, types, date) {
+    var margin = {
+        top: 20,
+        right: 160,
+        bottom: 35,
+        left: 30
+    };
 
-var svg = d3.select("#barchart").select("svg"),
-    margin = {top: 20, right: 30, bottom: 30, left: 60},
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+    // create stack of car-types based on the keys
+    var series = d3.stack()
+        .keys(types)
+        .offset(d3.stackOffsetDiverging)
+        (data);
 
-// var x = d3.scaleTime().range([0, 24]);
-var x = d3.scaleBand()
-    .domain(data.map(function(d) { return d.time; }))
-    .rangeRound([margin.left, width - margin.right])
-    .padding(0.1);
+    var svg = d3.select("#barchart").select("svg"),
+        margin = {
+            top: 20,
+            right: 30,
+            bottom: 30,
+            left: 60
+        },
+        width = +svg.attr("width"),
+        height = +svg.attr("height");
 
-var y = d3.scaleLinear()
-    .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
-    .rangeRound([height - margin.bottom, margin.top]);
+    // var x = d3.scaleTime().range([0, 24]);
+    var x = d3.scaleBand()
+        .domain(data.map(function(d) {
+            return d.time;
+        }))
+        .rangeRound([margin.left, width - margin.right])
+        .padding(0.1);
 
-var z = d3.scaleOrdinal(d3.schemeCategory10);
+    var y = d3.scaleLinear()
+        .domain([d3.min(series, stackMin), d3.max(series, stackMax)])
+        .rangeRound([height - margin.bottom, margin.top]);
+    // same colors as types in linechart
+    var z = z = d3.scaleOrdinal()
+    .range(["#1a4d40", "#b26559",  "#403032", "#e2e6ac", "#00aaff", "#8100f2"]);
 
-svg.selectAll("g").remove();
+    svg.selectAll("g").remove();
 
-// no update when no data in rect
-if(data.length < 1) {
-    return;
+    // no update when no data in rect
+    if (data.length < 1) {
+        return;
+    }
+
+    svg.append("g")
+        .selectAll("g")
+        .data(series)
+        .enter().append("g")
+        .attr("fill", function(d) {
+            return z(d.key);
+        })
+        .selectAll("rect")
+        .data(function(d) {
+            return d;
+        })
+        .enter().append("rect")
+        .attr("width", x.bandwidth)
+        .attr("x", function(d) {
+            return x(d.data.time);
+        })
+        .attr("y", function(d) {
+            return y(d[1]);
+        })
+        .attr("height", function(d) {
+            return y(d[0]) - y(d[1]);
+        })
+
+    svg.append("g")
+        .attr("transform", "translate(0," + y(0) + ")")
+        .call(d3.axisBottom(x));
+
+    svg.append("g")
+        .attr("transform", "translate(" + margin.left + ",0)")
+        .call(d3.axisLeft(y));
+    // svg.append("text")
+    //     .attr("x", width - 400)
+    //     .attr("y", 9.5)
+    //     .attr("dy", "0.32em")
+    //     .text(date);
+
+    var legend = svg.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 10)
+        .attr("text-anchor", "end")
+        .selectAll("g")
+        .data(types)
+        .enter().append("g")
+        .attr("transform", function(d, i) {
+            return "translate(0," + i * 20 + ")";
+        });
+
+    legend.append("rect")
+        .attr("x", width - 19)
+        .attr("width", 19)
+        .attr("height", 19)
+        .attr("fill", z);
+
+    legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text(function(d) {
+            return d;
+        });
+    legend.append("text")
+        .attr("x", width - 40)
+        .attr("y", 9.5)
+        .attr("dy", "0.32em")
+        .text("Car-type");
+
+
+    function stackMin(serie) {
+        return d3.min(serie, function(d) {
+            return d[0];
+        });
+    }
+
+    function stackMax(serie) {
+        return d3.max(serie, function(d) {
+            return d[1];
+        });
+    }
+
 }
 
-svg.append("g")
-  .selectAll("g")
-  .data(series)
-  .enter().append("g")
-    .attr("fill", function(d) { return z(d.key); })
-  .selectAll("rect")
-  .data(function(d) { return d; })
-  .enter().append("rect")
-    .attr("width", x.bandwidth)
-    .attr("x", function(d) { return x(d.data.time); })
-    .attr("y", function(d) { return y(d[1]); })
-    .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-
-svg.append("g")
-    .attr("transform", "translate(0," + y(0) + ")")
-    .call(d3.axisBottom(x));
-
-svg.append("g")
-    .attr("transform", "translate(" + margin.left + ",0)")
-    .call(d3.axisLeft(y));
-
-var legend = svg.append("g")
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
-      .attr("text-anchor", "end")
-    .selectAll("g")
-    .data(types)
-    .enter().append("g")
-      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-  legend.append("rect")
-      .attr("x", width - 19)
-      .attr("width", 19)
-      .attr("height", 19)
-      .attr("fill", z);
-
-  legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9.5)
-      .attr("dy", "0.32em")
-      .text(function(d) { return d; });
-
-function stackMin(serie) {
-  return d3.min(serie, function(d) { return d[0]; });
-}
-
-function stackMax(serie) {
-  return d3.max(serie, function(d) { return d[1]; });
-}
-
-}
-
-function drawBarchart(filename, date){
+function drawBarchart(filename, date) {
     d3.json(filename, function(error, data) {
-           // Only look at entries on selected date
-           var day_data = data[date];
 
-           // New list of entries for this data summed per type
-           var new_data = [];
-           // keep track of all types found 
-           var types_Dict = {}; 
-           for (var time in day_data) {
-            var hour_data = day_data[time];
-            var new_hour_data = {"time" : time};
-            for(var entry_id in hour_data) {
-                var entry = hour_data[entry_id]; 
+
+        var fullday = {"01:00": 0,"02:00": 0,"03:00": 0,"04:00": 0,"05:00": 0,"06:00": 0,"07:00": 0,
+        "08:00": 0,"09:00": 0,"10:00": 0,"11:00": 0,"12:00": 0,"13:00": 0,"14:00": 0,"15:00": 0,"16:00": 0,
+        "17:00": 0,"18:00": 0,"19:00": 0,"20:00": 0,"21:00": 0,"22:00": 0,"23:00": 0,"00:00": 0}
+
+        // Only look at entries on selected date
+        var day_data = data[date];
+
+        Object.keys(day_data).forEach(function(d) {
+            fullday[d] = Object.values(day_data[d])
+        });
+     
+        
+
+
+console.log("day_data: ",day_data)
+console.log("fullday: ",fullday)
+
+        // New list of entries for this data summed per type
+        var new_data = [];
+
+        // keep track of all types found 
+        var types_Dict = {};
+        for (var time in fullday) {
+            var hour_data = fullday[time];
+            var new_hour_data = {
+                "time": time
+            };
+
+            for (var entry_id in hour_data) {
+                var entry = hour_data[entry_id];
                 var entry_type = entry["car-type"];
                 // count cartypes in types Dict:
                 // check if car type alread found for this timeslot
@@ -809,29 +877,30 @@ function drawBarchart(filename, date){
                     if (!(entry_type in types_Dict)) {
                         types_Dict[entry_type] = 1;
                     }
-                }
-                else {
+                } else {
                     // already found so increase the value
                     new_hour_data[entry_type] += 1;
                 }
+
             };
             new_data.push(new_hour_data);
-           };
+        };
 
-           var all_types = Object.keys(types_Dict);
+        
 
-            // Set all known car-types to zero
-            // if no entry found to prevent warnings
-            // later in plot function
-           all_types.forEach(function(type) {
-                new_data.forEach(function(time_data) {
-                    if (!(type in time_data)) {
-                        time_data[type] = 0;
-                    }
-                })
-            });
+        var all_types = Object.keys(types_Dict);
+        // Set all known car-types to zero
+        // if no entry found to prevent warnings
+        // later in plot function
+        all_types.forEach(function(type) {
+            new_data.forEach(function(time_data) {
+                if (!(type in time_data)) {
+                    time_data[type] = 0;
+                }
+            })
+        });
+console.log("new data: ",new_data, all_types)
+        plotBarChart(new_data, all_types,date);
 
-           plotBarChart(new_data, all_types);
-
-})
+    })
 }
