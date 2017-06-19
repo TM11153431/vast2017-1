@@ -56,3 +56,9 @@ Het doorgeven van een datum + Locatie blijkt een probleem bij de calendarview. D
 16 juni:
 Na de standup toch eindelijk gelukt om de locatie in de onclick functie te krijgen. De class van iedere svg heeft een unieke naam gebasseerd op de locatie en die wordt nu dus meegegeven.Het is nu helaas weer niet mogelijk om de datum EN de locatie mee te sturen... Begin gemaakt om een stacked barchart te maken voor de 24 uurs weergaves. De JSON indeling die we nu hebben is niet erg geschikt; het mist key en value labels. Daardoor veranderen de timepoints in een list met objecten ipv values.Dit weekend proberen om clickfunctie goed te krijgen en barchart met JSON files te maken.
 
+17/18 juni (weekend):
+Linegraph lijnen aangepast zodat het nu rechte stapjes zijn tussen de data ipv lineare lijn. Barchart met 24 uurs data van specifieke locatie gemaakt. Werkt gelinkt met de subcalendars van Campings en Entrances.Nog geen barcharts bedacht die interessant zijn voor de cartype subcalendars. Wellicht dat deze gewoon niet aanklikbaar blijven. 
+Barchart x-as moet nog worden aangepast na 24H timescale. Barchart is u rechtsboven geplaatst maar verdwijnt uit beeld wanneer user naar beneden scrolt. Oplossing zou zijn om hem op vaste locatie in HTML vast te zetten.
+
+19 juni:
+Plan is om 24H scale te maken voor barchart, een datum line in de linegraph die gelinkt is met de calendar, en indien mogelijk selectie mogelijkheden in de linechart en barchart.
