@@ -64,3 +64,10 @@ Barchart x-as moet nog worden aangepast na 24H timescale. Barchart is u rechtsbo
 Plan voor vandaag was om 24H scale te maken voor barchart, een datum line in de linegraph die gelinkt is met de calendar, en indien mogelijk selectie mogelijkheden in de linechart en barchart.
 Uiteindelijk duurde het 24-uurs omzetten vd barchart veel langer dan gedacht. Nog geen gelinkte line kunnen maken op de linegraph. Barchart is nu wel 'fixed'zoad bij scrollen de chart zichtbaar blijft.
 
+20 juni:
+Naar Rotterdam naar lezingen van de Netherlands eScience center; Scientific Visualization: From Archaeology to Astronomy.
+
+21 juni:
+Vandaag proberen om begin te maken met het beantwoorden van de VAST2017 vragen. Zoeken naar patronen met behulp van onze gemaakte visualisaties. Code aangepast zodat alle locaties in het park nu aanklikbaar/selecteerbaar zijn, inclusief de 24-H barcharts. De Lay-out moet nog worden aangepast zoadt de TotalCalendar boven aan de HTML page blijft staan. Door vreemde bug met een d3.remove functie verdijnt de calendar zodra de DIV wordt verplaatst. Lastig om uit te vinden waarom dit is..
+
+
