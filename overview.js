@@ -589,13 +589,13 @@ function drawLinechart(linechart_file) {
                 return z(d.id);
             });
 
-var date_line = d3.select("#linechart").svg 
-    .append("line")          // attach a line
-    .style("stroke", "red")  // colour the line
-    .attr("x1", 0)     // x position of the first end of the line
-    .attr("y1", 0)      // y position of the first end of the line
-    .attr("x2", 300)     // x position of the second end of the line
-    .attr("y2", 150);    // y position of the second end of the line
+// var date_line = d3.select("#linechart").svg 
+//     .append("line")          // attach a line
+//     .style("stroke", "red")  // colour the line
+//     .attr("x1", 0)     // x position of the first end of the line
+//     .attr("y1", 0)      // y position of the first end of the line
+//     .attr("x2", 300)     // x position of the second end of the line
+//     .attr("y2", 150);    // y position of the second end of the line
 
 
         type.append("text")
@@ -768,7 +768,7 @@ function plotBarChart(data, types, date) {
         })
         .enter().append("rect")
         .attr("width", x.bandwidth)
-        .attr("x", function(d) { console.log(d.data.time);
+        .attr("x", function(d) {
             return x(d.data.time);
         })
         .attr("y", function(d) {
