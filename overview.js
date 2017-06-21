@@ -20,6 +20,42 @@ function getOption() {
     // clear all previous subcalendars
     var sub = d3.select('#subcalendar')
     sub.selectAll("div").remove();
+        if (obj.value == "Rangerbase") {
+        drawLinechart("data/yeartraffic_rangerbase.tsv");
+        showData("data/all_ranger-bases.csv", "Ranger Base");
+        // type-calendars info:
+        var all_types = ['rangerbase'];
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
+    }
+        if (obj.value == "Rangerstops") {
+        drawLinechart("data/yeartraffic_rangerstops.tsv");
+        showData("data/all_ranger-stops.csv", "Ranger Stops");
+        // type-calendars info:
+        var all_types = ['rangerstop0','rangerstop1','rangerstop2','rangerstop3','rangerstop4','rangerstop5','rangerstop6','rangerstop7'];
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
+    }
+        if (obj.value == "Generalgates") {
+        drawLinechart("data/yeartraffic_general_gates.tsv");
+        showData("data/all_general-gates.csv", "General Gates");
+        // type-calendars info:
+        var all_types = ['generalgate0', 'generalgate1', 'generalgate2', 'generalgate3', 'generalgate4', 'generalgate5', 'generalgate6', 'generalgate7'];
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
+    }
+        if (obj.value == "Gates") {
+        drawLinechart("data/yeartraffic_gates.tsv");
+        showData("data/all_gates.csv", "All Gates");
+        // type-calendars info:
+        var all_types = ['gate0', 'gate1', 'gate2', 'gate3', 'gate4', 'gate5', 'gate6', 'gate7', 'gate8'];
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
+    }
     if (obj.value == "Campsites") {
         drawLinechart("data/yeartraffic_camps.tsv");
         showData("data/all_campings.csv", "Campsites");
@@ -97,13 +133,13 @@ function drawTotalCalendar(my_data, location) {
         .attr("font-family", "sans-serif")
         .attr("font-size", 10)
         .attr("text-anchor", "middle")
-        .text(location);
-    svg.append("text") // MUST BE CORRECTED! DOES NOT REFRESH
-        .style("text-anchor", "end")
-        .attr("font-size", 10)
-        .attr("dy", " -.25em")
-        .attr("dx", " 1em")
-        .text("Range: " + min + "-" + max);
+        .text("TOTAL");
+    // svg.append("text") // MUST BE CORRECTED! DOES NOT REFRESH
+    //     .style("text-anchor", "end")
+    //     .attr("font-size", 10)
+    //     .attr("dy", " -.25em")
+    //     .attr("dx", " 1em")
+    //     .text("Range: " + min + "-" + max);
     var rectSelect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
@@ -308,7 +344,7 @@ function drawType(which_type) {
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
             .domain([min, max])
-            .range(["#fee0d2", "#de2d26"]);
+            .range(["white", "#de2d26"]);
 
         rect.filter(function(d) {
                 return d in data;
@@ -456,7 +492,7 @@ function drawLocations(which_location) {
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
             .domain([min, max])
-            .range(["#fee0d2", "#de2d26"]);
+            .range(["white", "#de2d26"]);
 
         rect.filter(function(d) {
                 return d in data;
@@ -513,7 +549,7 @@ function drawLinechart(linechart_file) {
     var x = d3.scaleTime().range([0, width]),
         y = d3.scaleLinear().range([height, 0]),
         z = d3.scaleOrdinal()
-          .range(["#739926", "#1a4d66", "#b26559",  "#403032", "#e2e6ac", "#00aaff", "#8100f2"]);
+          .range(["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#black"]);
 
     var line = d3.line()
         .curve(d3.curveStepBefore)
@@ -589,14 +625,20 @@ function drawLinechart(linechart_file) {
                 return z(d.id);
             });
 
-// var date_line = d3.select("#linechart").svg 
-//     .append("line")          // attach a line
-//     .style("stroke", "red")  // colour the line
-//     .attr("x1", 0)     // x position of the first end of the line
-//     .attr("y1", 0)      // y position of the first end of the line
-//     .attr("x2", 300)     // x position of the second end of the line
-//     .attr("y2", 150);    // y position of the second end of the line
+ //Draw line at the selected date
+ var date_line = svg.append("line")
+                          .attr("x1", 500)
+                          .attr("y1", 0)
+                         .attr("x2", 500)
+                         .attr("y2", 300)
+                         .attr("stroke-width", 2)
+                         .attr("stroke", "red");
 
+                         date_line.append("text")
+                         .attr("x", 3)
+                        .attr("dy", "0.35em")
+                        .style("font", "10px sans-serif")
+                         .text("date");
 
         type.append("text")
             .datum(function(d) {
@@ -614,6 +656,7 @@ function drawLinechart(linechart_file) {
             .text(function(d) {
                 return d.id;
             });
+
         // Mouseover function
         var mouseG = svg.append("g")
             .attr("class", "mouse-over-effects")
@@ -746,7 +789,7 @@ function plotBarChart(data, types, date) {
         .rangeRound([height - margin.bottom, margin.top]);
     // same colors as types in linechart
     var z = z = d3.scaleOrdinal()
-    .range(["#1a4d40", "#b26559",  "#403032", "#e2e6ac", "#00aaff", "#8100f2"]);
+    .range(["#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#f781bf"]);
 
     svg.selectAll("*").remove();
 
