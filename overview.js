@@ -12,6 +12,7 @@ function onRectClicked(location, date) {
     drawBarchart("data/sensor_data_" + location + ".json", date);
 }
 window.onload = function() {
+    
     getOption();
 };
 // get User selection and select appropriate function to draw svg's
@@ -21,8 +22,9 @@ function getOption() {
     var sub = d3.select('#subcalendar')
     sub.selectAll("div").remove();
         if (obj.value == "Rangerbase") {
-        drawLinechart("data/yeartraffic_rangerbase.tsv");
+        
         showData("data/all_ranger-bases.csv", "Ranger Base");
+        drawLinechart("data/yeartraffic_rangerbase.tsv");
         // type-calendars info:
         var all_types = ['rangerbase'];
         all_types.forEach(function(item) {
@@ -88,7 +90,7 @@ function getOption() {
 function showData(csv_file_name, location) {
     d3.csv(csv_file_name, function(error, csv) {
         if (error) throw error;
-        console.log("Read: " + csv_file_name);
+      
         var data = d3.nest()
             .key(function(d) {
                 return d.Day;
@@ -262,7 +264,7 @@ function drawType(which_type) {
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
+        .attr("font-size", 12)
         .attr("text-anchor", "middle")
         .text(which_type);
 
@@ -286,7 +288,8 @@ function drawType(which_type) {
         .datum(d3.timeFormat("%d/%m/%Y"))
         // get type and date when clicked
         .on('click', function(rect_date) {
-            onRectClicked(which_type, rect_date);
+            //onRectClicked(which_type, rect_date);
+              drawDateline(rect_date);
         });
 
     svg.append("g")
@@ -330,16 +333,16 @@ function drawType(which_type) {
                 return parseInt(d[0][which_type])
             })
             .object(csv);
-        console.log("data in Types: ", data)
-
+       
         // set colorgradient for min/max values
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
-        console.log("min/max for type " + which_type, min, max)
+
         svg.append("text")
-            .style("text-anchor", "middle")
-            .attr("font-size", 8)
-            .attr("dy", " -.25em") // PLACE MUST BE CORRECTED!
+            .style("text-anchor", "start")
+            .attr("font-size", 12)
+            .attr("stroke", "#de2d26")
+            .attr("dy", -18) 
             .attr("dx", " -.25em")
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
@@ -404,7 +407,7 @@ function drawLocations(which_location) {
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
+        .attr("font-size", 12)
         .attr("text-anchor", "middle")
         .text(which_location);
     // svg.append("text")
@@ -483,11 +486,12 @@ function drawLocations(which_location) {
         // set colorgradient for min/max values
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
-        console.log("min/max for type " + which_location, min, max)
+        
         svg.append("text")
-            .style("text-anchor", "middle")
-            .attr("font-size", 8)
-            .attr("dy", " 0em") // PLACE MUST BE CORRECTED!
+            .style("text-anchor", "start")
+            .attr("font-size", 12)
+            .attr("stroke", "#de2d26")
+            .attr("dy", -18) 
             .attr("dx", " 0em")
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
@@ -625,20 +629,6 @@ function drawLinechart(linechart_file) {
                 return z(d.id);
             });
 
- //Draw line at the selected date
- var date_line = svg.append("line")
-                          .attr("x1", 500)
-                          .attr("y1", 0)
-                         .attr("x2", 500)
-                         .attr("y2", 300)
-                         .attr("stroke-width", 2)
-                         .attr("stroke", "red");
-
-                         date_line.append("text")
-                         .attr("x", 3)
-                        .attr("dy", "0.35em")
-                        .style("font", "10px sans-serif")
-                         .text("date");
 
         type.append("text")
             .datum(function(d) {
@@ -943,4 +933,34 @@ console.log("new data: ",new_data, all_types)
         plotBarChart(new_data, all_types,date);
 
     })
+}
+
+function drawDateline(date){
+    //Draw line at the selected date
+ var svg = d3.select("#linechart").select("svg")
+                        svg.append("line")
+                          .attr("x1", 300)
+                          .attr("y1", 0)
+                         .attr("x2", 300)
+                         .attr("y2", 500)
+                         .attr("stroke-width", 1)
+                         .attr("stroke", "red")
+        margin = {
+            top: 20,
+            right: 80,
+            bottom: 30,
+            left: 50
+        },
+        width = svg.attr("width") - margin.left - margin.right,
+                         console.log(date)
+
+var x = d3.scaleTime().range([0, width])
+
+var date_calc = d3.line(date)
+        .x(function(d) {
+            return x(d.Day);
+            console.log(d.Day)
+        })
+
+
 }
