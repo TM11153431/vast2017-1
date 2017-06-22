@@ -73,4 +73,5 @@ Vandaag proberen om begin te maken met het beantwoorden van de VAST2017 vragen. 
 22 juni:
 De date-line in de linechart lukt nog steeds niet. De lay-out van de HTML page is nu wel mooi gemaakt, het plan is om alle groepsleden dezelfde template te laten gebruiken voor het eindproduct. Kleine aanpassing gemaakt zodat de barchart een titel+datum meekrijgt in de HTML.
 Probleempje opgedoken: linker window kan niet helemaal door naar beneden scrollen. Dit moet wel worden gefixed. We zijn begonnen met het analyseren van de data om de vragen voor de challenge te kunnen beantwoorden. Clustering gaat vrijdag of maandag gebeuren.
+Wanneer het Total Park geselcteerd wordt geven de subcalandars de drukte van de verschillende type auto's weer in het gehele park. Er zijn dus geen 24H barcharts van deze calendars. Dit zou op de een of andere manier nog weergegeven moeten worden in de HTML page. Er staat nu een beknopte aanwijzing bij de barchart.
 
