@@ -68,6 +68,9 @@ Uiteindelijk duurde het 24-uurs omzetten vd barchart veel langer dan gedacht. No
 Naar Rotterdam naar lezingen van de Netherlands eScience center; Scientific Visualization: From Archaeology to Astronomy.
 
 21 juni:
-Vandaag proberen om begin te maken met het beantwoorden van de VAST2017 vragen. Zoeken naar patronen met behulp van onze gemaakte visualisaties. Code aangepast zodat alle locaties in het park nu aanklikbaar/selecteerbaar zijn, inclusief de 24-H barcharts. De Lay-out moet nog worden aangepast zoadt de TotalCalendar boven aan de HTML page blijft staan. Door vreemde bug met een d3.remove functie verdijnt de calendar zodra de DIV wordt verplaatst. Lastig om uit te vinden waarom dit is..
+Vandaag proberen om begin te maken met het beantwoorden van de VAST2017 vragen. Zoeken naar patronen met behulp van onze gemaakte visualisaties. Code aangepast zodat alle locaties in het park nu aanklikbaar/selecteerbaar zijn, inclusief de 24-H barcharts. De Lay-out moet nog worden aangepast zoadt de TotalCalendar boven aan de HTML page blijft staan. Door vreemde bug met een d3.remove functie verdwijnt de calendar zodra de DIV wordt verplaatst. Lastig om uit te vinden waarom dit is..
 
+22 juni:
+De date-line in de linechart lukt nog steeds niet. De lay-out van de HTML page is nu wel mooi gemaakt, het plan is om alle groepsleden dezelfde template te laten gebruiken voor het eindproduct. Kleine aanpassing gemaakt zodat de barchart een titel+datum meekrijgt in de HTML.
+Probleempje opgedoken: linker window kan niet helemaal door naar beneden scrollen. Dit moet wel worden gefixed. We zijn begonnen met het analyseren van de data om de vragen voor de challenge te kunnen beantwoorden. Clustering gaat vrijdag of maandag gebeuren.
 
