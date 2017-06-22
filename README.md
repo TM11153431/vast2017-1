@@ -1,4 +1,4 @@
-Prototype Beta visualisatie:  https://pvtwuyver.github.io/vast2017/overview.html
+Final visualisatie:  https://pvtwuyver.github.io/vast2017/vast2017.html
 # vast2017
 Programmeerproject Minor Programmeren, VAST challenge 2017
 (Voor info over de Challenge zie http://www.vacommunity.org/VAST+Challenge+2017#Mini-Challenge_1 )
