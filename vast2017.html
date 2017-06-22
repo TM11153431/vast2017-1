@@ -1,109 +1,117 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<!--  +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+              
+    <!--  +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+              
   |V|A|S|T| |C|H|A|L|L|E|N|G|E| |2|0|1|7|              
   +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+              
   PETER VAN TWUYVER, 10872809
   MINOR PROGRAMMEREN UVA 2017
   +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+   -->
 
-<!-- HTML template from https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_analytics&stacked=h -->
+    <!-- HTML template from https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_analytics&stacked=h -->
 
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-<link rel="stylesheet" type="text/css" href="calendar.css">
-<title>VAST2017 Programmeerproject</title>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
-<body class="w3-light-grey">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="vast2017.css">
+    <title>VAST2017 Programmeerproject</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html,
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: "Raleway", sans-serif
+        }
+    </style>
 
-<!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-bar-item w3-right">Peter van Twuyver, 10872809</span>
-</div>
+    <body class="w3-light-grey">
 
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:500px;" id="mySidebar"><br>
-  <div class="w3-container w3-row">
-    <div class="w3-col s4">
-      <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
-    </div>
-    <div class="w3-col s8 w3-bar">
-      <strong>VAST 2017 Challenge</strong><br>
-    </div>
-  </div>
-  <hr>
-  <div class="w3-container">
-  </div>
-  <div class="w3-bar-block">
-    <h5>Selection specific calendars</h5>
-    <div class="w3-grey">
-      <div id="subcalendar" class="graph"></div>
-      <BR> 
-        <BR> 
-          <BR> 
-  </div>
-</nav>
+        <!-- Top container -->
+        <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+            <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+            <span class="w3-bar-item w3-right">Peter van Twuyver, 10872809</span>
+        </div>
 
-
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:600px;margin-top:43px;">
-
-  <!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-dashboard"></i> Busyness on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
-    <h2>Select Checkpoint-type in Park:</h2>
-<select class="selectpicker" id="mySelect" onchange="getOption()"><br>
-  <option value="Total">Total Parc</option>
-  <option value="Entrances">Parc Entrances</option>
-  <option value="Campsites">Parc Campsites</option>
-  <option value="Rangerbase">Rangerbase</option>
-  <option value="Rangerstops">Rangerstops</option>
-  <option value="Gates">Gates (Ranger)</option>
-  <option value="Generalgates">General Gates</option>
-</select>
-  </header>
-
-  <div class="w3-row-padding w3-margin-bottom">
-    <div id="linechart"><svg width="760" height="500"></svg></div>
-<p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
-    <div id="barchart"><svg width="620" height="250"></svg></div>
-  </div>
-
-  <div class="w3-panel">
-    <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-third">
-      </div>
-      <div class="w3-twothird">
-        <h5>Total overview</h5>
-
-        <div id="calendar" width="750" height="270"></div>
-          
-        </table>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <div class="w3-container">
-
-    <div class="w3-grey">
-
-    </div>
-
-  <!-- End page content -->
-</div>
+        <!-- Sidebar/menu -->
+        <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:500px;" id="mySidebar"><br>
+            <div class="w3-container w3-row">
+                <div class="w3-col s4">
+                    <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+                </div>
+                <div class="w3-col s8 w3-bar">
+                    <strong>VAST 2017 Challenge</strong><br>
+                </div>
+            </div>
+            <hr>
+            <div class="w3-container">
+            </div>
+            <div class="w3-bar-block">
+                <h5>Selection specific calendars</h5>
+                <div class="w3-grey">
+                    <div id="subcalendar" class="graph"></div>
+                    <!-- extra breaks to ensure correct visualisation of bottom calendar -->
+                    <BR>
+                    <BR>
+                    <BR>
+                </div>
+        </nav>
 
 
-<script src="overview.js"></script>
+        <!-- Overlay effect when opening sidebar on small screens -->
+        <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
-</body>
+        <!-- !PAGE CONTENT! -->
+        <div class="w3-main" style="margin-left:600px;margin-top:43px;">
+
+            <!-- Header -->
+            <header class="w3-container" style="padding-top:22px">
+                <h5><b><i class="fa fa-dashboard"></i> Busyness on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
+                <h2>Select Checkpoint-type in Park:</h2>
+                <select class="selectpicker" id="mySelect" onchange="getOption()"><br>
+                  <option value="Generalgates">General Gates</option>
+                  <option value="Entrances">Parc Entrances</option>
+                  <option value="Campsites">Parc Campsites</option>
+                  <option value="Rangerbase">Rangerbase</option>
+                  <option value="Rangerstops">Rangerstops</option>
+                  <option value="Gates">Gates (Ranger)</option>                  
+                  <option value="Total">Total Parc</option>
+                </select>
+            </header>
+
+            <div class="w3-row-padding w3-margin-bottom">
+                <div id="linechart"><svg width="760" height="500"></svg></div>
+                <p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
+                <div id="barchart"><svg width="620" height="250"></svg></div>
+            </div>
+
+            <div class="w3-panel">
+                <div class="w3-row-padding" style="margin:0 -16px">
+                    <div class="w3-third">
+                    </div>
+                    <div class="w3-twothird">
+                        <h5>Total overview</h5>
+
+                        <div id="calendar" width="750" height="270"></div>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="w3-container">
+
+                <div class="w3-grey">
+
+                </div>
+
+                <!-- End page content -->
+            </div>
+            <script src="vast2017.js"></script>
+    </body>
 </html>

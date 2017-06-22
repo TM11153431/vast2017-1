@@ -36,7 +36,7 @@ function onRectClicked(location, date) {
     drawBarchart("data/sensor_data_" + location + ".json", date);
 }
 window.onload = function() {
-    
+
     getOption();
 };
 // get User selection and select appropriate function to draw svg's
@@ -45,41 +45,41 @@ function getOption() {
     // clear all previous subcalendars
     var sub = d3.select('#subcalendar')
     sub.selectAll("div").remove();
-        if (obj.value == "Rangerbase") {
-        
+    if (obj.value == "Rangerbase") {
+
         showData("data/all_ranger-bases.csv", "Ranger Base");
         drawLinechart("data/yeartraffic_rangerbase.tsv");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at Rangerbase" ;
+        document.getElementById("demo").innerHTML = "24 Hour traffic at Rangerbase";
         // type-calendars info:
         var all_types = ['rangerbase'];
         all_types.forEach(function(item) {
             drawLocations(item);
         });
     }
-        if (obj.value == "Rangerstops") {
+    if (obj.value == "Rangerstops") {
         drawLinechart("data/yeartraffic_rangerstops.tsv");
         showData("data/all_ranger-stops.csv", "Ranger Stops");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Rangerstops" ;
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Rangerstops";
         // type-calendars info:
-        var all_types = ['rangerstop0','rangerstop1','rangerstop2','rangerstop3','rangerstop4','rangerstop5','rangerstop6','rangerstop7'];
+        var all_types = ['rangerstop0', 'rangerstop1', 'rangerstop2', 'rangerstop3', 'rangerstop4', 'rangerstop5', 'rangerstop6', 'rangerstop7'];
         all_types.forEach(function(item) {
             drawLocations(item);
         });
     }
-        if (obj.value == "Generalgates") {
+    if (obj.value == "Generalgates") {
         drawLinechart("data/yeartraffic_general_gates.tsv");
         showData("data/all_general-gates.csv", "General Gates");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at selecyed General gate" ;
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selecyed General gate";
         // type-calendars info:
         var all_types = ['generalgate0', 'generalgate1', 'generalgate2', 'generalgate3', 'generalgate4', 'generalgate5', 'generalgate6', 'generalgate7'];
         all_types.forEach(function(item) {
             drawLocations(item);
         });
     }
-        if (obj.value == "Gates") {
+    if (obj.value == "Gates") {
         drawLinechart("data/yeartraffic_gates.tsv");
         showData("data/all_gates.csv", "All Gates");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Gate" ;
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Gate";
         // type-calendars info:
         var all_types = ['gate0', 'gate1', 'gate2', 'gate3', 'gate4', 'gate5', 'gate6', 'gate7', 'gate8'];
         all_types.forEach(function(item) {
@@ -89,7 +89,7 @@ function getOption() {
     if (obj.value == "Campsites") {
         drawLinechart("data/yeartraffic_camps.tsv");
         showData("data/all_campings.csv", "Campsites");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Camping" ;
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Camping";
         // type-calendars info:
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
         all_types.forEach(function(item) {
@@ -99,7 +99,7 @@ function getOption() {
     if (obj.value == "Entrances") {
         drawLinechart("data/yeartraffic_entrances.tsv");
         showData("data/all_entrances.csv", "Entrances");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Entrance" ;
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Entrance";
         // data for location-calendars
         var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
         all_types.forEach(function(item) {
@@ -120,7 +120,7 @@ function getOption() {
 function showData(csv_file_name, location) {
     d3.csv(csv_file_name, function(error, csv) {
         if (error) throw error;
-      
+
         var data = d3.nest()
             .key(function(d) {
                 return d.Day;
@@ -319,7 +319,7 @@ function drawType(which_type) {
         // get type and date when clicked
         .on('click', function(rect_date) {
             //onRectClicked(which_type, rect_date);
-              drawDateline(rect_date);
+            drawDateline(rect_date);
         });
 
     svg.append("g")
@@ -363,7 +363,7 @@ function drawType(which_type) {
                 return parseInt(d[0][which_type])
             })
             .object(csv);
-       
+
         // set colorgradient for min/max values
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
@@ -372,7 +372,7 @@ function drawType(which_type) {
             .style("text-anchor", "start")
             .attr("font-size", 12)
             .attr("stroke", "#de2d26")
-            .attr("dy", -18) 
+            .attr("dy", -18)
             .attr("dx", " -.25em")
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
@@ -516,12 +516,12 @@ function drawLocations(which_location) {
         // set colorgradient for min/max values
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
-        
+
         svg.append("text")
             .style("text-anchor", "start")
             .attr("font-size", 12)
             .attr("stroke", "#de2d26")
-            .attr("dy", -18) 
+            .attr("dy", -18)
             .attr("dx", " 0em")
             .text("Range: " + min + "-" + max);
         var color = d3.scaleLinear()
@@ -583,7 +583,7 @@ function drawLinechart(linechart_file) {
     var x = d3.scaleTime().range([0, width]),
         y = d3.scaleLinear().range([height, 0]),
         z = d3.scaleOrdinal()
-          .range(["#e41a1c","#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#black"]);
+        .range(["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33", "#a65628", "#black"]);
 
     var line = d3.line()
         .curve(d3.curveStepBefore)
@@ -809,7 +809,7 @@ function plotBarChart(data, types, date) {
         .rangeRound([height - margin.bottom, margin.top]);
     // same colors as types in linechart
     var z = z = d3.scaleOrdinal()
-    .range(["#377eb8","#4daf4a","#984ea3","#ff7f00","#ffff33","#a65628","#f781bf"]);
+        .range(["#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33", "#a65628", "#f781bf"]);
 
     svg.selectAll("*").remove();
 
@@ -904,9 +904,32 @@ function drawBarchart(filename, date) {
     d3.json(filename, function(error, data) {
 
         // create  dict with all empty timeslots
-        var fullday = {"01:00": 0,"02:00": 0,"03:00": 0,"04:00": 0,"05:00": 0,"06:00": 0,"07:00": 0,
-        "08:00": 0,"09:00": 0,"10:00": 0,"11:00": 0,"12:00": 0,"13:00": 0,"14:00": 0,"15:00": 0,"16:00": 0,
-        "17:00": 0,"18:00": 0,"19:00": 0,"20:00": 0,"21:00": 0,"22:00": 0,"23:00": 0,"00:00": 0}
+        var fullday = {
+            "01:00": 0,
+            "02:00": 0,
+            "03:00": 0,
+            "04:00": 0,
+            "05:00": 0,
+            "06:00": 0,
+            "07:00": 0,
+            "08:00": 0,
+            "09:00": 0,
+            "10:00": 0,
+            "11:00": 0,
+            "12:00": 0,
+            "13:00": 0,
+            "14:00": 0,
+            "15:00": 0,
+            "16:00": 0,
+            "17:00": 0,
+            "18:00": 0,
+            "19:00": 0,
+            "20:00": 0,
+            "21:00": 0,
+            "22:00": 0,
+            "23:00": 0,
+            "00:00": 0
+        }
 
         // Only look at entries on selected date
         var day_data = data[date];
@@ -914,7 +937,7 @@ function drawBarchart(filename, date) {
         Object.keys(day_data).forEach(function(d) {
             fullday[d] = Object.values(day_data[d])
         });
-    
+
         // create new list of entries for this data summed per type
         var new_data = [];
 
@@ -946,7 +969,7 @@ function drawBarchart(filename, date) {
             new_data.push(new_hour_data);
         };
 
-        
+
 
         var all_types = Object.keys(types_Dict);
         // Set all known car-types to zero
@@ -959,8 +982,8 @@ function drawBarchart(filename, date) {
                 }
             })
         });
-console.log("new data: ",new_data, all_types)
-        plotBarChart(new_data, all_types,date);
+        console.log("new data: ", new_data, all_types)
+        plotBarChart(new_data, all_types, date);
 
     })
 }
