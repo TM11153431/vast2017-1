@@ -69,7 +69,7 @@ function getOption() {
     if (obj.value == "Generalgates") {
         drawLinechart("data/yeartraffic_general_gates.tsv");
         showData("data/all_general-gates.csv", "General Gates");
-        document.getElementById("demo").innerHTML = "24 Hour traffic at selecyed General gate";
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected General gate";
         // type-calendars info:
         var all_types = ['generalgate0', 'generalgate1', 'generalgate2', 'generalgate3', 'generalgate4', 'generalgate5', 'generalgate6', 'generalgate7'];
         all_types.forEach(function(item) {
