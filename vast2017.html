@@ -7,6 +7,9 @@
   PETER VAN TWUYVER, 10872809
   MINOR PROGRAMMEREN UVA 2017
   +-+-+-+-+ +-+-+-+-+-+-+-+-+-+ +-+-+-+-+   -->
+
+<!-- HTML template from https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_analytics&stacked=h -->
+
   <script src="https://d3js.org/d3.v4.min.js"></script>
 <link rel="stylesheet" type="text/css" href="calendar.css">
 <title>VAST2017 Programmeerproject</title>
@@ -54,8 +57,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Header -->
   <header class="w3-container" style="padding-top:22px">
-    <h5><b><i class="fa fa-dashboard"></i> Busyness on Park Checkpoints</b></h5>
-    <h2>Select Location in Park:</h2>
+    <h5><b><i class="fa fa-dashboard"></i> Busyness on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
+    <h2>Select Checkpoint-type in Park:</h2>
 <select class="selectpicker" id="mySelect" onchange="getOption()"><br>
   <option value="Total">Total Parc</option>
   <option value="Entrances">Parc Entrances</option>
@@ -69,7 +72,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <div class="w3-row-padding w3-margin-bottom">
     <div id="linechart"><svg width="760" height="500"></svg></div>
-<p id="demo">24H at location:</p>
+<p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
     <div id="barchart"><svg width="620" height="250"></svg></div>
   </div>
 
@@ -93,43 +96,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
     </div>
 
-
-  
-  <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey">
-    <h4>FOOTER</h4>
-    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  </footer>
-
   <!-- End page content -->
 </div>
 
 
 <script src="overview.js"></script>
-<script>
-// Get the Sidebar
-var mySidebar = document.getElementById("mySidebar");
-
-// Get the DIV with overlay effect
-var overlayBg = document.getElementById("myOverlay");
-
-// Toggle between showing and hiding the sidebar, and add overlay effect
-function w3_open() {
-    if (mySidebar.style.display === 'block') {
-        mySidebar.style.display = 'none';
-        overlayBg.style.display = "none";
-    } else {
-        mySidebar.style.display = 'block';
-        overlayBg.style.display = "block";
-    }
-}
-
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
-    overlayBg.style.display = "none";
-}
-</script>
 
 </body>
 </html>

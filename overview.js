@@ -7,6 +7,30 @@
 // CalendarView based on code from M. Bostock: https://bl.ocks.org/mbostock/4063318
 // Linechart based on code from M. Bostock: https://bl.ocks.org/mbostock/3884955
 // Barchart based on code from https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
+
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+
 function onRectClicked(location, date) {
     // provide barchart with correct datafile and date
     drawBarchart("data/sensor_data_" + location + ".json", date);
@@ -941,32 +965,32 @@ console.log("new data: ",new_data, all_types)
     })
 }
 
-function drawDateline(date){
-    //Draw line at the selected date
- var svg = d3.select("#linechart").select("svg")
-                        svg.append("line")
-                          .attr("x1", 300)
-                          .attr("y1", 0)
-                         .attr("x2", 300)
-                         .attr("y2", 500)
-                         .attr("stroke-width", 1)
-                         .attr("stroke", "red")
-        margin = {
-            top: 20,
-            right: 80,
-            bottom: 30,
-            left: 50
-        },
-        width = svg.attr("width") - margin.left - margin.right,
-                         console.log(date)
+// function drawDateline(date){
+//     //Draw line at the selected date
+//  var svg = d3.select("#linechart").select("svg")
+//                         svg.append("line")
+//                           .attr("x1", 300)
+//                           .attr("y1", 0)
+//                          .attr("x2", 300)
+//                          .attr("y2", 500)
+//                          .attr("stroke-width", 1)
+//                          .attr("stroke", "red")
+//         margin = {
+//             top: 20,
+//             right: 80,
+//             bottom: 30,
+//             left: 50
+//         },
+//         width = svg.attr("width") - margin.left - margin.right,
+//                          console.log(date)
 
-var x = d3.scaleTime().range([0, width])
+// var x = d3.scaleTime().range([0, width])
 
-var date_calc = d3.line(date)
-        .x(function(d) {
-            return x(d.Day);
-            console.log(d.Day)
-        })
+// var date_calc = d3.line(date)
+//         .x(function(d) {
+//             return x(d.Day);
+//             console.log(d.Day)
+//         })
 
 
-}
+// }
