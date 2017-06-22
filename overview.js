@@ -25,6 +25,7 @@ function getOption() {
         
         showData("data/all_ranger-bases.csv", "Ranger Base");
         drawLinechart("data/yeartraffic_rangerbase.tsv");
+        document.getElementById("demo").innerHTML = "24 Hour traffic at Rangerbase" ;
         // type-calendars info:
         var all_types = ['rangerbase'];
         all_types.forEach(function(item) {
@@ -34,6 +35,7 @@ function getOption() {
         if (obj.value == "Rangerstops") {
         drawLinechart("data/yeartraffic_rangerstops.tsv");
         showData("data/all_ranger-stops.csv", "Ranger Stops");
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Rangerstops" ;
         // type-calendars info:
         var all_types = ['rangerstop0','rangerstop1','rangerstop2','rangerstop3','rangerstop4','rangerstop5','rangerstop6','rangerstop7'];
         all_types.forEach(function(item) {
@@ -43,6 +45,7 @@ function getOption() {
         if (obj.value == "Generalgates") {
         drawLinechart("data/yeartraffic_general_gates.tsv");
         showData("data/all_general-gates.csv", "General Gates");
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selecyed General gate" ;
         // type-calendars info:
         var all_types = ['generalgate0', 'generalgate1', 'generalgate2', 'generalgate3', 'generalgate4', 'generalgate5', 'generalgate6', 'generalgate7'];
         all_types.forEach(function(item) {
@@ -52,6 +55,7 @@ function getOption() {
         if (obj.value == "Gates") {
         drawLinechart("data/yeartraffic_gates.tsv");
         showData("data/all_gates.csv", "All Gates");
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Gate" ;
         // type-calendars info:
         var all_types = ['gate0', 'gate1', 'gate2', 'gate3', 'gate4', 'gate5', 'gate6', 'gate7', 'gate8'];
         all_types.forEach(function(item) {
@@ -61,6 +65,7 @@ function getOption() {
     if (obj.value == "Campsites") {
         drawLinechart("data/yeartraffic_camps.tsv");
         showData("data/all_campings.csv", "Campsites");
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Camping" ;
         // type-calendars info:
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
         all_types.forEach(function(item) {
@@ -70,6 +75,7 @@ function getOption() {
     if (obj.value == "Entrances") {
         drawLinechart("data/yeartraffic_entrances.tsv");
         showData("data/all_entrances.csv", "Entrances");
+        document.getElementById("demo").innerHTML = "24 Hour traffic at selected Entrance" ;
         // data for location-calendars
         var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
         all_types.forEach(function(item) {
