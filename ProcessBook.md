@@ -75,3 +75,5 @@ De date-line in de linechart lukt nog steeds niet. De lay-out van de HTML page i
 Probleempje opgedoken: linker window kan niet helemaal door naar beneden scrollen. Dit moet wel worden gefixed. We zijn begonnen met het analyseren van de data om de vragen voor de challenge te kunnen beantwoorden. Clustering gaat vrijdag of maandag gebeuren.
 Wanneer het Total Park geselcteerd wordt geven de subcalandars de drukte van de verschillende type auto's weer in het gehele park. Er zijn dus geen 24H barcharts van deze calendars. Dit zou op de een of andere manier nog weergegeven moeten worden in de HTML page. Er staat nu een beknopte aanwijzing bij de barchart.
 
+23 juni.
+Na de feedback op de standup presentatie geprobeerd om een zoomfunctie in de linechart toe te voegen. Het is deels gelukt, maar de assen schalen niet mooi mee. Ik twijfel eraan om deze zoom er in te laten zitten als de schalen niet opgelost worden. Gezocht naar goede manieren om patronen in de data te vinden voor de beantwoording van de VAST opdracht.
