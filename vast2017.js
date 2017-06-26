@@ -8,25 +8,6 @@
 // Linechart based on code from M. Bostock: https://bl.ocks.org/mbostock/3884955
 // Barchart based on code from https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
 
-// get the input from radio buttons
-function changeColour(value)
-{
-    var color = document.body.style.backgroundColor;
-    switch(value)
-    {
-        case 'g':
-            color = "lightgrey";
-        break;
-        case 's':
-            color = "whitesmoke";
-        break;
-        case 'w':
-            color = "white";
-        break;
-    }
-    document.body.style.backgroundColor = color;
-}
-
 window.onload = function() {
     getOption();
 };
@@ -464,6 +445,7 @@ function drawLocations(which_location) {
         // get location and date when clicked
         .on('click', function(rect_date) {
             onRectClicked(which_location, rect_date);
+            // drawDateline(rect_date)
         });
     svg.append("g")
         .attr("fill", "none")
@@ -799,11 +781,11 @@ function drawLinechart(linechart_file) {
 
     });
 
-    function type(d, _, columns) {
-        d.Day = parseTime(d.Day);
-        for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-        return d;
-    }
+    // function type(d, _, columns) {
+    //     d.Day = parseTime(d.Day);
+    //     for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+    //     return d;
+    // }
 
 };
 function onRectClicked(location, date) {
@@ -1075,3 +1057,22 @@ function w3_close() {
 
 
 // }
+
+// get the input from radio buttons
+function changeColour(value)
+{
+    var color = document.body.style.backgroundColor;
+    switch(value)
+    {
+        case 'g':
+            color = "lightgrey";
+        break;
+        case 's':
+            color = "whitesmoke";
+        break;
+        case 'w':
+            color = "white";
+        break;
+    }
+    document.body.style.backgroundColor = color;
+}
