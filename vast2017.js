@@ -781,11 +781,11 @@ function drawLinechart(linechart_file) {
 
     });
 
-    // function type(d, _, columns) {
-    //     d.Day = parseTime(d.Day);
-    //     for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-    //     return d;
-    // }
+    function type(d, _, columns) {
+        d.Day = parseTime(d.Day);
+        for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+        return d;
+    }
 
 };
 function onRectClicked(location, date) {
