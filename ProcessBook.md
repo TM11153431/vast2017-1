@@ -77,3 +77,7 @@ Wanneer het Total Park geselcteerd wordt geven de subcalandars de drukte van de 
 
 23 juni.
 Na de feedback op de standup presentatie geprobeerd om een zoomfunctie in de linechart toe te voegen. Het is deels gelukt, maar de assen schalen niet mooi mee. Ik twijfel eraan om deze zoom er in te laten zitten als de schalen niet opgelost worden. Gezocht naar goede manieren om patronen in de data te vinden voor de beantwoording van de VAST opdracht.
+
+24/25 juni. (weekend)
+Helaas weinig aan project kunnen werken. Het zoomen is nog niet correct en de datum-line is nog steeds niet gelukt. Als het maandag niet werkend te krijgen is verwijder ik deze opties uit de code.
+
