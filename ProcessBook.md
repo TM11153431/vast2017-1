@@ -81,3 +81,5 @@ Na de feedback op de standup presentatie geprobeerd om een zoomfunctie in de lin
 24/25 juni. (weekend)
 Helaas weinig aan project kunnen werken. Het zoomen is nog niet correct en de datum-line is nog steeds niet gelukt. Als het maandag niet werkend te krijgen is verwijder ik deze opties uit de code.
 
+26 juni.
+Het inbouwen van een interactief element in de linechart lijkt steeds maar niet te lukken. Daarom om in ieder geval aan de technische eissen te voldoen een keuze-optie ingebouwd om de achtergrondkleur te veranderen. Ik blijf proberen om een functionelere toevoeging in te bouwen. De data van de drukte op de lokatie's leent zich niet zo goed om andere interactieve toepassingen te maken. De opbouw van de code maakt het bijna onogelijk om globale variabelen te gebruiken in andere delen van de code zonder verstrikt te raken in callback functies. Achteraf gezien zou ik de code nu anders opgebouwd hebben.
