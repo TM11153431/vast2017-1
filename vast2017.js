@@ -37,7 +37,7 @@ function getOption() {
     var sub = d3.select('#subcalendar')
     sub.selectAll("div").remove();
     if (obj.value == "Rangerbase") {
-
+        document.getElementById('myImage').src='data/Lekagul_map_base.jpg'
         showData("data/all_ranger-bases.csv", "Ranger Base");
         drawLinechart("data/yeartraffic_rangerbase.tsv");
         document.getElementById("demo").innerHTML = "24 Hour traffic at Rangerbase";
@@ -48,6 +48,7 @@ function getOption() {
         });
     }
     if (obj.value == "Rangerstops") {
+        document.getElementById('myImage').src='data/Lekagul_map_rangerstops.jpg'
         drawLinechart("data/yeartraffic_rangerstops.tsv");
         showData("data/all_ranger-stops.csv", "Ranger Stops");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Rangerstops";
@@ -58,6 +59,7 @@ function getOption() {
         });
     }
     if (obj.value == "Generalgates") {
+        document.getElementById('myImage').src='data/Lekagul_map_general.jpg'
         drawLinechart("data/yeartraffic_general_gates.tsv");
         showData("data/all_general-gates.csv", "General Gates");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected General gate";
@@ -68,6 +70,7 @@ function getOption() {
         });
     }
     if (obj.value == "Gates") {
+        document.getElementById('myImage').src='data/Lekagul_map_gates.jpg'
         drawLinechart("data/yeartraffic_gates.tsv");
         showData("data/all_gates.csv", "All Gates");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Gate";
@@ -78,6 +81,7 @@ function getOption() {
         });
     }
     if (obj.value == "Campsites") {
+        document.getElementById('myImage').src='data/Lekagul_map_campings.jpg'
         drawLinechart("data/yeartraffic_camps.tsv");
         showData("data/all_campings.csv", "Campsites");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Camping";
@@ -88,6 +92,7 @@ function getOption() {
         });
     }
     if (obj.value == "Entrances") {
+        document.getElementById('myImage').src='data/Lekagul_map_entrances.jpg'
         drawLinechart("data/yeartraffic_entrances.tsv");
         showData("data/all_entrances.csv", "Entrances");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Entrance";
@@ -98,6 +103,7 @@ function getOption() {
         });
     }
     if (obj.value == "Total") {
+        document.getElementById('myImage').src='data/Lekagul_map.jpg'
         drawLinechart("data/yeartraffic_park.tsv");
         showData("data/busyness_by_type.csv", "Total Park");
         // data for type-calendars
@@ -181,7 +187,7 @@ function drawTotalCalendar(my_data, location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        // .on('click', onRectClicked) NO ONCLICK FUNCTION ENABLED
+        //.on('click', function(){alert("Click!")}) //NO ONCLICK FUNCTION ENABLED
         .append('title');
     svg.append("g")
         .attr("fill", "none")
@@ -688,23 +694,23 @@ function drawLinechart(linechart_file) {
    //      .attr('y', function(d, i){ return (i *  20) + 9;})
    //      .text(function(d){ return d.id; });         
 //*****************************
-var w = window.innerWidth * 0.5,
-        h = window.innerHeight * 0.5;
+// var w = window.innerWidth * 0.5,
+//         h = window.innerHeight * 0.5;
 
-var zoomer = d3.zoom()
-        .scaleExtent([1, 20])
-        .translateExtent([[-100, -100], [w + 90, h + 100]])
-        .on("zoom", zoomed);
+// var zoomer = d3.zoom()
+//         .scaleExtent([1, 20])
+//         .translateExtent([[-100, -100], [w + 90, h + 100]])
+//         .on("zoom", zoomed);
 
-svg.call(zoomer);
+// svg.call(zoomer);
 
-    function zoomed() {
-        g.attr("transform", "translate( " + d3.event.transform.x + ", 0)" +
-            "scale("+ d3.event.transform.k+", 1)");
-        d3.selectAll('.line').style("stroke-width", 1/d3.event.transform.k);
-        x_axis.call(x.scale(d3.event.transform.rescaleX(x)));
-        y_axis.call(y.scale(d3.event.transform.rescaleY(x)));
-    }
+//     function zoomed() {
+//         g.attr("transform", "translate( " + d3.event.transform.x + ", 0)" +
+//             "scale("+ d3.event.transform.k+", 1)");
+//         d3.selectAll('.line').style("stroke-width", 1/d3.event.transform.k);
+//         x_axis.call(x.scale(d3.event.transform.rescaleX(x)));
+//         y_axis.call(y.scale(d3.event.transform.rescaleY(x)));
+//     }
 //***************************
         // Mouseover function
         var mouseG = svg.append("g")
