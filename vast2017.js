@@ -8,35 +8,26 @@
 // Linechart based on code from M. Bostock: https://bl.ocks.org/mbostock/3884955
 // Barchart based on code from https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
 
-// Get the Sidebar
-var mySidebar = document.getElementById("mySidebar");
-
-// Get the DIV with overlay effect
-var overlayBg = document.getElementById("myOverlay");
-
-// Toggle between showing and hiding the sidebar, and add overlay effect
-function w3_open() {
-    if (mySidebar.style.display === 'block') {
-        mySidebar.style.display = 'none';
-        overlayBg.style.display = "none";
-    } else {
-        mySidebar.style.display = 'block';
-        overlayBg.style.display = "block";
+// get the input from radio buttons
+function changeColour(value)
+{
+    var color = document.body.style.backgroundColor;
+    switch(value)
+    {
+        case 'g':
+            color = "lightgrey";
+        break;
+        case 's':
+            color = "whitesmoke";
+        break;
+        case 'w':
+            color = "white";
+        break;
     }
+    document.body.style.backgroundColor = color;
 }
 
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
-    overlayBg.style.display = "none";
-}
-
-function onRectClicked(location, date) {
-    // provide barchart with correct datafile and date
-    drawBarchart("data/sensor_data_" + location + ".json", date);
-}
 window.onload = function() {
-
     getOption();
 };
 // get User selection and select appropriate function to draw svg's
@@ -190,7 +181,7 @@ function drawTotalCalendar(my_data, location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        .on('click', onRectClicked)
+        // .on('click', onRectClicked) NO ONCLICK FUNCTION ENABLED
         .append('title');
     svg.append("g")
         .attr("fill", "none")
@@ -316,10 +307,10 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        // get type and date when clicked
-        .on('click', function(rect_date) {
-            //onRectClicked(which_type, rect_date);
-            drawDateline(rect_date);
+        //get type and date when clicked disabled for TYPE's
+        .on('click', function() {
+            console.log("no 24H data")
+            document.getElementById("demo").innerHTML = "No 24 Hour traffic data available for car-type";
         });
 
     svg.append("g")
@@ -512,7 +503,7 @@ function drawLocations(which_location) {
                 return parseInt(d[0][which_location])
             })
             .object(csv);
-        console.log("data in Locations: ", data)
+        
         // set colorgradient for min/max values
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
@@ -630,12 +621,12 @@ function drawLinechart(linechart_file) {
             return c.id;
         }));
 
-        g.append("g")
+        var x_axis = g.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
 
-        g.append("g")
+        var y_axis = g.append("g")
             .attr("class", "axis axis--y")
             .call(d3.axisLeft(y))
             .append("text")
@@ -677,6 +668,44 @@ function drawLinechart(linechart_file) {
                 return d.id;
             });
 
+   // var legend = svg.selectAll('svg')
+   //      .data(types)
+   //      .enter()
+   //    .append('g')
+   //      .attr('class', 'legend');
+
+   //  legend.append('rect')
+   //      .attr('x', width - 20)
+   //      .attr('y', function(d, i){ return i *  20;})
+   //      .attr('width', 10)
+   //      .attr('height', 10)
+   //      .style('fill', function(d) { 
+   //        return z(d.id);
+   //      });
+
+   //  legend.append('text')
+   //      .attr('x', width - 8)
+   //      .attr('y', function(d, i){ return (i *  20) + 9;})
+   //      .text(function(d){ return d.id; });         
+//*****************************
+var w = window.innerWidth * 0.5,
+        h = window.innerHeight * 0.5;
+
+var zoomer = d3.zoom()
+        .scaleExtent([1, 20])
+        .translateExtent([[-100, -100], [w + 90, h + 100]])
+        .on("zoom", zoomed);
+
+svg.call(zoomer);
+
+    function zoomed() {
+        g.attr("transform", "translate( " + d3.event.transform.x + ", 0)" +
+            "scale("+ d3.event.transform.k+", 1)");
+        d3.selectAll('.line').style("stroke-width", 1/d3.event.transform.k);
+        x_axis.call(x.scale(d3.event.transform.rescaleX(x)));
+        y_axis.call(y.scale(d3.event.transform.rescaleY(x)));
+    }
+//***************************
         // Mouseover function
         var mouseG = svg.append("g")
             .attr("class", "mouse-over-effects")
@@ -756,7 +785,7 @@ function drawLinechart(linechart_file) {
                         }
                         d3.select(this).select('text')
                             .text(y.invert(pos.y).toFixed(2));
-                        return "translate(" + mouse[0] + "," + pos.y + ")";
+                        return "translate(" + mouse[0] + "," + pos.y + ")" ;
                     });
             });
 
@@ -771,8 +800,11 @@ function drawLinechart(linechart_file) {
     }
 
 };
-
-function plotBarChart(data, types, date) {
+function onRectClicked(location, date) {
+    // provide barchart with correct datafile and date
+    drawBarchart("data/sensor_data_" + location + ".json", date);
+}
+function plotBarchart(data, types, date) {
     var margin = {
         top: 20,
         right: 160,
@@ -933,6 +965,7 @@ function drawBarchart(filename, date) {
 
         // Only look at entries on selected date
         var day_data = data[date];
+
         // fill the timeslots with data if present
         Object.keys(day_data).forEach(function(d) {
             fullday[d] = Object.values(day_data[d])
@@ -969,8 +1002,6 @@ function drawBarchart(filename, date) {
             new_data.push(new_hour_data);
         };
 
-
-
         var all_types = Object.keys(types_Dict);
         // Set all known car-types to zero
         // if no entry found to prevent warnings
@@ -982,12 +1013,33 @@ function drawBarchart(filename, date) {
                 }
             })
         });
-        console.log("new data: ", new_data, all_types)
-        plotBarChart(new_data, all_types, date);
+        
+        plotBarchart(new_data, all_types, date);
 
     })
 }
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
 
+// Get the DIV with overlay effect on small screens
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
 // function drawDateline(date){
 //     //Draw line at the selected date
 //  var svg = d3.select("#linechart").select("svg")
