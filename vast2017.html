@@ -81,7 +81,7 @@ Select your personal background color:
 <input type="radio" name="color" value="radio" onClick="changeColour('w')"> white
 </form>
 </div>
-<h5><b><i class="fa fa-dashboard"></i> Busyness on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
+<h5><b><i class="fa fa-dashboard"></i> Vehicle activity on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
                 <h2>Select Checkpoint-type in Park:</h2>
                 <select class="selectpicker" id="mySelect" onchange="getOption()"><br>
                   <option value="Generalgates">General Gates</option>
@@ -96,8 +96,11 @@ Select your personal background color:
 
             <div class="w3-row-padding w3-margin-bottom">
                 <div id="linechart"><svg width="760" height="500"></svg></div>
-                <p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
-                <div id="barchart"><svg width="620" height="250"></svg></div>
+                
+                <h5>Total overview vehicle activity</h5>
+
+                        <div id="calendar" width="750" height="270"></div>
+
             </div>
 
             <div class="w3-panel">
@@ -105,10 +108,9 @@ Select your personal background color:
                     <div class="w3-third">
                     </div>
                     <div class="w3-twothird">
-                        <h5>Total overview busyness</h5>
-
-                        <div id="calendar" width="750" height="270"></div>
-
+                    
+<p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
+                <div id="barchart"><svg width="620" height="250"></svg></div>
                         </table>
                     </div>
                 </div>

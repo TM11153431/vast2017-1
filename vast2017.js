@@ -241,22 +241,7 @@ function drawType(which_type) {
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-    // svg.append("text")
-    //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 10)
-    //     .attr("text-anchor", "middle")
-    //     .text(function(d) {
-    //         return d;
-    //     });
 
-    // svg.append("text")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 15)
-    //     .attr('x', 10)
-    //     .attr('y', -5)
-    //     .attr("text-anchor", "under")
-    //     .text("Total moving vehicles of Type " + which_type);
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
@@ -282,12 +267,12 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        //24H barchartwhen clicked disabled for TYPE's
+        //24H barchar twhen clicked disabled for TYPE's
         .on('click', function(rect_date) {
-            console.log("no 24H data");
             drawDateline(rect_date);
-            d3.select("#barchart").select("g").remove("*");
-            //d3.select("#barchart").attr("visibility", "hidden");
+            // clear any previous bars in barchart
+            var bars = d3.select("#barchart").select("g").selectAll("rect");
+            bars.remove();
             document.getElementById("demo").innerHTML = "No 24 Hour traffic data available for car-type";
         });
 
@@ -1004,7 +989,8 @@ var width_difference = 48;
             var minutes = 1000*60;
             var hours = minutes*60;
             var days = hours*24;
-
+// use date-calculation code from http://www.mattkruse.com/ 
+// in date.js
             var date1 = getDateFromFormat("01/05/2015", "d/M/y");
             var date2 = getDateFromFormat(date, "d/M/y");
 
