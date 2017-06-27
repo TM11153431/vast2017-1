@@ -18,9 +18,12 @@ body {
 }
 #linechart {
     display: inline-block;
-
 }
 
+/*create pointer for clickable area*/
+/*#subcalendar {
+  cursor: pointer;
+}*/
 /* Linechart*/
 .axis--x path {
   display: none;

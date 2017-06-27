@@ -7,7 +7,6 @@
 // CalendarView based on code from M. Bostock: https://bl.ocks.org/mbostock/4063318
 // Linechart based on code from M. Bostock: https://bl.ocks.org/mbostock/3884955
 // Barchart based on code from https://bl.ocks.org/DimsumPanda/689368252f55179e12185e13c5ed1fee
-
 window.onload = function() {
     getOption();
 };
@@ -18,7 +17,7 @@ function getOption() {
     var sub = d3.select('#subcalendar')
     sub.selectAll("div").remove();
     if (obj.value == "Rangerbase") {
-        document.getElementById('myImage').src='data/Lekagul_map_base.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map_base.jpg'
         showData("data/all_ranger-bases.csv", "Ranger Base");
         drawLinechart("data/yeartraffic_rangerbase.tsv");
         document.getElementById("demo").innerHTML = "24 Hour traffic at Rangerbase";
@@ -29,7 +28,7 @@ function getOption() {
         });
     }
     if (obj.value == "Rangerstops") {
-        document.getElementById('myImage').src='data/Lekagul_map_rangerstops.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map_rangerstops.jpg'
         drawLinechart("data/yeartraffic_rangerstops.tsv");
         showData("data/all_ranger-stops.csv", "Ranger Stops");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Rangerstops";
@@ -40,7 +39,7 @@ function getOption() {
         });
     }
     if (obj.value == "Generalgates") {
-        document.getElementById('myImage').src='data/Lekagul_map_general.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map_general.jpg'
         drawLinechart("data/yeartraffic_general_gates.tsv");
         showData("data/all_general-gates.csv", "General Gates");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected General gate";
@@ -51,7 +50,7 @@ function getOption() {
         });
     }
     if (obj.value == "Gates") {
-        document.getElementById('myImage').src='data/Lekagul_map_gates.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map_gates.jpg'
         drawLinechart("data/yeartraffic_gates.tsv");
         showData("data/all_gates.csv", "All Gates");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Gate";
@@ -62,7 +61,7 @@ function getOption() {
         });
     }
     if (obj.value == "Campsites") {
-        document.getElementById('myImage').src='data/Lekagul_map_campings.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map_campings.jpg'
         drawLinechart("data/yeartraffic_camps.tsv");
         showData("data/all_campings.csv", "Campsites");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Camping";
@@ -73,7 +72,7 @@ function getOption() {
         });
     }
     if (obj.value == "Entrances") {
-        document.getElementById('myImage').src='data/Lekagul_map_entrances.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map_entrances.jpg'
         drawLinechart("data/yeartraffic_entrances.tsv");
         showData("data/all_entrances.csv", "Entrances");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Entrance";
@@ -84,7 +83,7 @@ function getOption() {
         });
     }
     if (obj.value == "Total") {
-        document.getElementById('myImage').src='data/Lekagul_map.jpg'
+        document.getElementById('myImage').src = 'data/Lekagul_map.jpg'
         drawLinechart("data/yeartraffic_park.tsv");
         showData("data/busyness_by_type.csv", "Total Park");
         // data for type-calendars
@@ -113,13 +112,13 @@ function showData(csv_file_name, location) {
     });
 }
 // draw the main calendar
-function drawTotalCalendar(my_data, location) {
+function drawTotalCalendar(cal_data, location) {
     var width = 650,
         height = 100,
         cellSize = 10;
     // set colorgradient for min/max values
-    var max = d3.max(d3.values(my_data));
-    var min = d3.min(d3.values(my_data));
+    var max = d3.max(d3.values(cal_data));
+    var min = d3.min(d3.values(cal_data));
 
     var color = d3.scaleLinear()
         .domain([min, max])
@@ -144,12 +143,7 @@ function drawTotalCalendar(my_data, location) {
         .attr("font-size", 10)
         .attr("text-anchor", "middle")
         .text("TOTAL");
-    // svg.append("text") // MUST BE CORRECTED! DOES NOT REFRESH
-    //     .style("text-anchor", "end")
-    //     .attr("font-size", 10)
-    //     .attr("dy", " -.25em")
-    //     .attr("dx", " 1em")
-    //     .text("Range: " + min + "-" + max);
+
     var rectSelect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
@@ -168,7 +162,9 @@ function drawTotalCalendar(my_data, location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        //.on('click', function(){alert("Click!")}) //NO ONCLICK FUNCTION ENABLED
+        .on('click', function(rect_date){
+        drawDateline(rect_date);
+        }) //NO ONCLICK FUNCTION ENABLED
         .append('title');
     svg.append("g")
         .attr("fill", "none")
@@ -197,27 +193,19 @@ function drawTotalCalendar(my_data, location) {
             return month[i]
         });
 
-    // var week_days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-
-    // legend.append("text")
-    //     .style("text-anchor", "end")
-    //     .attr("dy", "-.25em")
-    //     .text(function(d) { return week_days[i]; })
-    //     .attr("transform", "translate(-5," + cellSize*(i+1) + ")")
-
     d3.select("#calendar").selectAll("rect")
         .attr("fill", function(d) {
 
-            if (d in my_data) {
-                return color(my_data[d]);
+            if (d in cal_data) {
+                return color(cal_data[d]);
             } else {
                 return "grey";
             }
         })
         .select("title")
         .text(function(d) {
-            if (d in my_data) {
-                return d + ": " + my_data[d];
+            if (d in cal_data) {
+                return d + ": " + cal_data[d];
             } else {
                 return "No data";
             }
@@ -294,9 +282,12 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        //get type and date when clicked disabled for TYPE's
-        .on('click', function() {
-            console.log("no 24H data")
+        //24H barchartwhen clicked disabled for TYPE's
+        .on('click', function(rect_date) {
+            console.log("no 24H data");
+            drawDateline(rect_date);
+            d3.select("#barchart").select("g").remove("*");
+            //d3.select("#barchart").attr("visibility", "hidden");
             document.getElementById("demo").innerHTML = "No 24 Hour traffic data available for car-type";
         });
 
@@ -445,8 +436,9 @@ function drawLocations(which_location) {
         // get location and date when clicked
         .on('click', function(rect_date) {
             onRectClicked(which_location, rect_date);
-            // drawDateline(rect_date)
+            drawDateline(rect_date)
         });
+
     svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#000")
@@ -491,7 +483,7 @@ function drawLocations(which_location) {
                 return parseInt(d[0][which_location])
             })
             .object(csv);
-        
+
         // set colorgradient for min/max values
         var max = d3.max(d3.values(data));
         var min = d3.min(d3.values(data));
@@ -513,10 +505,13 @@ function drawLocations(which_location) {
             .attr("fill", function(d) {
                 return color(data[d]);
             })
+            // create pointer to indicate clickable content
+            .style("cursor", "pointer")
             .append("title")
             .text(function(d) {
                 return d + ": " + data[d];
-            });
+            })
+
     });
 
     function pathMonth(t0) {
@@ -537,8 +532,11 @@ function drawLocations(which_location) {
 var setupGraph = function() {
     var svg = d3.select("svg");
     svg.selectAll("*").remove();
+    // var svg = d3.select("legend");
+    // svg.selectAll("*").remove();
     return svg;
 }
+
 
 function drawLinechart(linechart_file) {
 
@@ -554,6 +552,8 @@ function drawLinechart(linechart_file) {
         width = svg.attr("width") - margin.left - margin.right,
         height = svg.attr("height") - margin.top - margin.bottom,
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    console.log("width: ",width)
 
     d3.select("#linechart").select("svg").exit().remove();
 
@@ -591,6 +591,8 @@ function drawLinechart(linechart_file) {
         x.domain(d3.extent(data, function(d) {
             return d.Day;
         }));
+
+
 
         y.domain([
             d3.min(types, function(c) {
@@ -638,7 +640,6 @@ function drawLinechart(linechart_file) {
                 return z(d.id);
             });
 
-
         type.append("text")
             .datum(function(d) {
                 return {
@@ -656,44 +657,6 @@ function drawLinechart(linechart_file) {
                 return d.id;
             });
 
-   // var legend = svg.selectAll('svg')
-   //      .data(types)
-   //      .enter()
-   //    .append('g')
-   //      .attr('class', 'legend');
-
-   //  legend.append('rect')
-   //      .attr('x', width - 20)
-   //      .attr('y', function(d, i){ return i *  20;})
-   //      .attr('width', 10)
-   //      .attr('height', 10)
-   //      .style('fill', function(d) { 
-   //        return z(d.id);
-   //      });
-
-   //  legend.append('text')
-   //      .attr('x', width - 8)
-   //      .attr('y', function(d, i){ return (i *  20) + 9;})
-   //      .text(function(d){ return d.id; });         
-//*****************************
-// var w = window.innerWidth * 0.5,
-//         h = window.innerHeight * 0.5;
-
-// var zoomer = d3.zoom()
-//         .scaleExtent([1, 20])
-//         .translateExtent([[-100, -100], [w + 90, h + 100]])
-//         .on("zoom", zoomed);
-
-// svg.call(zoomer);
-
-//     function zoomed() {
-//         g.attr("transform", "translate( " + d3.event.transform.x + ", 0)" +
-//             "scale("+ d3.event.transform.k+", 1)");
-//         d3.selectAll('.line').style("stroke-width", 1/d3.event.transform.k);
-//         x_axis.call(x.scale(d3.event.transform.rescaleX(x)));
-//         y_axis.call(y.scale(d3.event.transform.rescaleY(x)));
-//     }
-//***************************
         // Mouseover function
         var mouseG = svg.append("g")
             .attr("class", "mouse-over-effects")
@@ -773,12 +736,9 @@ function drawLinechart(linechart_file) {
                         }
                         d3.select(this).select('text')
                             .text(y.invert(pos.y).toFixed(2));
-                        return "translate(" + mouse[0] + "," + pos.y + ")" ;
+                        return "translate(" + mouse[0] + "," + pos.y + ")";
                     });
             });
-
-
-
     });
 
     function type(d, _, columns) {
@@ -788,10 +748,12 @@ function drawLinechart(linechart_file) {
     }
 
 };
+
 function onRectClicked(location, date) {
     // provide barchart with correct datafile and date
     drawBarchart("data/sensor_data_" + location + ".json", date);
 }
+
 function plotBarchart(data, types, date) {
     var margin = {
         top: 20,
@@ -1001,7 +963,7 @@ function drawBarchart(filename, date) {
                 }
             })
         });
-        
+
         plotBarchart(new_data, all_types, date);
 
     })
@@ -1028,51 +990,70 @@ function w3_close() {
     mySidebar.style.display = "none";
     overlayBg.style.display = "none";
 }
-// function drawDateline(date){
-//     //Draw line at the selected date
-//  var svg = d3.select("#linechart").select("svg")
-//                         svg.append("line")
-//                           .attr("x1", 300)
-//                           .attr("y1", 0)
-//                          .attr("x2", 300)
-//                          .attr("y2", 500)
-//                          .attr("stroke-width", 1)
-//                          .attr("stroke", "red")
-//         margin = {
-//             top: 20,
-//             right: 80,
-//             bottom: 30,
-//             left: 50
-//         },
-//         width = svg.attr("width") - margin.left - margin.right,
-//                          console.log(date)
 
-// var x = d3.scaleTime().range([0, width])
+function drawDateline(date) {
 
-// var date_calc = d3.line(date)
-//         .x(function(d) {
-//             return x(d.Day);
-//             console.log(d.Day)
-//         })
+var line = d3.select("#linechart").select("svg").selectAll("line");
+line.remove();
+var label = d3.select("#linechart").select("svg").selectAll(".date_label");
+label.remove();
 
+// correct for widt difference in SVG and Rect
+var width_difference = 48;
 
-// }
+            var minutes = 1000*60;
+            var hours = minutes*60;
+            var days = hours*24;
+
+            var date1 = getDateFromFormat("01/05/2015", "d/M/y");
+            var date2 = getDateFromFormat(date, "d/M/y");
+
+            var diff_date = Math.round((date2 - date1)/days);
+            console.log("Diff date is: " + (diff_date +1) );
+    //Draw line at the selected date
+    var x_date = ((680 - width_difference)/397)*(diff_date +1)
+    
+
+    var svg = d3.select("#linechart").select("svg");
+    
+    svg.append("line")
+        .attr("x1", x_date + width_difference)
+        .attr("y1", 18)
+        .attr("x2", x_date + width_difference)
+        .attr("y2", 465)
+        .attr("stroke-width", 1.5)
+        .attr("stroke", "#000");
+
+     var date_label = svg.append("text")
+            .attr("y", 0)
+            .attr("class", "date_label")
+            .attr("x", x_date)
+            .attr("dy", "1em")
+            .attr("fill", "#000")
+            .text(date);
+
+    margin = {
+            top: 20,
+            right: 80,
+            bottom: 30,
+            left: 50
+        };
+    var x = d3.scaleTime().range([0, 630])
+}
 
 // get the input from radio buttons
-function changeColour(value)
-{
+function changeColour(value) {
     var color = document.body.style.backgroundColor;
-    switch(value)
-    {
+    switch (value) {
         case 'g':
             color = "lightgrey";
-        break;
+            break;
         case 's':
             color = "whitesmoke";
-        break;
+            break;
         case 'w':
             color = "white";
-        break;
+            break;
     }
     document.body.style.backgroundColor = color;
 }
