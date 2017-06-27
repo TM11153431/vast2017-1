@@ -85,3 +85,5 @@ Helaas weinig aan project kunnen werken. Het zoomen is nog niet correct en de da
 Het inbouwen van een interactief element in de linechart lijkt steeds maar niet te lukken. Daarom om in ieder geval aan de technische eissen te voldoen een keuze-optie ingebouwd om de achtergrondkleur te veranderen. Ik blijf proberen om een functionelere toevoeging in te bouwen. De data van de drukte op de lokatie's leent zich niet zo goed om andere interactieve toepassingen te maken. De opbouw van de code maakt het bijna onmogelijk om globale variabelen te gebruiken in andere delen van de code zonder verstrikt te raken in callback functies. Achteraf gezien zou ik de code nu anders opgebouwd hebben.
 Een mini-map toegevoegd waarop de locaties genummerd te zien zijn. Een kleine toevoeging maar het maakt het geheel wel veel overzichtelijker. Je kunt nu zien waar de ingangen en gates etc zich in het park bevinden.
 
+27 juni:
+Pointer aangepast zodat het nu voor gebruiker duidelijk is dat de Location-subcalendars aanklikbaar zijn, maar de Type-subcalendars niet. Begin gemaakt van de analyse van de data voor de antwoorden morgen. Code opgeschoond.
