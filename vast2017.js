@@ -273,6 +273,7 @@ function drawType(which_type) {
             // clear any previous bars in barchart
             var bars = d3.select("#barchart").select("g").selectAll("rect");
             bars.remove();
+            
             document.getElementById("demo").innerHTML = "No 24 Hour traffic data available for car-type";
         });
 
