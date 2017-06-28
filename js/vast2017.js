@@ -513,7 +513,6 @@ function drawLocations(which_location) {
             "H" + (w0 + 1) * cellSize + "Z";
     }
 };
-
 // set up linechart svg and clean
 var setupGraph = function() {
     var svg = d3.select("svg");
@@ -522,8 +521,6 @@ var setupGraph = function() {
     // svg.selectAll("*").remove();
     return svg;
 }
-
-
 function drawLinechart(linechart_file) {
 
     var svg = setupGraph();
@@ -732,7 +729,6 @@ function drawLinechart(linechart_file) {
     }
 
 };
-
 function onRectClicked(location, date) {
     // provide barchart with correct datafile and date
     drawBarchart("data/sensor_data_" + location + ".json", date);
@@ -756,7 +752,7 @@ function plotBarchart(data, types, date) {
         margin = {
             top: 20,
             right: 30,
-            bottom: 30,
+            bottom: 50,
             left: 60
         },
         width = +svg.attr("width"),
@@ -809,7 +805,13 @@ function plotBarchart(data, types, date) {
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + y(0) + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("y", 0)
+    .attr("x", 9)
+    .attr("dy", ".35em")
+    .attr("transform", "rotate(90)")
+    .style("text-anchor", "start");
 
     svg.append("g")
         .attr("transform", "translate(" + margin.left + ",0)")
