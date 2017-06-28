@@ -164,7 +164,7 @@ function drawTotalCalendar(cal_data, location) {
         .datum(d3.timeFormat("%d/%m/%Y"))
         .on('click', function(rect_date){
         drawDateline(rect_date);
-        }) //NO ONCLICK FUNCTION ENABLED
+        }) 
         .append('title');
     svg.append("g")
         .attr("fill", "none")
@@ -235,8 +235,6 @@ function drawType(which_type) {
         .selectAll("svg")
         .data(d3.range(2015, 2017))
         .enter().append("svg")
-        // add class to svg based on type
-        //.attr("class", which_type)
         .attr("width", width)
         .attr("height", height)
         .append("g")
@@ -381,27 +379,13 @@ function drawLocations(which_location) {
         .append("g")
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
 
-    // svg.append("text")
-    //     .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 10)
-    //     .attr("text-anchor", "middle")
-    //     .text(function(d) {
-    //         return d;
-    //     });
     svg.append("text")
         .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
         .attr("font-family", "sans-serif")
         .attr("font-size", 12)
         .attr("text-anchor", "middle")
         .text(which_location);
-    // svg.append("text")
-    //     .attr("font-family", "sans-serif")
-    //     .attr("font-size", 15)
-    //     .attr('x', 10)
-    //     .attr('y', -5)
-    //     .attr("text-anchor", "under")
-    //     .text("Moving vehicles at " + which_location);
+
     var rect = svg.append("g")
         .attr("fill", "none")
         .attr("stroke", "#ccc")
@@ -517,8 +501,6 @@ function drawLocations(which_location) {
 var setupGraph = function() {
     var svg = d3.select("svg");
     svg.selectAll("*").remove();
-    // var svg = d3.select("legend");
-    // svg.selectAll("*").remove();
     return svg;
 }
 function drawLinechart(linechart_file) {
@@ -572,8 +554,6 @@ function drawLinechart(linechart_file) {
         x.domain(d3.extent(data, function(d) {
             return d.Day;
         }));
-
-
 
         y.domain([
             d3.min(types, function(c) {
@@ -817,7 +797,6 @@ function plotBarchart(data, types, date) {
         .attr("transform", "translate(" + margin.left + ",0)")
         .call(
             d3.axisLeft(y)
-                // .ticks(10)
         );
 
     svg.append("text")
