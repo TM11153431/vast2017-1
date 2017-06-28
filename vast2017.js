@@ -764,7 +764,6 @@ function plotBarchart(data, types, date) {
         width = +svg.attr("width"),
         height = +svg.attr("height");
 
-    // var x = d3.scaleTime().range([0, 24]);
     var x = d3.scaleBand()
         .domain(data.map(function(d) {
             return d.time;
@@ -816,7 +815,11 @@ function plotBarchart(data, types, date) {
 
     svg.append("g")
         .attr("transform", "translate(" + margin.left + ",0)")
-        .call(d3.axisLeft(y));
+        .call(
+            d3.axisLeft(y)
+                // .ticks(10)
+        );
+
     svg.append("text")
         .attr("x", width - 400)
         .attr("y", 9.5)
