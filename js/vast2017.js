@@ -539,8 +539,6 @@ function drawLinechart(linechart_file) {
         height = svg.attr("height") - margin.top - margin.bottom,
         g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    console.log("width: ",width)
-
     d3.select("#linechart").select("svg").exit().remove();
 
     var parseTime = d3.timeParse("%d-%m-%Y");
@@ -999,7 +997,7 @@ var width_difference = 48;
             var date2 = getDateFromFormat(date, "d/M/y");
 
             var diff_date = Math.round((date2 - date1)/days);
-            console.log("Diff date is: " + (diff_date +1) );
+
     //Draw line at the selected date
     var x_date = ((680 - width_difference)/397)*(diff_date +1)
     
