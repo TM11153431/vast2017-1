@@ -3,15 +3,18 @@ Final visualisatie:  https://pvtwuyver.github.io/vast2017/vast2017.html
 Programmeerproject Minor Programmeren, VAST challenge 2017
 (Voor info over de Challenge zie http://www.vacommunity.org/VAST+Challenge+2017#Mini-Challenge_1 )
 
-PROJECT PROPOSAL:
-Als deel van de oplossing voor de challenge zal ik mij richten op de visualisaties van de statistieken van de verkeerstromen.
+Als deel van de oplossing voor de challenge richt deze code zich op de visualisaties van de statistieken van de verkeerstromen.
+De visualisatie bestaat uit vier verschillende gelinkte onderdelen. De basis van de visualisaties is de dataset van de timepoints van de voertuigen in het National Park. Ieder voertuig heeft een chip en wanneer een voertuig een checkpoint in het park passeert wordt de ID van de auto en het tijdstip vastgelegd.
 
-Het eerste doel is het creeeren van een 'calendar view' D3 visualisatie waarop de drukte wordt weergeven van de Entrances en Campings.
-Iedere locatie krijgt zijn eigen Calendar view van de drukte over een jaar gemeten. Het plan is om dit doorklikbaar te maken naar de drukte op een specifieke dag.
+De HTML pagina heeft vier onderdelen; De Linechart, de Main Calendar, de Sub-calendars en de Barchart. 
 
-De tweede visualisaties die hierbij gemaakt kunnen gaan worden is een overzicht van de drukte die dag in BARCHART, geselecteerd op vehicle-type. Dit geeft de relatieve belasting van die locatie weer door licht en zwaar verkeer.
-
-Visualisatie 3:
-Totaal overzicht van een jaar in het park. Piechart met sliderfunctie op timeline. Geeft zowel bezoekersaantal en autotype verdeling weer. Dit zou met een mooie transition weergave kunnen visualiseren hoe de verschillende vehicle-types veranderen over tijd.
-
+Linegraph geeft jaar overzicht:
 ![Graph](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
+
+Calendar views geven locatie specifieke druktes:
+![Calendars](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
+
+Barchart geeft 24-uurs traffic op specifieke locatie:
+![Bar](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
+
+copyright statement: free of use for non-commercial applications.
