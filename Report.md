@@ -22,12 +22,32 @@ De drawCalendar():
 
 krijgt zijn data vanuit getOption() meegegven via de showData() functie. Er wordt een csv file meegeven met de totalen pert type per dag en daarnaast wordt de Locatie als 2e argument meegegeven. (Deze Locatie is nodig voor als argument voor de Barchart die later in de code wordt aangeroepen). drawCalendar() creeert een D3 visualisatie. Eerst wordt een lege calendar gemaakt, gebasseert op de range van jaren. De calendar bestaat uit 365 lege rects per jaar. Vervolgens wordt de data vanuit de csv gelezen en de data vn iedere Day wordt genest aan het desbetreffende Rect svg. De kleuren worden bepaald door de kleurgradient die gebasseerd is op de min en max waarden.
 
-4. De drawLocations functie (of drawTypes, afhankelijk van de selectie) krijgt de namen van de kolomen in de busyness-by-location-file mee. Voor iedere kolom wordt vervolgens een sub-calendar svg aangemaakt en onder elkaar geplakt op de linker HTML. De verschillende subcalendars hebben allemaal hun eigen min-max values. Deze staan boven de calendars en bepalen de kleuren van de datum-hokjes. 
+Als laatste onderdeel in getOption() wordt var all_types = ['rangerbase'];
+        all_types.forEach(function(item) {
+            drawLocations(item);
+        });
+ aangeroepen. Het 'item' dat aan drawLocations wordt meegegeven is de kolom-naam in het bestand busylocations.csv. Voor elk 'item' wordt dus de functie drawLocations opnieuw aangeroepen. 
+NB: indien de selectie 'Total Park' betreft dan is deze laatste optie niet drawLocations() maar drawTypes(). De functie werkt verder identiek, maar aangezien er voor Types geen 24-uurs verdeling is voor de barchart is deze functie apart gehouden.
 
-De gebruiker kan nu op de subcalendar klikken op een specifieke dag. Hierbij wordt de locatie en de datum meegegeven aan de drawBarchart functie. De drawBarchart functie leest in het locatie-specifieke JSON bestand op welke tijdstippen er voertuigen geregistreert zijn (in tijd-window van 1 uur). Hij maakt een stack van de totalen per type per tijdseenheid. De lege 24-uurs dict wordt gevuld met de juiste totalen per tijdsslot en vervolgens wordt de stacked barchart gemaakt. 
-Wanneer op een andere datum geklikt wordt update de barchart met de nieuwe 24H data.
-Indien TotalPark is geselecteerd in de dropDown zijn er cartypes in de subcalendars te zien ipv locaties. Hier is geen 24H data van, dus verdwijnt de barchart en verschijnt een tekstje met uitleg ipv de barchart.
+De drawLocations() functie:
 
-Bij klikken op een datum vakje in de Maincalendar of de Subcalendars wordt de datum meegegeven aan de functie drawDateline. Deze functie berekent het aantal dagen sinds 01-05-2015 en tekent een datum-lijn op de linechart, met de datum erboven. De locatie op de x-as wordt herberekent door de width van de svg te delen op het aantal dagen in de dataset. Deze datum-lijn update bij iedere klik in de calendars.
+(of drawTypes, afhankelijk van de selectie) krijgt de namen van de kolomen in de busyness-by-location-file mee. De functie is een kleine kopie van de drawCalendar() functie, en maakt voor iedere meegegeven 'item' een calendar svg, en plaatst deze onder elkaar. De verschillende subcalendars hebben allemaal hun eigen min-max values. Deze staan boven de calendars en bepalen de kleuren van de datum-hokjes. 
+
+De gebruiker kan nu op de subcalendar klikken op een specifieke dag. Hierbij wordt de Locatie en de Datum meegegeven aan de onRectClicked() functie en de datum aan de drawDateine() functie.
+
+De onRectClicked() functie:
+
+ontvangt datum en locatie als argumenten en geeft deze door aan de drawBarchart functie. De locatie wordt gebruikt om de aan de naam van het correcte JSON bestand te 'plakken'zodat dit JSON bestand met daarin de verkeersactiviteit per uur op locatie X kan worden meegegeven aan drawBarchart. (drawBarchart("data/sensor_data_" + location + ".json", date))
+
+De drawBarchart() functie:
+
+leest in het locatie-specifieke JSON bestand op welke tijdstippen er voertuigen geregistreert zijn (in tijd-window van 1 uur). Hij maakt een stack van de totalen per type per tijdseenheid. De lege 24-uurs dict wordt gevuld met de juiste totalen per tijdsslot en vervolgens wordt de stacked barchart gemaakt. 
+(Indien TotalPark is geselecteerd in de DropDown zijn er cartypes in de subcalendars te zien ipv locaties. Hier is geen 24H data van, dus verdwijnt de barchart en verschijnt een tekstje met uitleg ipv de barchart.)
+
+Bij klikken op een datum vakje in de Maincalendar of de Subcalendars wordt de datum via de onRectClicked() functie meegegeven aan de functie drawDateline(). 
+
+drawDateline():
+
+Deze functie berekent het aantal dagen sinds 01-05-2015 en tekent een datum-lijn op de linechart, met de datum erboven. De functie gebruikt de helperfuncties in date.js voor deze berekening. De locatie op de x-as wordt herberekent door de width van de svg te delen op het aantal dagen in de dataset. Deze datum-lijn update bij iedere klik in de calendars.
 
 De radiobuttons zijn als laatste interactieve element ingebouwd en veranderen de achtergrondkleur dmv javascript functie.
