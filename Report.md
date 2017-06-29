@@ -1,16 +1,27 @@
 De visualisatie bestaat uit vier verschillende gelinkte onderdelen.
-De basis van de visualisaties is de dataset van de timepoints van de voertuigen in het National Park. Ieder voertuig heeft een chip en wanneer een voertuig een checkpoint in het park passeert wordt de ID van de auto en het tijdstip vastgelegd.
 
 De HTML pagina heeft vier onderdelen; De Linechart, de Main Calendar, de Sub-calendars en de Barchart.
 ![screenshot1](https://github.com/Pvtwuyver/vast2017/blob/master/doc/screenshot1.jpg)
 ![screenshot2](https://github.com/Pvtwuyver/vast2017/blob/master/doc/screenshot2.jpg)
-De gebruiker kan door middel van een DropDown menu kiezen welke specifieke locatie in het park te zien is. Wanneer de selectie gemaakt wordt worden de volgende zaken ge-update via de GetOption functie.:
 
-0. oude svg's worden removed.
-1. De Map linksboven in de HTML wordt ge-update om de locaties te laten zien.
-De Linechart laat de hoeveelheid unieke voertuig-IDs zien in het park. Hiervoor wordt een map.jpg via een getElementById functie geupdate.
-2. De Linechart functie krijgt meegegeven welke tsv file gebruikt moet worden om het jaarlijkse overzicht (gespecificeerd op voertuig-type) van dat gebied weer te geven.
-3. De Maincalendar krijgt zijn data meegegven via de showData functie. Het csv file van de desbetreffende locatie laat in de maincalendar zien hoeveel unieke voertuigen er in totaal op de verschillende dagen in het park getracked zijn. showData geeft de dagen met de totalen mee aan drawCalendar() en deze maakt de maincalendar svg. 
+De gebruiker kan door middel van een DropDown menu kiezen welke specifieke locatie in het park te zien is. Wanneer de selectie gemaakt wordt worden de volgende zaken ge-update via de GetOption functie.
+
+getOption(): 
+
+dmv document.getElementById("mySelect")functie wordt de value van de keuze aan 'var obj' meegegeven. Door middel van IF statements wordt het desbetreffende deel van de getOption functie aangeroepen dat overeenkomt met de gekozen Value.
+Er zijn 7 verschillende opties in getOption die ieder een vaste opbouw hebben:
+Ten eerste worden eventuele oude svg's removed met sub.selectAll("div").remove();.
+De Map linksboven in de HTML wordt ge-update om de locaties te laten zien met document.getElementById('myImage').src = 'data/Lekagul_map_base.jpg'.
+
+De drawLinechart() functie:
+
+krijgt meegegeven vanuit getOption() welke tsv file gebruikt moet worden om het jaarlijkse overzicht (gespecificeerd op voertuig-type) van dat gebied weer te geven. Er zijn voor iedere locatie in het park tsv-files met daarin de totalen van de voertuigtypes per datum.
+De drawLinechart() is een D3 functie die een linechart met 7 verschillende lijnen (Per voertuigtype) creeert vanuit een tsv file. De kleuren zijn uitgezocht zodat ze overeenkomen met de kleuren in de Barchart.
+
+De drawCalendar():
+
+krijgt zijn data vanuit getOption() meegegven via de showData() functie. Er wordt een csv file meegeven met de totalen pert type per dag en daarnaast wordt de Locatie als 2e argument meegegeven. (Deze Locatie is nodig voor als argument voor de Barchart die later in de code wordt aangeroepen). drawCalendar() creeert een D3 visualisatie. Eerst wordt een lege calendar gemaakt, gebasseert op de range van jaren. De calendar bestaat uit 365 lege rects per jaar. Vervolgens wordt de data vanuit de csv gelezen en de data vn iedere Day wordt genest aan het desbetreffende Rect svg. De kleuren worden bepaald door de kleurgradient die gebasseerd is op de min en max waarden.
+
 4. De drawLocations functie (of drawTypes, afhankelijk van de selectie) krijgt de namen van de kolomen in de busyness-by-location-file mee. Voor iedere kolom wordt vervolgens een sub-calendar svg aangemaakt en onder elkaar geplakt op de linker HTML. De verschillende subcalendars hebben allemaal hun eigen min-max values. Deze staan boven de calendars en bepalen de kleuren van de datum-hokjes. 
 
 De gebruiker kan nu op de subcalendar klikken op een specifieke dag. Hierbij wordt de locatie en de datum meegegeven aan de drawBarchart functie. De drawBarchart functie leest in het locatie-specifieke JSON bestand op welke tijdstippen er voertuigen geregistreert zijn (in tijd-window van 1 uur). Hij maakt een stack van de totalen per type per tijdseenheid. De lege 24-uurs dict wordt gevuld met de juiste totalen per tijdsslot en vervolgens wordt de stacked barchart gemaakt. 
