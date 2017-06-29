@@ -20,20 +20,20 @@ De drawLinechart() is een D3 functie die een linechart met 7 verschillende lijne
 
 De drawCalendar():
 
-krijgt zijn data vanuit getOption() meegegven via de showData() functie. Er wordt een csv file meegeven met de totalen pert type per dag en daarnaast wordt de Locatie als 2e argument meegegeven. (Deze Locatie is nodig voor als argument voor de Barchart die later in de code wordt aangeroepen). drawCalendar() creeert een D3 visualisatie. Eerst wordt een lege calendar gemaakt, gebasseert op de range van jaren. De calendar bestaat uit 365 lege rects per jaar. Vervolgens wordt de data vanuit de csv gelezen en de data vn iedere Day wordt genest aan het desbetreffende Rect svg. De kleuren worden bepaald door de kleurgradient die gebasseerd is op de min en max waarden.
+krijgt zijn data vanuit getOption() meegegven via de showData() functie. Er wordt een csv file meegeven met de totalen per type per dag en daarnaast wordt de Locatie als 2e argument meegegeven. (Deze Locatie is nodig voor als argument voor de Barchart die later in de code wordt aangeroepen). De functie  drawCalendar() creeert vervolgens een D3 svg. Eerst wordt een lege calendar gemaakt, gebasseerd op de range van jaren. De calendar bestaat daarna uit 365 lege rects per jaar. Vervolgens wordt de data vanuit de csv gelezen en de data van iedere Day wordt 'genest' aan het desbetreffende Rect svg. De intensiteiten van de kleuren worden bepaald door de kleurgradient die gebasseerd is op de min en max waarden van de calendar. Mouseover geeft de datum en de value van de desbetreffende rect.
 
 Als laatste onderdeel in getOption() wordt var all_types = ['rangerbase'];
         all_types.forEach(function(item) {
             drawLocations(item);
         });
  aangeroepen. Het 'item' dat aan drawLocations wordt meegegeven is de kolom-naam in het bestand busylocations.csv. Voor elk 'item' wordt dus de functie drawLocations opnieuw aangeroepen. 
-NB: indien de selectie 'Total Park' betreft dan is deze laatste optie niet drawLocations() maar drawTypes(). De functie werkt verder identiek, maar aangezien er voor Types geen 24-uurs verdeling is voor de barchart is deze functie apart gehouden.
+NB: indien de selectie 'Total Park' betreft dan is deze laatste optie niet drawLocations() maar drawTypes(). De functie werkt verder identiek, maar aangezien er voor Types geen 24-uurs verdeling is voor de barchart is deze functie apart gehouden om geen problemen met de onClick functie later in het proces te krijgen.
 
 De drawLocations() functie:
 
-(of drawTypes, afhankelijk van de selectie) krijgt de namen van de kolomen in de busyness-by-location-file mee. De functie is een kleine kopie van de drawCalendar() functie, en maakt voor iedere meegegeven 'item' een calendar svg, en plaatst deze onder elkaar. De verschillende subcalendars hebben allemaal hun eigen min-max values. Deze staan boven de calendars en bepalen de kleuren van de datum-hokjes. 
+(of drawTypes dus, afhankelijk van de selectie) krijgt de namen van de kolomen in de busyness-by-location-file mee. De functie is een kleine kopie van de drawCalendar() functie, en maakt voor iedere meegegeven 'item' een calendar svg, en plaatst deze onder elkaar. De verschillende subcalendars hebben allemaal hun eigen min-max values. Deze staan boven de calendars en bepalen de kleuren van de datum-hokjes. 
 
-De gebruiker kan nu op de subcalendar klikken op een specifieke dag. Hierbij wordt de Locatie en de Datum meegegeven aan de onRectClicked() functie en de datum aan de drawDateine() functie.
+De gebruiker kan nu op de subcalendar klikken op een specifieke dag. Hierbij wordt de Locatie en de Datum meegegeven aan de onRectClicked() functie en de datum aan de drawDateline() functie.
 
 De onRectClicked() functie:
 
