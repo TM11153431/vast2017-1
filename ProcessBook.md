@@ -87,3 +87,10 @@ Een mini-map toegevoegd waarop de locaties genummerd te zien zijn. Een kleine to
 
 27 juni:
 Pointer aangepast zodat het nu voor gebruiker duidelijk is dat de Location-subcalendars aanklikbaar zijn, maar de Type-subcalendars niet. Begin gemaakt van de analyse van de data voor de antwoorden morgen. Code opgeschoond. Het is met kunst en vliegwerk uiteindelijk gelukt om een datum-line in de linechart te plaatsen. Deze wordt ge-update wanneer op de Maincalendar of de kleine subcalandars geklikt wordt. Het aantal dagen na 1-5-2015 wordt berekend en omgerekend naar de x-waarde op de x-as. Een globale variabele bleek na veel pogingen helaas niet te werken nl. De Barchart verdwijnt nu ook wanneer er op TYPE calendar geklikt wordt (er is nl geen 24H data). 
+
+28 juni:
+Verder gewerkt aan code cleanen en laatste lay-out en schoonheidsfoutjes. Oa de x-as van de Barchart 90 gr gekanteld zodat tijden nu goed leesbaar zijn. Remove functie van de empty barchart indien er op Types geselcteerd is werkt ook beter. Samen met het VAST team verder gegaan met het analyseren van de data om de vragen van de challenge te kunnen beantwoorden. Per vraag en antwoord gekeken welke visualisatie het beste gebruikt kan worden om mee te sturen in het verslag. Verder begin gemaakt met het Report.md
+
+29 juni:
+Visalisaties en korte tekst geschreven voor de VAST beantwoording. Laatste hand aan code opschonen en voorbereiden vab presentatie van vrijdag. Live presentatie met beantwoording van de VAST vragen wordt uitdaging.
+
