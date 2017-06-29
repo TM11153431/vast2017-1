@@ -8,13 +8,10 @@ De visualisatie bestaat uit vier verschillende gelinkte onderdelen. De basis van
 
 De HTML pagina heeft vier onderdelen; De Linechart, de Main Calendar, de Sub-calendars en de Barchart. 
 
-Linegraph geeft jaar overzicht:
-![Graph](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
-
-Calendar views geven locatie specifieke druktes:
-![Calendars](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
+Linegraph geeft jaar overzicht en Calendar views geven locatie specifieke druktes:
+![Graph](https://github.com/Pvtwuyver/vast2017/blob/master/doc/screenshot1.jpg)
 
 Barchart geeft 24-uurs traffic op specifieke locatie:
-![Bar](https://github.com/Pvtwuyver/vast2017/blob/master/doc/scetch.jpg)
+![Bar](https://github.com/Pvtwuyver/vast2017/blob/master/doc/screenshot2.jpg)
 
 copyright statement: free of use for non-commercial applications.
