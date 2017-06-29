@@ -29,8 +29,8 @@
             font-family: "Raleway", sans-serif
         }
     </style>
-
-    <body >
+</head>
+    <body>
 
         <!-- Top container -->
         <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
@@ -42,7 +42,7 @@
         <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:500px;" id="mySidebar"><br>
             <div class="w3-container w3-row">
                 <div class="w3-col s4">
-                    
+
                 </div>
                 <div class="w3-col s8 w3-bar">
                     <strong>Select location type in right window.  </strong><br>
@@ -52,7 +52,7 @@
             <div class="w3-container">
             </div>
             <div class="w3-bar-block">
-                <img id="myImage" src="data/Lekagul_map.jpg" width="450" height="300" alt="Lekagul Map"/>
+                <img id="myImage" src="data/Lekagul_map.jpg" width="450" height="300" alt="Lekagul Map" />
                 <h4>Selection specific calendars</h4>
                 <h5>Number of UNIQUE car IDs</h5>
                 <div class="w3-grey">
@@ -71,17 +71,17 @@
 
             <!-- Header -->
             <header class="w3-container" style="padding-top:22px">
-                
-<div id= "background">
-Select your personal background color: 
 
-<form name="color" method="post" action="">
-<input type="radio" name="color" value="radio" onClick="changeColour('g')"> grey
-<input type="radio" name="color" value="radio" onClick="changeColour('s')"> whitesmoke
-<input type="radio" name="color" value="radio" onClick="changeColour('w')"> white
-</form>
-</div>
-<h5><b><i class="fa fa-dashboard"></i> Vehicle activity on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
+                <div id="background">
+                    Select your personal background color:
+
+                    <form name="color" method="post" action="">
+                        <input type="radio" name="color" value="radio" onClick="changeColour('g')"> grey
+                        <input type="radio" name="color" value="radio" onClick="changeColour('s')"> whitesmoke
+                        <input type="radio" name="color" value="radio" onClick="changeColour('w')"> white
+                    </form>
+                </div>
+                <h5><b><i class="fa fa-dashboard"></i> Vehicle activity on Checkpoints in Boonsong Lekagul Nature Preserve</b></h5>
                 <h2>Select Checkpoint-type in Park:</h2>
                 <select class="selectpicker" id="mySelect" onchange="getOption()"><br>
                   <option value="Generalgates">General Gates</option>
@@ -96,10 +96,10 @@ Select your personal background color:
 
             <div class="w3-row-padding w3-margin-bottom">
                 <div id="linechart"><svg width="760" height="500"></svg></div>
-                
+
                 <h5>Total overview vehicle activity</h5>
 
-                        <div id="calendar" width="750" height="270"></div>
+                <div id="calendar" width="750" height="270"></div>
 
             </div>
 
@@ -108,9 +108,9 @@ Select your personal background color:
                     <div class="w3-third">
                     </div>
                     <div class="w3-twothird">
-                    
-<p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
-                <div id="barchart"><svg width="620" height="250"></svg></div>
+
+                        <p id="demo">24H at location: (First select Location type and then select sub-location and date in left window)</p>
+                        <div id="barchart"><svg width="620" height="250"></svg></div>
                         </table>
                     </div>
                 </div>
@@ -127,4 +127,5 @@ Select your personal background color:
             <script src="js/vast2017.js"></script>
             <script src="js/date.js"></script>
     </body>
+
 </html>

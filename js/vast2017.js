@@ -10,16 +10,21 @@
 window.onload = function() {
     getOption();
 };
-// get User selection and select appropriate function to draw svg's
+// get user selection and select appropriate functions to draw svg's
 function getOption() {
     var obj = document.getElementById("mySelect");
     // clear all previous subcalendars
     var sub = d3.select('#subcalendar')
     sub.selectAll("div").remove();
+
     if (obj.value == "Rangerbase") {
+        // change map image
         document.getElementById('myImage').src = 'data/Lekagul_map_base.jpg'
+        // get data for calendars from appropriate csv-file
         showData("data/all_ranger-bases.csv", "Ranger Base");
+        // provide drwaLinechart with appropriate tsv-file
         drawLinechart("data/yeartraffic_rangerbase.tsv");
+        // update titel barchart
         document.getElementById("demo").innerHTML = "24 Hour traffic at Rangerbase";
         // type-calendars info:
         var all_types = ['rangerbase'];
@@ -32,7 +37,6 @@ function getOption() {
         drawLinechart("data/yeartraffic_rangerstops.tsv");
         showData("data/all_ranger-stops.csv", "Ranger Stops");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Rangerstops";
-        // type-calendars info:
         var all_types = ['rangerstop0', 'rangerstop1', 'rangerstop2', 'rangerstop3', 'rangerstop4', 'rangerstop5', 'rangerstop6', 'rangerstop7'];
         all_types.forEach(function(item) {
             drawLocations(item);
@@ -43,7 +47,6 @@ function getOption() {
         drawLinechart("data/yeartraffic_general_gates.tsv");
         showData("data/all_general-gates.csv", "General Gates");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected General gate";
-        // type-calendars info:
         var all_types = ['generalgate0', 'generalgate1', 'generalgate2', 'generalgate3', 'generalgate4', 'generalgate5', 'generalgate6', 'generalgate7'];
         all_types.forEach(function(item) {
             drawLocations(item);
@@ -54,7 +57,6 @@ function getOption() {
         drawLinechart("data/yeartraffic_gates.tsv");
         showData("data/all_gates.csv", "All Gates");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Gate";
-        // type-calendars info:
         var all_types = ['gate0', 'gate1', 'gate2', 'gate3', 'gate4', 'gate5', 'gate6', 'gate7', 'gate8'];
         all_types.forEach(function(item) {
             drawLocations(item);
@@ -65,7 +67,6 @@ function getOption() {
         drawLinechart("data/yeartraffic_camps.tsv");
         showData("data/all_campings.csv", "Campsites");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Camping";
-        // type-calendars info:
         var all_types = ['camping0', 'camping1', 'camping2', 'camping3', 'camping4', 'camping5', 'camping6', 'camping7', 'camping8'];
         all_types.forEach(function(item) {
             drawLocations(item);
@@ -76,7 +77,6 @@ function getOption() {
         drawLinechart("data/yeartraffic_entrances.tsv");
         showData("data/all_entrances.csv", "Entrances");
         document.getElementById("demo").innerHTML = "24 Hour traffic at selected Entrance";
-        // data for location-calendars
         var all_types = ['entrance0', 'entrance1', 'entrance2', 'entrance3', 'entrance4'];
         all_types.forEach(function(item) {
             drawLocations(item);
@@ -93,7 +93,7 @@ function getOption() {
         });
     }
 }
-// bind data based on selected csv file 
+// bind data for calendar based on selected csv file 
 function showData(csv_file_name, location) {
     d3.csv(csv_file_name, function(error, csv) {
         if (error) throw error;
@@ -162,9 +162,9 @@ function drawTotalCalendar(cal_data, location) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        .on('click', function(rect_date){
-        drawDateline(rect_date);
-        }) 
+        .on('click', function(rect_date) {
+            drawDateline(rect_date);
+        })
         .append('title');
     svg.append("g")
         .attr("fill", "none")
@@ -229,7 +229,7 @@ function drawType(which_type) {
     var width = 460,
         height = 100,
         cellSize = 8;
-    // append sub-calendars under the main calendar
+
     var root = d3.select('#subcalendar').append('div');
     var svg = root
         .selectAll("svg")
@@ -265,13 +265,12 @@ function drawType(which_type) {
             return d.getDay() * cellSize;
         })
         .datum(d3.timeFormat("%d/%m/%Y"))
-        //24H barchar twhen clicked disabled for TYPE's
+        //24H barchart not available for TYPE's
         .on('click', function(rect_date) {
             drawDateline(rect_date);
             // clear any previous bars in barchart
             var bars = d3.select("#barchart").select("g").selectAll("rect");
             bars.remove();
-            
             document.getElementById("demo").innerHTML = "No 24 Hour traffic data available for car-type";
         });
 
@@ -358,14 +357,13 @@ function drawType(which_type) {
     }
 };
 
-// draws the sub-calendars for locations
+// draws the sub-calendars for Locations
 function drawLocations(which_location) {
 
     var width = 460,
         height = 100,
         cellSize = 8;
 
-    // append sub-calendars under the main calendar
     var root = d3.select('#subcalendar').append('div');
 
     var svg = root
@@ -497,12 +495,13 @@ function drawLocations(which_location) {
             "H" + (w0 + 1) * cellSize + "Z";
     }
 };
-// set up linechart svg and clean
+// set up linechart svg and clean previous
 var setupGraph = function() {
     var svg = d3.select("svg");
     svg.selectAll("*").remove();
     return svg;
 }
+
 function drawLinechart(linechart_file) {
 
     var svg = setupGraph();
@@ -709,6 +708,7 @@ function drawLinechart(linechart_file) {
     }
 
 };
+// when clicked on calendar date
 function onRectClicked(location, date) {
     // provide barchart with correct datafile and date
     drawBarchart("data/sensor_data_" + location + ".json", date);
@@ -722,7 +722,7 @@ function plotBarchart(data, types, date) {
         left: 30
     };
 
-    // create stack of car-types based on the keys
+    // create stack of car-types based on the Types
     var series = d3.stack()
         .keys(types)
         .offset(d3.stackOffsetDiverging)
@@ -786,12 +786,12 @@ function plotBarchart(data, types, date) {
         .attr("class", "axis")
         .attr("transform", "translate(0," + y(0) + ")")
         .call(d3.axisBottom(x))
-  .selectAll("text")
-    .attr("y", 0)
-    .attr("x", 9)
-    .attr("dy", ".35em")
-    .attr("transform", "rotate(90)")
-    .style("text-anchor", "start");
+        .selectAll("text")
+        .attr("y", 0)
+        .attr("x", 9)
+        .attr("dy", ".35em")
+        .attr("transform", "rotate(90)")
+        .style("text-anchor", "start");
 
     svg.append("g")
         .attr("transform", "translate(" + margin.left + ",0)")
@@ -881,7 +881,7 @@ function drawBarchart(filename, date) {
             "00:00": 0
         }
 
-        // Only look at entries on selected date
+        // only look at entries on selected date
         var day_data = data[date];
 
         // fill the timeslots with data if present
@@ -921,7 +921,7 @@ function drawBarchart(filename, date) {
         };
 
         var all_types = Object.keys(types_Dict);
-        // Set all known car-types to zero
+        // set all known car-types to zero
         // if no entry found to prevent warnings
         // later in plot function
         all_types.forEach(function(type) {
@@ -936,13 +936,13 @@ function drawBarchart(filename, date) {
 
     })
 }
-// Get the Sidebar
+// get the Sidebar
 var mySidebar = document.getElementById("mySidebar");
 
-// Get the DIV with overlay effect on small screens
+// get the DIV with overlay effect on small screens
 var overlayBg = document.getElementById("myOverlay");
 
-// Toggle between showing and hiding the sidebar, and add overlay effect
+// toggle between showing and hiding the sidebar, and add overlay effect
 function w3_open() {
     if (mySidebar.style.display === 'block') {
         mySidebar.style.display = 'none';
@@ -953,7 +953,7 @@ function w3_open() {
     }
 }
 
-// Close the sidebar with the close button
+// close the sidebar with the close button
 function w3_close() {
     mySidebar.style.display = "none";
     overlayBg.style.display = "none";
@@ -961,30 +961,29 @@ function w3_close() {
 
 function drawDateline(date) {
 
-var line = d3.select("#linechart").select("svg").selectAll("line");
-line.remove();
-var label = d3.select("#linechart").select("svg").selectAll(".date_label");
-label.remove();
+    var line = d3.select("#linechart").select("svg").selectAll("line");
+    line.remove();
+    var label = d3.select("#linechart").select("svg").selectAll(".date_label");
+    label.remove();
 
-// correct for widt difference in SVG and Rect
-var width_difference = 48;
+    // correct for width difference between SVG and Rect
+    var width_difference = 48;
 
-            var minutes = 1000*60;
-            var hours = minutes*60;
-            var days = hours*24;
-// use date-calculation code from http://www.mattkruse.com/ 
-// in date.js
-            var date1 = getDateFromFormat("01/05/2015", "d/M/y");
-            var date2 = getDateFromFormat(date, "d/M/y");
+    var minutes = 1000 * 60;
+    var hours = minutes * 60;
+    var days = hours * 24;
+    // use date-calculation code from http://www.mattkruse.com/ 
+    // in date.js
+    var date1 = getDateFromFormat("01/05/2015", "d/M/y");
+    var date2 = getDateFromFormat(date, "d/M/y");
 
-            var diff_date = Math.round((date2 - date1)/days);
+    var diff_date = Math.round((date2 - date1) / days);
 
-    //Draw line at the selected date
-    var x_date = ((680 - width_difference)/397)*(diff_date +1)
-    
+    //draw line at the selected date
+    var x_date = ((680 - width_difference) / 397) * (diff_date + 1)
 
     var svg = d3.select("#linechart").select("svg");
-    
+
     svg.append("line")
         .attr("x1", x_date + width_difference)
         .attr("y1", 18)
@@ -993,20 +992,20 @@ var width_difference = 48;
         .attr("stroke-width", 1.5)
         .attr("stroke", "#000");
 
-     var date_label = svg.append("text")
-            .attr("y", 0)
-            .attr("class", "date_label")
-            .attr("x", x_date)
-            .attr("dy", "1em")
-            .attr("fill", "#000")
-            .text(date);
+    var date_label = svg.append("text")
+        .attr("y", 0)
+        .attr("class", "date_label")
+        .attr("x", x_date)
+        .attr("dy", "1em")
+        .attr("fill", "#000")
+        .text(date);
 
     margin = {
-            top: 20,
-            right: 80,
-            bottom: 30,
-            left: 50
-        };
+        top: 20,
+        right: 80,
+        bottom: 30,
+        left: 50
+    };
     var x = d3.scaleTime().range([0, 630])
 }
 
